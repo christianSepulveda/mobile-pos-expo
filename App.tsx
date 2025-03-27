@@ -1,20 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from "react";
+
+import LoginContainer from "./src/UI/containers/auth";
+import AppRoutes from "./src/UI/routes";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+  const [auth, setAuth] = useState(false);
+
+  const handleAuth = (isAuth: boolean) => {
+    setAuth(isAuth);
+  };
+
+  useEffect(() => {
+    handleAuth(false);
+  }, []);
+
+  return !auth ? (
+    <AppRoutes />
+  ) : (
+    <LoginContainer handleAuth={(isAuth) => handleAuth(isAuth)} />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
