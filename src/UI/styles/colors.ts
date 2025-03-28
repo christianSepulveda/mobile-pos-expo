@@ -19,4 +19,7 @@ export const COLORS = {
   beigeSoft: "#D6CEC3",
   whiteSmoke: "#F7F7F7",
   lightBlue: "#2c4462",
+  background: "#fefdf7",
+  white: "#ffffff",
+  gray: "#eeeeee",
 };

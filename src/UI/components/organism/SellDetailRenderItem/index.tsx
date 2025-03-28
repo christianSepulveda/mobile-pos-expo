@@ -1,40 +1,37 @@
 import { TouchableOpacity, View } from "react-native";
 import AppText from "../../atoms/AppText";
 import { styles } from "./styles";
-import { Sell } from "../../../../domain/entities/sell";
 import { COLORS } from "../../../styles/colors";
+import { Product } from "../../../../domain/entities/product";
 
 type RenderItemProps = {
-  item: Sell;
+  item: Product;
   index: number;
-  onPress: (item: Sell) => void;
 };
 
-const HistoryRenderItem = (props: RenderItemProps) => {
-  const date = props.item.date;
-  const time = props.item.time;
-
+const SellDetailRenderItem = (props: RenderItemProps) => {
   return (
-    <TouchableOpacity
-      onPress={() => props.onPress(props.item)}
-      style={styles.touchable}
-    >
+    <TouchableOpacity style={styles.touchable}>
       <View style={styles.itemContainer}>
         <View style={{ flex: 8 }}>
           <AppText
-            children={`${date}`}
+            children={`${props.item.code}`}
             type="medium"
             style={styles.shortText}
           />
 
           <View style={styles.spacing} />
 
-          <AppText children={`${time}`} type="bold" style={styles.largeText} />
+          <AppText
+            children={`${props.item.name}`}
+            type="bold"
+            style={styles.largeText}
+          />
         </View>
 
         <View style={{ alignItems: "flex-end", flex: 4 }}>
           <AppText
-            children={`$${props.item.total}`}
+            children={`$${props.item.price}`}
             numberOfLines={1}
             type="bold"
             style={{ ...styles.largeText, color: COLORS.blueIOS }}
@@ -45,4 +42,4 @@ const HistoryRenderItem = (props: RenderItemProps) => {
   );
 };
 
-export default HistoryRenderItem;
+export default SellDetailRenderItem;

@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "../../styles/colors";
+import { COLORS } from "../../../styles/colors";
 
 export const styles = StyleSheet.create({
   spacing: {
@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.whiteSmoke,
-    paddingTop: "20%",
+    paddingTop: "16%",
+    paddingHorizontal: "5%",
   },
 });

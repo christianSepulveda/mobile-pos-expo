@@ -75,6 +75,87 @@ export const Sells: Sell[] = [
   },
 ];
 
-export const Products: Product[] = [];
+export const Products: Product[] = [
+  {
+    id: "1",
+    name: "Product 1",
+    price: 1000,
+    code: "P0001",
+    category_id: "C1",
+    active: true,
+  },
+  {
+    id: "2",
+    name: "Product 2",
+    price: 2000,
+    code: "P0002",
+    category_id: "C1",
+    active: true,
+  },
+  {
+    id: "3",
+    name: "Product 3",
+    price: 3000,
+    code: "P0003",
+    category_id: "C2",
+    active: true,
+  },
+  {
+    id: "4",
+    name: "Product 4",
+    price: 4000,
+    code: "P0004",
+    category_id: "C2",
+    active: true,
+  },
+  {
+    id: "5",
+    name: "Product 5",
+    price: 5000,
+    code: "P0005",
+    category_id: "C3",
+    active: true,
+  },
+  {
+    id: "6",
+    name: "Product 6",
+    price: 6000,
+    code: "P0006",
+    category_id: "C3",
+    active: true,
+  },
+  {
+    id: "7",
+    name: "Product 7",
+    price: 7000,
+    code: "P0007",
+    category_id: "C4",
+    active: true,
+  },
+  {
+    id: "8",
+    name: "Product 8",
+    price: 8000,
+    code: "P0008",
+    category_id: "C4",
+    active: true,
+  },
+  {
+    id: "9",
+    name: "Product 9",
+    price: 9000,
+    code: "P0009",
+    category_id: "C5",
+    active: true,
+  },
+  {
+    id: "10",
+    name: "Product 10",
+    price: 10000,
+    code: "P0010",
+    category_id: "C5",
+    active: true,
+  },
+];
 
 export const Categories: Category[] = [];

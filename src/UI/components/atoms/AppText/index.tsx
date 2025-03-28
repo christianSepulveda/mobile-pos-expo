@@ -13,6 +13,7 @@ type Props = {
   type: "light" | "regular" | "medium" | "semiBold" | "bold";
   children: string;
   style: TextStyle;
+  numberOfLines?: number;
 };
 
 export const textType = {
@@ -41,7 +42,7 @@ const AppText = (props: Props) => {
   if (!fontsLoaded) return null;
 
   return (
-    <Text style={[props.style, { fontFamily: fontFamily }]}>
+    <Text style={[props.style, { fontFamily: fontFamily }]} numberOfLines={props.numberOfLines}>
       {props.children}
     </Text>
   );

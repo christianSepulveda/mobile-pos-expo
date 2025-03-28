@@ -1,3 +1,4 @@
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 
 import LoginContainer from "./src/UI/containers/auth";
@@ -14,9 +15,9 @@ export default function App() {
     handleAuth(false);
   }, []);
 
-  return !auth ? (
-    <AppRoutes />
-  ) : (
-    <LoginContainer handleAuth={(isAuth) => handleAuth(isAuth)} />
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      {auth ? <AppRoutes /> : <LoginContainer handleAuth={handleAuth} />}
+    </GestureHandlerRootView>
   );
 }

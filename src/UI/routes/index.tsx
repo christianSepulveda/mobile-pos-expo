@@ -4,8 +4,7 @@ import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import ProductListContainer from "../containers/product/product-list-container";
 import { NavigationContainer } from "@react-navigation/native";
 import { COLORS } from "../styles/colors";
-import { textType } from "../components/atoms/AppText";
-import HistoryScreen from "../screens/history";
+import HistoryContainer from "../containers/history";
 
 const Tab = createBottomTabNavigator();
 
@@ -24,7 +23,7 @@ const AppRoutes = () => {
       >
         <Tab.Screen
           name="Ventas"
-          component={HistoryScreen}
+          component={HistoryContainer}
           options={{
             tabBarIcon: (props) => (
               <Ionicons
