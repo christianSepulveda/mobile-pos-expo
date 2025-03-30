@@ -1,4 +1,5 @@
 import { Category } from "../entities/category";
+import { PaymentMethod } from "../entities/payment-method";
 import { Product } from "../entities/product";
 import { Sell } from "../entities/sell";
 
@@ -78,17 +79,17 @@ export const Sells: Sell[] = [
 export const Products: Product[] = [
   {
     id: "1",
-    name: "Product 1",
+    name: "Endulsante Iansa Cero K Sucralosa",
     price: 1000,
-    code: "P0001",
-    category_id: "C1",
+    code: "7801505000235",
+    category_id: "1",
     active: true,
   },
   {
     id: "2",
-    name: "Product 2",
+    name: "Libro Para Colorear Libro Color",
     price: 2000,
-    code: "P0002",
+    code: "9788479718336",
     category_id: "C1",
     active: true,
   },
@@ -158,4 +159,25 @@ export const Products: Product[] = [
   },
 ];
 
-export const Categories: Category[] = [];
+export const PaymentMethods: PaymentMethod[] = [
+  {
+    id: "1",
+    name: "Efectivo",
+    active: true,
+  },
+  {
+    id: "2",
+    name: "Débito",
+    active: true,
+  },
+  {
+    id: "3",
+    name: "Crédito",
+    active: true,
+  },
+  {
+    id: "4",
+    name: "Transferencia",
+    active: true,
+  },
+];

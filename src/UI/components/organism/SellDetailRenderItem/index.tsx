@@ -1,21 +1,50 @@
-import { TouchableOpacity, View } from "react-native";
+import React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import { Swipeable } from "react-native-gesture-handler";
 import AppText from "../../atoms/AppText";
 import { styles } from "./styles";
 import { COLORS } from "../../../styles/colors";
-import { Product } from "../../../../domain/entities/product";
+import { SellProduct } from "../../../containers/sell/sell-container";
 
 type RenderItemProps = {
-  item: Product;
+  item: SellProduct;
   index: number;
+  onPress: () => void;
+  onDelete: () => void;
 };
 
-const SellDetailRenderItem = (props: RenderItemProps) => {
+const SellDetailRenderItem = ({ item, onPress, onDelete }: RenderItemProps) => {
+  const renderRightActions = () => (
+    <TouchableOpacity
+      activeOpacity={0.8}
+      style={styles.deleteButton}
+      onPress={onDelete}
+    >
+      <Text style={styles.deleteText}>Eliminar</Text>
+    </TouchableOpacity>
+  );
+
   return (
-    <TouchableOpacity style={styles.touchable}>
-      <View style={styles.itemContainer}>
+    <Swipeable renderRightActions={renderRightActions}>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={onPress}
+        style={styles.itemContainer}
+      >
+        <AppText
+          children={`X${item.multiplier ?? 1}`}
+          type="bold"
+          style={{
+            color: COLORS.grayDark,
+            fontSize: 25,
+            marginEnd: 20,
+            marginStart: 10,
+          }}
+        />
+
         <View style={{ flex: 8 }}>
           <AppText
-            children={`${props.item.code}`}
+            children={`${item.code}`}
             type="medium"
             style={styles.shortText}
           />
@@ -23,22 +52,23 @@ const SellDetailRenderItem = (props: RenderItemProps) => {
           <View style={styles.spacing} />
 
           <AppText
-            children={`${props.item.name}`}
+            children={`${item.name}`}
             type="bold"
+            numberOfLines={2}
             style={styles.largeText}
           />
         </View>
 
         <View style={{ alignItems: "flex-end", flex: 4 }}>
           <AppText
-            children={`$${props.item.price}`}
+            children={`$${item.price}`}
             numberOfLines={1}
             type="bold"
             style={{ ...styles.largeText, color: COLORS.blueIOS }}
           />
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </Swipeable>
   );
 };
 

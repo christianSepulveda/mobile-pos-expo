@@ -29,4 +29,17 @@ export const styles = StyleSheet.create({
   spacingLarge: {
     marginTop: "8%",
   },
+  deleteButton: {
+    backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "30%",
+    marginVertical: 5,
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+  },
+  deleteText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
 });

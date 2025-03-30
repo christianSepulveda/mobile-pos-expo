@@ -3,12 +3,14 @@ import { COLORS } from "../../../styles/colors";
 import { styles } from "./styles";
 import { Ionicons } from "@expo/vector-icons";
 
-import { View, TextInput, ViewStyle } from "react-native";
+import { View, TextInput, ViewStyle, KeyboardType } from "react-native";
 
 type Props = {
   secureTextEntry?: boolean;
   error?: boolean;
   searchBar?: boolean;
+  theme?: "light" | "dark";
+  keyboardType?: KeyboardType;
 
   placeholder: string;
   onChangeText: (text: string) => void;
@@ -22,13 +24,15 @@ const AppTextInput = (props: Props) => {
     borderRadius: 5,
     borderWidth: 1,
     paddingHorizontal: 10,
-    backgroundColor: COLORS.lightBlue,
+    backgroundColor: props.theme === "light" ? COLORS.white : COLORS.lightBlue,
     borderColor: props.error
       ? COLORS.redApple
       : isFocused && !props.error
       ? COLORS.blueIOS
       : !isFocused && !props.error
-      ? COLORS.lightBlue
+      ? props.theme === "light"
+        ? COLORS.gray
+        : COLORS.lightBlue
       : COLORS.redApple,
   };
 
@@ -46,9 +50,12 @@ const AppTextInput = (props: Props) => {
       style={[styles.container, props.searchBar ? searchBarStyle : normalStyle]}
     >
       <TextInput
-        style={styles.textInput}
+        style={[
+          styles.textInput,
+          { color: props.theme === "light" ? COLORS.blackIOS : COLORS.white },
+        ]}
         keyboardAppearance="dark"
-        keyboardType="email-address"
+        keyboardType={props.keyboardType ?? "email-address"}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         placeholder={props.placeholder}
@@ -56,6 +63,8 @@ const AppTextInput = (props: Props) => {
         secureTextEntry={props.secureTextEntry}
         onChangeText={props.onChangeText}
         value={props.value}
+        returnKeyType="done"
+        returnKeyLabel="Listo"
       />
 
       {props.searchBar && (

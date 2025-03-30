@@ -5,6 +5,7 @@ import ProductListContainer from "../containers/product/product-list-container";
 import { NavigationContainer } from "@react-navigation/native";
 import { COLORS } from "../styles/colors";
 import HistoryContainer from "../containers/history";
+import SellIndex from "../containers/sell";
 
 const Tab = createBottomTabNavigator();
 
@@ -36,7 +37,7 @@ const AppRoutes = () => {
         />
         <Tab.Screen
           name="Vender"
-          component={ProductListContainer}
+          component={SellIndex}
           options={{
             tabBarIcon: (props) => (
               <FontAwesome
