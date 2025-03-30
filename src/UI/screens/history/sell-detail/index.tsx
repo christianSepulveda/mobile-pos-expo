@@ -18,9 +18,7 @@ const SellDetail = (props: Props) => {
     <View style={styles.container}>
       <StatusBar translucent style="dark" />
 
-      <View style={styles.marginVertical10} />
-
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <View style={{ flexDirection: "row", alignItems: "center", marginTop: 50 }}>
         <TouchableOpacity onPress={props.onBackPress}>
           <MaterialIcons
             name="arrow-back-ios"
@@ -61,7 +59,15 @@ const SellDetail = (props: Props) => {
 
       <View style={styles.marginVertical2} />
 
-      <FlatList data={Products} renderItem={SellDetailRenderItem} />
+      <FlatList
+        data={Products}
+        renderItem={(item) => (
+          <SellDetailRenderItem
+            item={{ ...item.item, multiplier: 1 }}
+            index={item.index}
+          />
+        )}
+      />
 
       <View style={styles.footer}>
         <AppText

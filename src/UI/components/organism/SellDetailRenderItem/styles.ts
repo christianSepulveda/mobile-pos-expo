@@ -14,6 +14,7 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     flexDirection: "row",
     alignItems: "center",
+    marginBottom: 20,
   },
   largeText: {
     color: COLORS.blackIOS,
@@ -34,9 +35,9 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "30%",
-    marginVertical: 5,
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
+    marginBottom: 20,
   },
   deleteText: {
     color: "#fff",

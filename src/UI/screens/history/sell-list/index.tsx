@@ -6,6 +6,7 @@ import HistoryRenderItem from "../../../components/organism/HistoryRenderItem";
 import { StatusBar } from "expo-status-bar";
 import IconButton from "../../../components/atoms/IconButton";
 import { Sell } from "../../../../domain/entities/sell";
+import AppText from "../../../components/atoms/AppText";
 
 type Props = {
   onItemPress: (item: Sell) => void;
@@ -16,7 +17,13 @@ const HistoryScreen = (props: Props) => {
     <View style={styles.container}>
       <StatusBar translucent style="dark" />
 
-      <View style={{ flexDirection: "row" }}>
+      <AppText
+        type="bold"
+        style={{ marginBottom: 20, fontSize: 30 }}
+        children="Ventas"
+      />
+
+      <View style={{ flexDirection: "row", marginBottom: 10 }}>
         <IconButton iconName="calendar" label="Fecha" />
         <View style={{ marginHorizontal: 8 }} />
         <IconButton iconName="clock-time-four-outline" label="Hora" />

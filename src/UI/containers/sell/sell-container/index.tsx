@@ -144,6 +144,9 @@ const SellContainer = (props: Props) => {
   }, [lastScannedCodeRef.current]);
 
   useEffect(() => {
+   /*  if (scannedProducts.length === 0)
+      handleUpdateProductInList({ ...Products[0], multiplier: 1 }, 3);
+     */
     handleCalculateTotal();
   }, [scannedProducts]);
 

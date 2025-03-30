@@ -6,6 +6,7 @@ import { PaymentMethods } from "../../../../domain/constants/data";
 type Props = {
   total: number;
   onBackPress: () => void;
+  onConfirmPayment: () => void;
 };
 
 const PaymentContainer = (props: Props) => {
@@ -22,6 +23,8 @@ const PaymentContainer = (props: Props) => {
 
       return;
     }
+
+    props.onConfirmPayment();
   };
 
   return (

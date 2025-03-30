@@ -15,6 +15,7 @@ import SellDetailRenderItem from "../../../components/organism/SellDetailRenderI
 
 import { BarcodeScanningResult, CameraView } from "expo-camera";
 import { SellProduct } from "../../../containers/sell/sell-container";
+import { StatusBar } from "expo-status-bar";
 
 type Props = {
   scan: () => void;
@@ -55,6 +56,8 @@ const SellScreen = (props: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.cameraContainer}>
+        <StatusBar translucent style="light" />
+
         <CameraView
           onBarcodeScanned={props.handleBarcodeScanned}
           style={StyleSheet.absoluteFill}
@@ -85,6 +88,7 @@ const SellScreen = (props: Props) => {
                 {...item}
                 onPress={() => props.editProductInList(item.index)}
                 onDelete={() => props.removeProductFromList(item.index)}
+                swipeable={true}
               />
             )}
             keyExtractor={(_, index) => index.toString()}

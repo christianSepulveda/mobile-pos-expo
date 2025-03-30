@@ -1,11 +1,11 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 
-import ProductListContainer from "../containers/product/product-list-container";
 import { NavigationContainer } from "@react-navigation/native";
 import { COLORS } from "../styles/colors";
 import HistoryContainer from "../containers/history";
 import SellIndex from "../containers/sell";
+import OptionContainer from "../containers/options";
 
 const Tab = createBottomTabNavigator();
 
@@ -49,12 +49,12 @@ const AppRoutes = () => {
           }}
         />
         <Tab.Screen
-          name="Categorías"
-          component={ProductListContainer}
+          name="Opciones"
+          component={OptionContainer}
           options={{
             tabBarIcon: (props) => (
               <Ionicons
-                name="list"
+                name="options"
                 color={props.focused ? COLORS.blueIOS : COLORS.grayDark}
                 size={25}
               />
