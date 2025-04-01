@@ -1,10 +1,18 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StatusBar,
+} from "react-native";
 import React from "react";
 import AppText from "../../components/atoms/AppText";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../../styles/colors";
 
-type Props = {};
+type Props = {
+  setSelectedOption: (option: number) => void;
+};
 
 type OptionItemProps = {
   title: string;
@@ -36,7 +44,7 @@ const OptionScreen = (props: Props) => {
       <Ionicons
         name={optionProps.iconName}
         size={24}
-        color={COLORS.grayLight}
+        color={COLORS.blueIOS}
         style={{ marginLeft: 10, flex: 1 }}
       />
     </TouchableOpacity>
@@ -44,6 +52,7 @@ const OptionScreen = (props: Props) => {
 
   return (
     <ScrollView style={{ flex: 1, paddingTop: 80, paddingHorizontal: 20 }}>
+      <StatusBar translucent barStyle={"dark-content"} />
       <AppText
         type="semiBold"
         numberOfLines={1}
@@ -58,12 +67,12 @@ const OptionScreen = (props: Props) => {
       <OptionItem
         iconName="cart"
         title="Administrar productos"
-        onPress={() => {}}
+        onPress={() => props.setSelectedOption(0)}
       />
       <OptionItem
         iconName="clipboard"
         title="Administrar categorías"
-        onPress={() => {}}
+        onPress={() => props.setSelectedOption(1)}
       />
 
       <AppText
@@ -81,7 +90,7 @@ const OptionScreen = (props: Props) => {
       <OptionItem
         iconName="lock-closed"
         title="Cambiar contraseña"
-        onPress={() => {}}
+        onPress={() => props.setSelectedOption(2)}
       />
       <OptionItem iconName="log-out" title="Cerrar sesión" onPress={() => {}} />
     </ScrollView>

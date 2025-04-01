@@ -82,7 +82,7 @@ export const Products: Product[] = [
     name: "Endulsante Iansa Cero K Sucralosa",
     price: 1000,
     code: "7801505000235",
-    category_id: "1",
+    category_id: "1", // Bebidas
     active: true,
   },
   {
@@ -90,7 +90,7 @@ export const Products: Product[] = [
     name: "Libro Para Colorear Libro Color",
     price: 2000,
     code: "9788479718336",
-    category_id: "C1",
+    category_id: "10", // Higiene Personal
     active: true,
   },
   {
@@ -98,7 +98,7 @@ export const Products: Product[] = [
     name: "Coca Cola 1L",
     price: 1200,
     code: "7801610001042",
-    category_id: "C2",
+    category_id: "1", // Bebidas
     active: true,
   },
   {
@@ -106,7 +106,7 @@ export const Products: Product[] = [
     name: "Suerox Arandano Pomelo 630ML",
     price: 1500,
     code: "7804651931903",
-    category_id: "C2",
+    category_id: "1", // Bebidas
     active: true,
   },
   {
@@ -114,7 +114,7 @@ export const Products: Product[] = [
     name: "Product 5",
     price: 5000,
     code: "P0005",
-    category_id: "C3",
+    category_id: "3", // Lácteos
     active: true,
   },
   {
@@ -122,7 +122,7 @@ export const Products: Product[] = [
     name: "Product 6",
     price: 6000,
     code: "P0006",
-    category_id: "C3",
+    category_id: "3", // Lácteos
     active: true,
   },
   {
@@ -130,7 +130,7 @@ export const Products: Product[] = [
     name: "Product 7",
     price: 7000,
     code: "P0007",
-    category_id: "C4",
+    category_id: "4", // Carnes
     active: true,
   },
   {
@@ -138,7 +138,7 @@ export const Products: Product[] = [
     name: "Product 8",
     price: 8000,
     code: "P0008",
-    category_id: "C4",
+    category_id: "4", // Carnes
     active: true,
   },
   {
@@ -146,7 +146,7 @@ export const Products: Product[] = [
     name: "Product 9",
     price: 9000,
     code: "P0009",
-    category_id: "C5",
+    category_id: "5", // Frutas
     active: true,
   },
   {
@@ -154,7 +154,7 @@ export const Products: Product[] = [
     name: "Product 10",
     price: 10000,
     code: "P0010",
-    category_id: "C5",
+    category_id: "5", // Frutas
     active: true,
   },
 ];
@@ -180,4 +180,17 @@ export const PaymentMethods: PaymentMethod[] = [
     name: "Transferencia",
     active: true,
   },
+];
+
+export const Categories: Category[] = [
+  { id: "1", name: "Bebidas", active: true },
+  { id: "2", name: "Snacks", active: true },
+  { id: "3", name: "Lácteos", active: true },
+  { id: "4", name: "Carnes", active: true },
+  { id: "5", name: "Frutas", active: true },
+  { id: "6", name: "Verduras", active: true },
+  { id: "7", name: "Panadería", active: true },
+  { id: "8", name: "Congelados", active: true },
+  { id: "9", name: "Limpieza", active: true },
+  { id: "10", name: "Higiene Personal", active: true },
 ];

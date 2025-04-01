@@ -6,12 +6,14 @@ import AppText from "../AppText";
 
 type Props = {
   iconName: keyof typeof MaterialCommunityIcons.glyphMap;
+  onPress?: () => void;
   label: string;
 };
 
 const IconButton = (props: Props) => {
   return (
     <TouchableOpacity
+      onPress={props.onPress}
       style={{
         marginBottom: 10,
         padding: 10,
