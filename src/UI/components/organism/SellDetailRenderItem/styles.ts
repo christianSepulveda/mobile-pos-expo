@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
   },
   largeText: {
     color: COLORS.blackIOS,
-    fontSize: 20,
+    fontSize: 18,
   },
   shortText: {
     color: COLORS.blackIOS,

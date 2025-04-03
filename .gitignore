@@ -40,3 +40,6 @@ yarn.lock
 
 # npm
 package-lock.json
+
+# dotenv
+.env

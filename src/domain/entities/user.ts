@@ -3,5 +3,11 @@ export type User = {
   fullname: string;
   email: string;
   password: string;
+  companyid: string;
   active: boolean;
+};
+
+export type Login = {
+  email: string;
+  password: string;
 };

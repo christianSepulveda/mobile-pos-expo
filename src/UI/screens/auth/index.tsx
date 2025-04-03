@@ -24,25 +24,27 @@ const LoginScreen = (props: Props) => {
     >
       <StatusBar translucent style="dark" />
 
-      <Text style={styles.welcomeText}>Welcome Back</Text>
+      <Text style={styles.welcomeText}>Bienvenido</Text>
 
       <View style={styles.spacing} />
 
       <AppTextInput
         onChangeText={props.setEmail}
-        placeholder="Email"
+        placeholder="Correo electrónico"
         value={props.email}
         error={props.error?.emailError}
+        theme="light"
       />
 
       <View style={styles.spacing} />
 
       <AppTextInput
         onChangeText={props.setPassword}
-        placeholder="Password"
+        placeholder="Contraseña"
         value={props.password}
         error={props.error?.passwordError}
         secureTextEntry
+        theme="light"
       />
 
       <View style={styles.spacing} />
@@ -53,7 +55,7 @@ const LoginScreen = (props: Props) => {
       )}
       <View style={styles.spacing} />
 
-      <AppButton onPress={props.handleAuth} label="Log in" />
+      <AppButton onPress={props.handleAuth} label="Iniciar sesión" />
     </KeyboardAvoidingView>
   );
 };

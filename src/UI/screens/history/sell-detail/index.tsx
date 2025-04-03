@@ -7,18 +7,30 @@ import { styles } from "./styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { COLORS } from "../../../styles/colors";
 import { StatusBar } from "expo-status-bar";
+import { SellDetail } from "../../../../domain/entities/sell-detail";
+import { SellSummary } from "../../../../domain/entities/sell-summary";
+import moment from "moment";
+import "moment/locale/es";
 
 type Props = {
-  sell: Sell | undefined;
+  sell: SellSummary | undefined;
   onBackPress: () => void;
 };
 
-const SellDetail = (props: Props) => {
+const SellDetailScreen = (props: Props) => {
+  const humanDateES = props.sell
+    ? moment(props.sell.date, "YYYY/MM/DD")
+        .locale("es")
+        .format("D [de] MMMM [de] YYYY")
+    : "";
+
   return (
     <View style={styles.container}>
       <StatusBar translucent style="dark" />
 
-      <View style={{ flexDirection: "row", alignItems: "center", marginTop: 50 }}>
+      <View
+        style={{ flexDirection: "row", alignItems: "center", marginTop: 50 }}
+      >
         <TouchableOpacity onPress={props.onBackPress}>
           <MaterialIcons
             name="arrow-back-ios"
@@ -44,7 +56,7 @@ const SellDetail = (props: Props) => {
       >
         <AppText
           type="regular"
-          children={props.sell ? props.sell.date : ""}
+          children={humanDateES}
           style={styles.dateText}
         />
 
@@ -60,12 +72,9 @@ const SellDetail = (props: Props) => {
       <View style={styles.marginVertical2} />
 
       <FlatList
-        data={Products}
+        data={props.sell?.details ?? []}
         renderItem={(item) => (
-          <SellDetailRenderItem
-            item={{ ...item.item, multiplier: 1 }}
-            index={item.index}
-          />
+          <SellDetailRenderItem item={{ ...item.item }} index={item.index} />
         )}
       />
 
@@ -80,4 +89,4 @@ const SellDetail = (props: Props) => {
   );
 };
 
-export default SellDetail;
+export default SellDetailScreen;

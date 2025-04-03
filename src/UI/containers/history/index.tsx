@@ -1,28 +1,90 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HistoryScreen from "../../screens/history/sell-list";
-import SellDetail from "../../screens/history/sell-detail";
+import SellDetailScreen from "../../screens/history/sell-detail";
 import { Sell } from "../../../domain/entities/sell";
+import { SellService } from "../../../infrastructure/services/sell-service";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import moment from "moment";
+import { SellDetail } from "../../../domain/entities/sell-detail";
+import { SellSummary } from "../../../domain/entities/sell-summary";
 
 type Props = {};
 
 const HistoryContainer = (props: Props) => {
-  const [sell, setSell] = useState<Sell | undefined>();
-  const [step, setStep] = useState(0);
+  const sellService = new SellService();
+  const today = moment().format("DD/MM/YYYY");
 
-  const onItemPress = (item: any) => {
-    console.log(item);
-    setSell(item);
+  const [step, setStep] = useState(0);
+  const [date, setDate] = useState("");
+  const [lastSeacrh, setLastSearch] = useState("");
+
+  const [sells, setSells] = useState<Sell[] | undefined>();
+  const [detail, setDetail] = useState<SellSummary>();
+
+  const onItemPress = async (item: Sell) => {
+    await handleGetSellDetail(item.id);
     setStep(1);
   };
 
   const onBackPress = () => {
-    setSell(undefined);
     setStep(0);
   };
 
-  if (step === 0) return <HistoryScreen onItemPress={onItemPress} />;
+  const handleGetSells = async () => {
+    const data = await AsyncStorage.getItem("user");
+    const user = JSON.parse(data ?? "{}");
 
-  if (step === 1) return <SellDetail sell={sell} onBackPress={onBackPress} />;
+    const companyId = user.companyid;
+    const requestDate = moment(date, "DD/MM/YYYY").format("YYYY/MM/DD");
+
+    const response = await sellService.findAllSellsByDate(
+      requestDate,
+      companyId
+    );
+
+    setLastSearch(date);
+    setSells(response as Sell[]);
+  };
+
+  const handleGetSellDetail = async (id: string) => {
+    const response = (await sellService.findSellDetails(id)) as SellSummary;
+    setDetail(response);
+  };
+
+  const handleChangeDate = (date: string) => {
+    setDate(date);
+    handleGetSells();
+  };
+
+  useEffect(() => {
+    setDate(today);
+    handleGetSells();
+  }, []);
+
+  useEffect(() => {
+    console.log("date", date);
+
+    if (lastSeacrh !== date) {
+      handleGetSells();
+    }
+  }, [date, lastSeacrh]);
+
+  return (
+    <>
+      {step === 0 && (
+        <HistoryScreen
+          data={sells}
+          date={date}
+          onItemPress={onItemPress}
+          onChangeDate={handleChangeDate}
+        />
+      )}
+
+      {step === 1 && (
+        <SellDetailScreen sell={detail} onBackPress={onBackPress} />
+      )}
+    </>
+  );
 };
 
 export default HistoryContainer;

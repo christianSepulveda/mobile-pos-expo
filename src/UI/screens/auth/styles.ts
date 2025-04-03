@@ -6,10 +6,10 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     padding: "8%",
-    backgroundColor: COLORS.darkBlue,
+    backgroundColor: COLORS.whiteSmoke,
   },
   welcomeText: {
-    color: COLORS.whiteSmoke,
+    color: COLORS.blackIOS,
     fontSize: 55,
     fontWeight: "bold",
   },

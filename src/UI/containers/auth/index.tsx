@@ -1,12 +1,16 @@
 import { useState } from "react";
 import LoginScreen from "../../screens/auth";
 import { LoginError } from "../../../domain/types/auth-types";
+import { UserService } from "../../../infrastructure/services/user-service";
+import { User } from "../../../domain/entities/user";
 
 type Props = {
-  handleAuth: (isAuth: boolean) => void;
+  handleAuth: (user: User) => void;
 };
 
 const LoginContainer = (props: Props) => {
+  const userService = new UserService();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -25,7 +29,7 @@ const LoginContainer = (props: Props) => {
       message = "Todos los campos son requeridos";
       setError({ message, emailError, passwordError });
 
-      return false;
+      return true;
     }
 
     if (email.length === 0) {
@@ -33,7 +37,7 @@ const LoginContainer = (props: Props) => {
       emailError = true;
       setError({ message, emailError, passwordError });
 
-      return false;
+      return true;
     }
 
     if (password.length === 0) {
@@ -41,15 +45,35 @@ const LoginContainer = (props: Props) => {
       passwordError = true;
       setError({ message, emailError, passwordError });
 
-      return false;
+      return true;
     }
 
-    return true;
+    return false;
   };
 
-  const handleAuth = () => {
-    const isAuth = validateErrors();
-    props.handleAuth(isAuth);
+  const handleAuth = async () => {
+    if (validateErrors()) return;
+    const response = await userService.find({ email, password });
+
+    if ("error" in response && response.message === "Email incorrecto") {
+      const message = response.message;
+      const error = { message, emailError: true, passwordError: false };
+
+      setError(error);
+      return;
+    }
+
+    if ("error" in response && response.message === "Contraseña incorrecta") {
+      const message = response.message;
+      const error = { message, emailError: false, passwordError: true };
+
+      setError(error);
+      return;
+    }
+
+    setEmail("");
+    setPassword("");
+    props.handleAuth(response as User);
   };
 
   return (
@@ -57,7 +81,7 @@ const LoginContainer = (props: Props) => {
       error={error}
       email={email}
       password={password}
-      setEmail={setEmail}
+      setEmail={(email) => setEmail(email.toLowerCase())}
       setPassword={setPassword}
       handleAuth={handleAuth}
     />

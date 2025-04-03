@@ -6,6 +6,7 @@ import {
 } from "react-native";
 
 import * as Animatable from "react-native-animatable";
+import { COLORS } from "../../../styles/colors";
 
 type AppModalProps = {
   visible: boolean;
@@ -24,7 +25,11 @@ const AppModal: React.FC<AppModalProps> = ({ visible, onClose, children }) => {
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={styles.overlay}>
           <TouchableWithoutFeedback>
-            <Animatable.View duration={200} animation="slideInUp" style={styles.modalContent}>
+            <Animatable.View
+              duration={200}
+              animation="slideInUp"
+              style={styles.modalContent}
+            >
               {children}
             </Animatable.View>
           </TouchableWithoutFeedback>
@@ -46,7 +51,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "80%",
     marginBottom: "-100%",
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.whiteSmoke,
     padding: 30,
     borderRadius: 12,
     elevation: 10,
