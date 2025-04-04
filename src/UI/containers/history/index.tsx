@@ -5,8 +5,9 @@ import { Sell } from "../../../domain/entities/sell";
 import { SellService } from "../../../infrastructure/services/sell-service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
-import { SellDetail } from "../../../domain/entities/sell-detail";
 import { SellSummary } from "../../../domain/entities/sell-summary";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 
 type Props = {};
 
@@ -22,6 +23,7 @@ const HistoryContainer = (props: Props) => {
   const [detail, setDetail] = useState<SellSummary>();
 
   const onItemPress = async (item: Sell) => {
+    if (!item.id) return;
     await handleGetSellDetail(item.id);
     setStep(1);
   };
@@ -56,14 +58,18 @@ const HistoryContainer = (props: Props) => {
     handleGetSells();
   };
 
+  useFocusEffect(
+    useCallback(() => {
+      handleGetSells();
+    }, [])
+  );
+
   useEffect(() => {
     setDate(today);
     handleGetSells();
   }, []);
 
   useEffect(() => {
-    console.log("date", date);
-
     if (lastSeacrh !== date) {
       handleGetSells();
     }

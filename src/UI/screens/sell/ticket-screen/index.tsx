@@ -2,8 +2,15 @@ import { View, ActivityIndicator, TouchableOpacity } from "react-native";
 import { COLORS } from "../../../styles/colors";
 import AppText from "../../../components/atoms/AppText";
 import { Ionicons } from "@expo/vector-icons";
+import { Detail } from "../../../../domain/entities/sell-summary";
+import { ScrollView } from "react-native-gesture-handler";
 
-type Props = { loading: boolean; total: number, onPress: () => void };
+type Props = {
+  loading: boolean;
+  total: number;
+  onPress: () => void;
+  products: Detail[];
+};
 
 const TicketScreen = (props: Props) => {
   const LoadingIndicator = () => (
@@ -17,6 +24,27 @@ const TicketScreen = (props: Props) => {
     </View>
   );
 
+  const ProductDetailRender = ({ product }: { product: Detail }) => (
+    <View
+      style={{
+        flexDirection: "row",
+        width: "80%",
+        margin: 20,
+      }}
+    >
+      <AppText
+        style={{ fontSize: 20 }}
+        type="bold"
+        children={`${product.quantity} ${product.name}`}
+      />
+      <AppText
+        style={{ fontSize: 20 }}
+        type="regular"
+        children={` - $${product.total}`}
+      />
+    </View>
+  );
+
   if (props.loading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -26,7 +54,7 @@ const TicketScreen = (props: Props) => {
   }
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View style={{ flex: 1, alignItems: "center", paddingTop: "30%" }}>
       {!props.loading && (
         <>
           <Ionicons
@@ -39,8 +67,26 @@ const TicketScreen = (props: Props) => {
             type="bold"
             children="Transacción exitosa!"
           />
+
+          <View
+            style={{
+              width: "100%",
+              height: "50%",
+              alignItems: "center",
+            }}
+          >
+            <ScrollView>
+              {props.products.map((product) => (
+                <ProductDetailRender
+                  key={product.productid}
+                  product={product}
+                />
+              ))}
+            </ScrollView>
+          </View>
+
           <AppText
-            style={{ fontSize: 20 }}
+            style={{ fontSize: 20, position: "absolute", bottom: "18%" }}
             type="regular"
             children={`EL total de la venta fue $${props.total}`}
           />

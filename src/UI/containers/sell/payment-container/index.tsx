@@ -6,7 +6,7 @@ import { PaymentMethods } from "../../../../domain/constants/data";
 type Props = {
   total: number;
   onBackPress: () => void;
-  onConfirmPayment: () => void;
+  onConfirmPayment: (payment: string) => void;
 };
 
 const PaymentContainer = (props: Props) => {
@@ -24,7 +24,19 @@ const PaymentContainer = (props: Props) => {
       return;
     }
 
-    props.onConfirmPayment();
+    const selectedPaymentMethod = PaymentMethods.find(
+      (method) => method.id === selectedMethod
+    );
+
+    if (!selectedPaymentMethod) {
+      Alert.alert(
+        "Atención",
+        "El método de pago seleccionado no es válido. Por favor, seleccione otro."
+      );
+      return;
+    }
+
+    props.onConfirmPayment(selectedPaymentMethod.name);
   };
 
   return (

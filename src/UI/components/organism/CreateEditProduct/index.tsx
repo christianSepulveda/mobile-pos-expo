@@ -10,8 +10,9 @@ import { Category } from "../../../../domain/entities/category";
 
 type Props = {
   product: Product | undefined;
+  categories: Category[];
   onSelectCategory: (category: Category) => void;
-  onCreateOrEditProduct: () => void;
+  onCreateOrEditProduct: (product: Product) => void;
 };
 
 const defaultProduct: Product = {
@@ -20,6 +21,7 @@ const defaultProduct: Product = {
   price: 0,
   code: "",
   category_id: "",
+  companyid: "",
   active: true,
 };
 
@@ -96,7 +98,7 @@ const CreateEditProduct = (props: Props) => {
       <View style={{ marginVertical: "1.5%" }} />
 
       <AppCategoriesDropDown
-        data={Categories}
+        data={props.categories}
         currentCategoryId={createdOrEditedProduct.category_id}
         onSelect={(category) =>
           setCreatedOrEditedProduct({
@@ -108,7 +110,10 @@ const CreateEditProduct = (props: Props) => {
 
       <View style={{ marginVertical: "5%" }} />
 
-      <AppButton label="Aceptar" onPress={props.onCreateOrEditProduct} />
+      <AppButton
+        label="Aceptar"
+        onPress={() => props.onCreateOrEditProduct(createdOrEditedProduct)}
+      />
     </View>
   );
 };

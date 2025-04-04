@@ -9,10 +9,14 @@ import { Categories } from "../../../../domain/constants/data";
 import { Category } from "../../../../domain/entities/category";
 
 type Props = {
+  search: string;
+  categories: Category[];
   showSearchBar: boolean;
-  setShowSearchBar: (showSearchBar: boolean) => void;
-  onPress: (item: Category | undefined) => void;
+
   onBackPress: () => void;
+  setSearch: (search: string) => void;
+  onPress: (item: Category | undefined) => void;
+  setShowSearchBar: (showSearchBar: boolean) => void;
 };
 
 type OptionCategoriesItemProps = {
@@ -90,18 +94,28 @@ const OptionCategoriesScreen = (props: Props) => {
 
       {props.showSearchBar && (
         <AppTextInput
-          onChangeText={() => {}}
+          onChangeText={props.setSearch}
           placeholder="Busca una categoría"
-          value=""
+          value={props.search}
           theme="light"
         />
       )}
 
       <View style={{ marginVertical: "1.5%" }} />
 
+      {props.categories.length === 0 && (
+        <AppText
+          type="bold"
+          style={{ fontSize: 16 }}
+          children="Crea una categoría para continuar"
+          numberOfLines={1}
+        />
+      )}
+
       <FlatList
-        data={Categories}
+        data={props.categories}
         renderItem={(item) => <OptionCategoriesRenderItem {...item} />}
+        keyExtractor={(item, index) => index.toString()}
       />
     </View>
   );

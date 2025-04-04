@@ -4,5 +4,6 @@ export type Product = {
   price: number;
   code: string;
   category_id: string;
+  companyid: string;
   active: boolean;
 };

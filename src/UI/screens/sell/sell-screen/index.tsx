@@ -16,6 +16,7 @@ import SellDetailRenderItem from "../../../components/organism/SellDetailRenderI
 import { BarcodeScanningResult, CameraView } from "expo-camera";
 import { SellProduct } from "../../../containers/sell/sell-container";
 import { StatusBar } from "expo-status-bar";
+import { Detail } from "../../../../domain/entities/sell-summary";
 
 type Props = {
   scan: () => void;
@@ -26,7 +27,7 @@ type Props = {
   handleBarcodeScanned: (data: BarcodeScanningResult) => void;
 
   total: number;
-  products: SellProduct[];
+  products: Detail[];
   hasPermission: boolean | null;
 };
 

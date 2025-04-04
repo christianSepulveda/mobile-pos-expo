@@ -20,6 +20,7 @@
     "@types/react-native-vector-icons": "^6.4.18",
     "axios": "^1.7.9",
     "expo": "~52.0.42",
+    "expo-av": "~15.0.2",
     "expo-camera": "~16.0.18",
     "expo-font": "~13.0.4",
     "expo-status-bar": "~2.0.1",

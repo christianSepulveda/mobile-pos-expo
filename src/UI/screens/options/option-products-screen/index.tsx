@@ -12,6 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../../../styles/colors";
 
 type Props = {
+  products: Product[];
   showSearchBar: boolean;
   setShowSearchBar: (showSearchBar: boolean) => void;
   onPress: (item: Product | undefined) => void;
@@ -77,8 +78,17 @@ const OptionProductsScreen = (props: Props) => {
 
       <View style={{ marginVertical: "1.5%" }} />
 
+      {props.products.length === 0 && (
+        <AppText
+          type="bold"
+          style={{ fontSize: 16 }}
+          children="Crea un producto para continuar"
+          numberOfLines={1}
+        />
+      )}
+
       <FlatList
-        data={Products}
+        data={props.products}
         renderItem={(item) => (
           <OptionProductRenderItem
             index={item.index}

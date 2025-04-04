@@ -7,10 +7,11 @@ import AppText from "../../atoms/AppText";
 import AppTextInput from "../../molecules/AppTextInput";
 
 import { SellProduct } from "../../../containers/sell/sell-container";
+import { Detail } from "../../../../domain/entities/sell-summary";
 
 type Props = {
   showEditModal: boolean;
-  selectedProduct: SellProduct | null;
+  selectedProduct: Detail | null;
   setShowEditModal: (value: boolean) => void;
   onPressAccept: (multiplier: number) => void;
 };
@@ -36,7 +37,7 @@ const EditAmountModal = (props: Props) => {
   };
 
   useEffect(() => {
-    setAmount(props.selectedProduct?.multiplier.toString() ?? "");
+    setAmount(props.selectedProduct?.quantity.toString() ?? "");
   }, []);
 
   return (

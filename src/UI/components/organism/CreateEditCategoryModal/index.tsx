@@ -10,7 +10,7 @@ type Props = {
   visible: boolean;
   onClose: () => void;
   category: Category | undefined;
-  onPress: () => void;
+  onPress: (category: Category) => void;
 };
 
 const CreateEditCategoryModal = (props: Props) => {
@@ -28,7 +28,7 @@ const CreateEditCategoryModal = (props: Props) => {
     <AppModal
       visible={props.visible}
       onClose={() => {
-        props.onClose;
+        props.onClose();
         setCategoryName("");
       }}
     >
@@ -50,8 +50,15 @@ const CreateEditCategoryModal = (props: Props) => {
       <AppButton
         label="Aceptar"
         onPress={() => {
-          props.onPress();
           setCategoryName("");
+          const createdOrUpdatedCategory: Category = {
+            id: props.category ? props.category.id : "",
+            name: categoryName,
+            companyid: props.category?.companyid || "",
+            active: true,
+          };
+
+          props.onPress(createdOrUpdatedCategory);
         }}
       />
     </AppModal>

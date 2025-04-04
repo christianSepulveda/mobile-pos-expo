@@ -81,7 +81,11 @@ const SellDetailScreen = (props: Props) => {
       <View style={styles.footer}>
         <AppText
           type="bold"
-          children={props.sell ? `Total: ${props.sell.total}` : ""}
+          children={
+            props.sell
+              ? `Total: ${props.sell.total} (${props.sell.payment_method})`
+              : ""
+          }
           style={styles.totalText}
         />
       </View>
