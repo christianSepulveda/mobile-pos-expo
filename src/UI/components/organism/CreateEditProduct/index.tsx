@@ -1,18 +1,22 @@
-import { View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import AppText from "../../atoms/AppText";
 import AppTextInput from "../../molecules/AppTextInput";
 import AppButton from "../../molecules/AppButton";
 import { Product } from "../../../../domain/entities/product";
 import AppCategoriesDropDown from "../../molecules/AppCategoriesDropDown";
-import { Categories } from "../../../../domain/constants/data";
 import { Category } from "../../../../domain/entities/category";
+import { BarcodeScanningResult, CameraView } from "expo-camera";
+import { COLORS } from "../../../styles/colors";
+import AppModal from "../../molecules/AppModal";
 
 type Props = {
   product: Product | undefined;
+  scanned: string;
   categories: Category[];
-  onSelectCategory: (category: Category) => void;
+  handleScan: () => void;
   onCreateOrEditProduct: (product: Product) => void;
+  handleBarcodeScanned: (data: BarcodeScanningResult) => void;
 };
 
 const defaultProduct: Product = {
@@ -30,6 +34,8 @@ const CreateEditProduct = (props: Props) => {
 
   const [createdOrEditedProduct, setCreatedOrEditedProduct] =
     useState<Product>(defaultProduct);
+
+  const [showBarcodeScanner, setShowBarcodeScanner] = useState(false);
 
   const handleAutoCompleteProduct = () => {
     if (product && createdOrEditedProduct === defaultProduct) {
@@ -61,20 +67,33 @@ const CreateEditProduct = (props: Props) => {
 
       <View style={{ marginVertical: "1.5%" }} />
 
-      <View style={{ flexDirection: "row", width: "100%" }}>
+      <View
+        style={{ flexDirection: "row", width: "100%", alignItems: "center" }}
+      >
         <View style={{ width: "50%" }}>
-          <AppTextInput
-            onChangeText={(text) =>
-              setCreatedOrEditedProduct({
-                ...createdOrEditedProduct,
-                code: text,
-              })
-            }
-            placeholder="Codigo del producto"
-            value={createdOrEditedProduct.code}
-            theme="light"
-            keyboardType="numeric"
-          />
+          <TouchableOpacity
+            style={{
+              width: "100%",
+              backgroundColor: COLORS.white,
+              borderRadius: 5,
+              borderWidth: 1,
+              borderColor: COLORS.gray,
+              padding: 14,
+            }}
+            onPress={() => setShowBarcodeScanner(true)}
+            activeOpacity={0.8}
+          >
+            <AppText
+              style={{ fontSize: 16 }}
+              type="medium"
+              numberOfLines={1}
+              children={
+                createdOrEditedProduct.code.length > 0
+                  ? createdOrEditedProduct.code
+                  : "Escanear código"
+              }
+            />
+          </TouchableOpacity>
         </View>
 
         <View style={{ marginHorizontal: "2%" }} />
@@ -114,6 +133,37 @@ const CreateEditProduct = (props: Props) => {
         label="Aceptar"
         onPress={() => props.onCreateOrEditProduct(createdOrEditedProduct)}
       />
+
+      <AppModal
+        visible={showBarcodeScanner}
+        onClose={() => setShowBarcodeScanner(false)}
+      >
+        <View style={{ flex: 6 }}>
+          <CameraView
+            onBarcodeScanned={props.handleBarcodeScanned}
+            style={StyleSheet.absoluteFill}
+          />
+        </View>
+
+        <View
+          style={{
+            flex: 6,
+            marginTop: 40,
+          }}
+        >
+          <AppButton
+            label="Escanear"
+            onPress={() => {
+              setShowBarcodeScanner(false);
+              setCreatedOrEditedProduct({
+                ...createdOrEditedProduct,
+                code: props.scanned,
+              });
+              props.handleScan();
+            }}
+          />
+        </View>
+      </AppModal>
     </View>
   );
 };

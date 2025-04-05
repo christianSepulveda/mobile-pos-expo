@@ -4,6 +4,7 @@ import AppText from "../../../components/atoms/AppText";
 import { Ionicons } from "@expo/vector-icons";
 import { Detail } from "../../../../domain/entities/sell-summary";
 import { ScrollView } from "react-native-gesture-handler";
+import { StatusBar } from "expo-status-bar";
 
 type Props = {
   loading: boolean;
@@ -27,20 +28,20 @@ const TicketScreen = (props: Props) => {
   const ProductDetailRender = ({ product }: { product: Detail }) => (
     <View
       style={{
-        flexDirection: "row",
         width: "80%",
         margin: 20,
       }}
     >
       <AppText
         style={{ fontSize: 20 }}
+        numberOfLines={1}
         type="bold"
-        children={`${product.quantity} ${product.name}`}
+        children={`${product.name}`}
       />
       <AppText
         style={{ fontSize: 20 }}
         type="regular"
-        children={` - $${product.total}`}
+        children={`${product.quantity} x $${product.total}`}
       />
     </View>
   );
@@ -57,6 +58,8 @@ const TicketScreen = (props: Props) => {
     <View style={{ flex: 1, alignItems: "center", paddingTop: "30%" }}>
       {!props.loading && (
         <>
+          <StatusBar translucent style="dark" />
+
           <Ionicons
             name="checkmark-circle"
             color={COLORS.greenSuccess}
@@ -70,12 +73,12 @@ const TicketScreen = (props: Props) => {
 
           <View
             style={{
-              width: "100%",
+              width: "90%",
               height: "50%",
               alignItems: "center",
             }}
           >
-            <ScrollView>
+            <ScrollView style={{ width: "100%" }}>
               {props.products.map((product) => (
                 <ProductDetailRender
                   key={product.productid}

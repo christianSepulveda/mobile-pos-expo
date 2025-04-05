@@ -14,6 +14,8 @@ import { COLORS } from "../../../styles/colors";
 type Props = {
   products: Product[];
   showSearchBar: boolean;
+  search: string;
+  setSearch: (search: string) => void;
   setShowSearchBar: (showSearchBar: boolean) => void;
   onPress: (item: Product | undefined) => void;
   onBackPress: () => void;
@@ -69,9 +71,9 @@ const OptionProductsScreen = (props: Props) => {
 
       {props.showSearchBar && (
         <AppTextInput
-          onChangeText={() => {}}
+          onChangeText={props.setSearch}
           placeholder="Buscar codigo - nombre"
-          value=""
+          value={props.search}
           theme="light"
         />
       )}

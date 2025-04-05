@@ -57,7 +57,7 @@ const SellScreen = (props: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.cameraContainer}>
-        <StatusBar translucent style="light" />
+        <StatusBar translucent style="dark" />
 
         <CameraView
           onBarcodeScanned={props.handleBarcodeScanned}

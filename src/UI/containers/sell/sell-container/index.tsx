@@ -64,7 +64,7 @@ const SellContainer = (props: Props) => {
 
     const newList: Detail[] = [detailProduct, ...scannedProducts];
     setScannedProducts(newList);
-    resetScanState();
+    cleanScannerProcess();
   };
 
   const handleUpdateProductInList = (
@@ -82,7 +82,7 @@ const SellContainer = (props: Props) => {
     ];
 
     setScannedProducts(updatedList);
-    resetScanState();
+    cleanScannerProcess();
   };
 
   const addProductToList = async () => {
@@ -162,14 +162,9 @@ const SellContainer = (props: Props) => {
     setTotal(sellTotal);
   };
 
-  const resetScanState = () => {
-    setScanned("");
-    lastScannedCodeRef.current = scanned;
-  };
-
   const cleanScannerProcess = () => {
     setScanned("");
-    lastScannedCodeRef.current = null;
+    lastScannedCodeRef.current = scanned;
   };
 
   const changeStep = () => {
