@@ -13,6 +13,11 @@ export const makePostRequest = async (url: string, data: any) => {
   console.log(BASE_URL + url);
   console.log(data);
 
-  const response = await axios.post(BASE_URL + url, data);
-  return response;
+  try {
+    const response = await axios.post(BASE_URL + url, data);
+    return response;
+  } catch (error) {
+    console.error("Error making request:", error);
+  }
 };
+//

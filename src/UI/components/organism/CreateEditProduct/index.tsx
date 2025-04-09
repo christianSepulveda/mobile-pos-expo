@@ -46,7 +46,7 @@ const CreateEditProduct = (props: Props) => {
   useEffect(handleAutoCompleteProduct, [product]);
 
   return (
-    <View style={{ flex: 1, padding: "8%", paddingTop: 70 }}>
+    <View style={{ flex: 1, paddingTop: 10 }}>
       <AppText
         type="bold"
         style={{ fontSize: 20 }}

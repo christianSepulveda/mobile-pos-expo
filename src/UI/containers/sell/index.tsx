@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import SellContainer, { SellProduct } from "./sell-container";
 import { View } from "react-native";
 import PaymentContainer from "./payment-container";
 import TicketContainer from "./ticket-container";
 import { Detail } from "../../../domain/entities/sell-summary";
+import CashRegisterContainer from "./cash-register-container";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
 
 type Props = {};
 
@@ -16,7 +19,7 @@ const SellIndex = (props: Props) => {
   const handleRenderPayment = (amount: number, contextProducts: Detail[]) => {
     setTotal(amount);
     setProducts(contextProducts);
-    setStep(1);
+    setStep(2);
   };
 
   const handleGoBack = () => {
@@ -30,31 +33,46 @@ const SellIndex = (props: Props) => {
     setStep(0);
   };
 
+  const handleInitialStep = async () => {
+    const cashRegister = await AsyncStorage.getItem("cashRegisterId");
+
+    if (cashRegister && cashRegister.length > 0) setStep(1);
+    if (!cashRegister) setStep(0);
+  };
+
   useEffect(() => {
-    setStep(0);
+    handleInitialStep();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      handleInitialStep();
+    }, [])
+  );
 
   return (
     <View style={{ flex: 1 }}>
-      {step === 0 && (
+      {step === 0 && <CashRegisterContainer changeStep={() => setStep(1)} />}
+
+      {step === 1 && (
         <SellContainer
           changeStep={handleRenderPayment}
           context={{ products }}
         />
       )}
 
-      {step === 1 && (
+      {step === 2 && (
         <PaymentContainer
           total={total}
           onBackPress={handleGoBack}
           onConfirmPayment={(payment) => {
             setPaymentMethod(payment);
-            setStep(2);
+            setStep(3);
           }}
         />
       )}
 
-      {step === 2 && (
+      {step === 3 && (
         <TicketContainer
           total={total}
           products={products ?? []}

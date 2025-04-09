@@ -1,14 +1,9 @@
-import { TouchableOpacity, View } from "react-native";
-import React from "react";
-import AppText from "../../../components/atoms/AppText";
-
-import IconButton from "../../../components/atoms/IconButton";
-import AppTextInput from "../../../components/molecules/AppTextInput";
-import { FlatList } from "react-native-gesture-handler";
-import OptionProductRenderItem from "../../../components/organism/OptionProductRenderItem";
-import { Product } from "../../../../domain/entities/product";
-import { Ionicons } from "@expo/vector-icons";
-import { COLORS } from "../../../styles/colors";
+import { FlatList, View } from "react-native";
+import { Product } from "../../../domain/entities/product";
+import AppText from "../../components/atoms/AppText";
+import IconButton from "../../components/atoms/IconButton";
+import AppTextInput from "../../components/molecules/AppTextInput";
+import OptionProductRenderItem from "../../components/organism/OptionProductRenderItem";
 
 type Props = {
   products: Product[];
@@ -17,39 +12,27 @@ type Props = {
   setSearch: (search: string) => void;
   setShowSearchBar: (showSearchBar: boolean) => void;
   onPress: (item: Product | undefined) => void;
-  onBackPress: () => void;
 };
 
-const OptionProductsScreen = (props: Props) => {
+const ProductsScreen = (props: Props) => {
   return (
     <View style={{ flex: 1, padding: 20, paddingTop: 70 }}>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => props.onBackPress()}
-        >
-          <Ionicons name="chevron-back" color={COLORS.blueIOS} size={40} />
-        </TouchableOpacity>
-
-        <AppText
-          type="bold"
-          style={{ fontSize: 30 }}
-          children="Productos"
-          numberOfLines={1}
-        />
-      </View>
+      <AppText
+        type="bold"
+        style={{ fontSize: 30 }}
+        children="Productos"
+        numberOfLines={1}
+      />
 
       <View
         style={{
           flexDirection: "row",
-          marginTop: 20,
+          marginTop: 15,
           width: "100%",
           height: 60,
-          alignItems: "center",
-          justifyContent: "center",
         }}
       >
-        <View style={{ width: "45%" }}>
+        <View style={{ flex: 12 }}>
           <IconButton
             iconName="book-search"
             label="Buscar"
@@ -57,9 +40,9 @@ const OptionProductsScreen = (props: Props) => {
           />
         </View>
 
-        <View style={{ width: "5%" }} />
+        <View style={{ flex: 1 }} />
 
-        <View style={{ width: "45%" }}>
+        <View style={{ flex: 12 }}>
           <IconButton
             iconName="plus-circle"
             label="Crear"
@@ -102,4 +85,4 @@ const OptionProductsScreen = (props: Props) => {
   );
 };
 
-export default OptionProductsScreen;
+export default ProductsScreen;

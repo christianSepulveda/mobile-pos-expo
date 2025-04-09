@@ -1,20 +1,19 @@
-import { useEffect, useRef, useState } from "react";
-import { Product } from "../../../../domain/entities/product";
-import CreateEditProduct from "../../../components/organism/CreateEditProduct";
-import OptionProductsScreen from "../../../screens/options/option-products-screen";
-import { Category } from "../../../../domain/entities/category";
-import { ProductService } from "../../../../infrastructure/services/product-service";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { CategoryService } from "../../../../infrastructure/services/category-service";
-import { Alert } from "react-native";
+import { View, Text, Alert } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import ProductsScreen from "../../screens/products";
+import { ProductService } from "../../../infrastructure/services/product-service";
+import { CategoryService } from "../../../infrastructure/services/category-service";
+import { Product } from "../../../domain/entities/product";
+import { Category } from "../../../domain/entities/category";
 import { Audio } from "expo-av";
 import { BarcodeScanningResult, Camera } from "expo-camera";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import AppModal from "../../components/molecules/AppModal";
+import CreateEditProduct from "../../components/organism/CreateEditProduct";
 
-type Props = {
-  onBackPress: () => void;
-};
+type Props = {};
 
-const OptionProductsContainer = (props: Props) => {
+const ProductsContainer = (props: Props) => {
   const productService = new ProductService();
   const categoryService = new CategoryService();
 
@@ -136,7 +135,7 @@ const OptionProductsContainer = (props: Props) => {
   };
 
   const loadSound = async () => {
-    const soundRoute = require("../../../../../assets/sounds/scanner-sound.wav");
+    const soundRoute = require("../../../../assets/sounds/scanner-sound.wav");
     const { sound: soundObject } = await Audio.Sound.createAsync(soundRoute);
     sound.current = soundObject;
   };
@@ -162,29 +161,32 @@ const OptionProductsContainer = (props: Props) => {
     };
   }, []);
 
-  if (showProductEditOrCreate)
-    return (
-      <CreateEditProduct
-        product={selectedProduct}
-        scanned={scanned}
-        handleScan={handleScan}
-        handleBarcodeScanned={handleBarCodeScanned}
-        onCreateOrEditProduct={onCreateOrEditProduct}
-        categories={categories}
-      />
-    );
-
   return (
-    <OptionProductsScreen
-      products={filteredProducts}
-      search={search}
-      setSearch={setSearch}
-      setShowSearchBar={setShowSearchBar}
-      showSearchBar={showSearchBar}
-      onPress={onPress}
-      onBackPress={props.onBackPress}
-    />
+    <>
+      <ProductsScreen
+        products={filteredProducts}
+        search={search}
+        setSearch={setSearch}
+        setShowSearchBar={setShowSearchBar}
+        showSearchBar={showSearchBar}
+        onPress={onPress}
+      />
+
+      <AppModal
+        visible={showProductEditOrCreate}
+        onClose={() => setShowProductEditOrCreate(false)}
+      >
+        <CreateEditProduct
+          product={selectedProduct}
+          scanned={scanned}
+          handleScan={handleScan}
+          handleBarcodeScanned={handleBarCodeScanned}
+          onCreateOrEditProduct={onCreateOrEditProduct}
+          categories={categories}
+        />
+      </AppModal>
+    </>
   );
 };
 
-export default OptionProductsContainer;
+export default ProductsContainer;

@@ -7,11 +7,19 @@ import { styles } from "./styles";
 type Props = {
   onPress: () => void;
   label: string;
+  disabled?: boolean;
 };
 
 const AppButton = (props: Props) => {
   return (
-    <TouchableOpacity style={styles.button} onPress={props.onPress}>
+    <TouchableOpacity
+      style={[
+        styles.button,
+        { backgroundColor: props.disabled ? COLORS.grayLight : COLORS.blueIOS },
+      ]}
+      onPress={props.onPress}
+      disabled={props.disabled}
+    >
       <AppText type="bold" style={styles.text}>
         {props.label}
       </AppText>

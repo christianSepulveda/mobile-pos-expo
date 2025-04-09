@@ -1,11 +1,11 @@
 import { useState } from "react";
 import OptionScreen from "../../screens/options";
 
-import OptionProductsContainer from "./option-products-container";
 import OptionCategoriesContainer from "./option-categories-container";
 import OptionPasswordContainer from "./option-password-container";
+import { Alert, AlertButton } from "react-native";
 
-type Props = {};
+type Props = { handleLogOut: () => void };
 
 const OptionContainer = (props: Props) => {
   const [selectedOption, setSelectedOption] = useState<number | undefined>(
@@ -14,13 +14,23 @@ const OptionContainer = (props: Props) => {
 
   const onBackPress = () => setSelectedOption(undefined);
 
-  if (selectedOption === 0)
-    return <OptionProductsContainer onBackPress={onBackPress} />;
+  const handleLogout = async () => props.handleLogOut();
 
-  if (selectedOption === 1)
+  const options: AlertButton[] = [
+    { text: "Cancelar", onPress: () => setSelectedOption(undefined) },
+    { text: "Cerrar sesión", onPress: handleLogout },
+  ];
+
+  if (selectedOption === 0)
     return <OptionCategoriesContainer onBackPress={onBackPress} />;
-  
-  if (selectedOption === 2) return <OptionPasswordContainer />;
+
+  if (selectedOption === 1) return <OptionPasswordContainer />;
+
+  if (selectedOption === 2) {
+    Alert.alert("¿Estás seguro?", "¿Quieres cerrar sesión?", options, {
+      cancelable: false,
+    });
+  }
 
   return <OptionScreen setSelectedOption={setSelectedOption} />;
 };

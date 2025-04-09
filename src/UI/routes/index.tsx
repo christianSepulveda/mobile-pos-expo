@@ -6,10 +6,16 @@ import { COLORS } from "../styles/colors";
 import HistoryContainer from "../containers/history";
 import SellIndex from "../containers/sell";
 import OptionContainer from "../containers/options";
+import CashRegisterContainer from "../containers/cash-register";
+import ProductsContainer from "../containers/products";
+
+type Props = {
+  handleLogOut: () => void;
+};
 
 const Tab = createBottomTabNavigator();
 
-const AppRoutes = () => {
+const AppRoutes = (props: Props) => {
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -36,6 +42,19 @@ const AppRoutes = () => {
           }}
         />
         <Tab.Screen
+          name="Caja"
+          component={CashRegisterContainer}
+          options={{
+            tabBarIcon: (props) => (
+              <Ionicons
+                name="cash"
+                color={props.focused ? COLORS.blueIOS : COLORS.grayDark}
+                size={25}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
           name="Vender"
           component={SellIndex}
           options={{
@@ -49,8 +68,20 @@ const AppRoutes = () => {
           }}
         />
         <Tab.Screen
+          name="Productos"
+          component={ProductsContainer}
+          options={{
+            tabBarIcon: (props) => (
+              <Ionicons
+                name="bag"
+                color={props.focused ? COLORS.blueIOS : COLORS.grayDark}
+                size={25}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
           name="Opciones"
-          component={OptionContainer}
           options={{
             tabBarIcon: (props) => (
               <Ionicons
@@ -60,7 +91,14 @@ const AppRoutes = () => {
               />
             ),
           }}
-        />
+        >
+          {() => (
+            <OptionContainer
+              handleLogOut={props.handleLogOut}
+              renderOptions="USER"
+            />
+          )}
+        </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );

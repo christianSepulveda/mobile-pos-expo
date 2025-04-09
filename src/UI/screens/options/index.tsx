@@ -61,38 +61,25 @@ const OptionScreen = (props: Props) => {
           marginBottom: 5,
           color: COLORS.grayDark,
         }}
-        children={"Opciones"}
+        children={"Configuración"}
       />
 
-      <OptionItem
-        iconName="cart"
-        title="Administrar productos"
-        onPress={() => props.setSelectedOption(0)}
-      />
       <OptionItem
         iconName="clipboard"
         title="Administrar categorías"
-        onPress={() => props.setSelectedOption(1)}
-      />
-
-      <AppText
-        type="semiBold"
-        numberOfLines={1}
-        style={{
-          fontSize: 20,
-          marginTop: 50,
-          marginBottom: 5,
-          color: COLORS.grayDark,
-        }}
-        children={"Usuario"}
+        onPress={() => props.setSelectedOption(0)}
       />
 
       <OptionItem
         iconName="lock-closed"
         title="Cambiar contraseña"
+        onPress={() => props.setSelectedOption(1)}
+      />
+      <OptionItem
+        iconName="log-out"
+        title="Cerrar sesión"
         onPress={() => props.setSelectedOption(2)}
       />
-      <OptionItem iconName="log-out" title="Cerrar sesión" onPress={() => {}} />
     </ScrollView>
   );
 };
