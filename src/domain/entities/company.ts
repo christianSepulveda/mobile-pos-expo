@@ -7,5 +7,6 @@ export interface Company {
   expirationDate: string;
   monthlyPayment: number;
   numberOfRegisters: string;
+  adminCode: string;
   active: boolean;
 }

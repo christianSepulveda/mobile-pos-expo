@@ -1,13 +1,6 @@
-import axios, { AxiosInstance } from "axios";
+import axios from "axios";
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL || "";
-const TIMEOUT = process.env.EXPO_PUBLIC_TIMEOUT || 10000;
-
-const config = {
-  headers: {
-    "Content-Type": "application/json",
-  },
-};
 
 export const makePostRequest = async (url: string, data: any) => {
   console.log(BASE_URL + url);
@@ -20,4 +13,3 @@ export const makePostRequest = async (url: string, data: any) => {
     console.error("Error making request:", error);
   }
 };
-//

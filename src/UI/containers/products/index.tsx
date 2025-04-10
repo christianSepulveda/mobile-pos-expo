@@ -1,5 +1,5 @@
 import { View, Text, Alert } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import ProductsScreen from "../../screens/products";
 import { ProductService } from "../../../infrastructure/services/product-service";
 import { CategoryService } from "../../../infrastructure/services/category-service";
@@ -10,6 +10,7 @@ import { BarcodeScanningResult, Camera } from "expo-camera";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppModal from "../../components/molecules/AppModal";
 import CreateEditProduct from "../../components/organism/CreateEditProduct";
+import { useFocusEffect } from "@react-navigation/native";
 
 type Props = {};
 
@@ -144,21 +145,28 @@ const ProductsContainer = (props: Props) => {
     if (sound.current) await sound.current.unloadAsync();
   };
 
+  const initComponent = async () => {
+    await loadSound();
+    await getProducts();
+    await getCameraPermissions();
+
+    return async () => {
+      await unloadSound();
+    };
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      initComponent();
+    }, [])
+  );
+
   useEffect(() => {
     onSearch();
   }, [search]);
 
   useEffect(() => {
-    getProducts();
-  }, []);
-
-  useEffect(() => {
-    loadSound();
-    getCameraPermissions();
-
-    return () => {
-      unloadSound();
-    };
+    initComponent();
   }, []);
 
   return (

@@ -92,12 +92,7 @@ const AppRoutes = (props: Props) => {
             ),
           }}
         >
-          {() => (
-            <OptionContainer
-              handleLogOut={props.handleLogOut}
-              renderOptions="USER"
-            />
-          )}
+          {() => <OptionContainer handleLogOut={props.handleLogOut} />}
         </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>

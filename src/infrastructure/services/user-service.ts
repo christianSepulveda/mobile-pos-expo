@@ -14,7 +14,7 @@ export class UserService implements UserRepository {
     return user;
   }
 
-  async update(data: Login): Promise<User> {
+  async update(data: User): Promise<User> {
     const response = await makePostRequest("/user/update", data);
     if (!response || response.status !== 200) {
       return {} as User;

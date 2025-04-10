@@ -58,15 +58,19 @@ const HistoryContainer = (props: Props) => {
     handleGetSells();
   };
 
+  const initComponent = async () => {
+    setDate(today);
+    await handleGetSells();
+  };
+
   useFocusEffect(
     useCallback(() => {
-      handleGetSells();
+      initComponent();
     }, [])
   );
 
   useEffect(() => {
-    setDate(today);
-    handleGetSells();
+    initComponent();
   }, []);
 
   useEffect(() => {

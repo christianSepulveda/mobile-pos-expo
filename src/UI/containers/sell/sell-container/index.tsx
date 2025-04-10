@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Alert } from "react-native";
 import { Camera, BarcodeScanningResult } from "expo-camera";
 import { Audio } from "expo-av";
@@ -10,6 +10,7 @@ import { Product } from "../../../../domain/entities/product";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ProductService } from "../../../../infrastructure/services/product-service";
 import { Detail } from "../../../../domain/entities/sell-summary";
+import { useFocusEffect } from "@react-navigation/native";
 
 type Props = {
   changeStep: (total: number, products: Detail[]) => void;
@@ -181,6 +182,19 @@ const SellContainer = (props: Props) => {
     if (sound.current) await sound.current.unloadAsync();
   };
 
+  const initComponent = async () => {
+    const contextProducts = props.context.products;
+    if (contextProducts) setScannedProducts(contextProducts);
+
+    await loadSound();
+    await handleGetAllProducts();
+    await getCameraPermissions();
+
+    return async () => {
+      await unloadSound();
+    };
+  };
+
   useEffect(() => {
     setTimeout(cleanScannerProcess, 1000);
   }, [lastScannedCodeRef.current]);
@@ -190,17 +204,14 @@ const SellContainer = (props: Props) => {
   }, [scannedProducts]);
 
   useEffect(() => {
-    const contextProducts = props.context.products;
-    if (contextProducts) setScannedProducts(contextProducts);
-
-    loadSound();
-    handleGetAllProducts();
-    getCameraPermissions();
-
-    return () => {
-      unloadSound();
-    };
+    initComponent();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      initComponent();
+    }, [])
+  );
 
   return (
     <>

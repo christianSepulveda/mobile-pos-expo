@@ -2,4 +2,5 @@ import { Company } from "../entities/company";
 
 export type CompanyRepository = {
   find: (id: string) => Promise<Company>;
+  validate: (companyid: string, code: string) => Promise<boolean>;
 };

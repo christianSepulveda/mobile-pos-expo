@@ -24,7 +24,7 @@ const OptionContainer = (props: Props) => {
   if (selectedOption === 0)
     return <OptionCategoriesContainer onBackPress={onBackPress} />;
 
-  if (selectedOption === 1) return <OptionPasswordContainer />;
+  if (selectedOption === 1) return <OptionPasswordContainer onBackPress={onBackPress}/>;
 
   if (selectedOption === 2) {
     Alert.alert("¿Estás seguro?", "¿Quieres cerrar sesión?", options, {

@@ -44,6 +44,18 @@ const CashRegisterScreen = (props: Props) => {
         />
       )}
 
+      <View>
+        <FlatList
+          data={props.cashRegisters}
+          renderItem={(item) => (
+            <CashRegisterRenderItem
+              {...item}
+              onPress={props.onPressCashRegister}
+            />
+          )}
+        />
+      </View>
+
       {props.cashRegisters.length < Number(props.numberOfCashRegisters) && (
         <View
           style={{
@@ -60,18 +72,6 @@ const CashRegisterScreen = (props: Props) => {
           />
         </View>
       )}
-
-      <View>
-        <FlatList
-          data={props.cashRegisters}
-          renderItem={(item) => (
-            <CashRegisterRenderItem
-              {...item}
-              onPress={props.onPressCashRegister}
-            />
-          )}
-        />
-      </View>
 
       <AppModal
         visible={props.showModal}

@@ -3,6 +3,8 @@ import LoginScreen from "../../screens/auth";
 import { LoginError } from "../../../domain/types/auth-types";
 import { UserService } from "../../../infrastructure/services/user-service";
 import { User } from "../../../domain/entities/user";
+import { CompanyService } from "../../../infrastructure/services/company-service";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type Props = {
   handleAuth: (user: User) => void;
@@ -10,6 +12,7 @@ type Props = {
 
 const LoginContainer = (props: Props) => {
   const userService = new UserService();
+  const companyService = new CompanyService();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -69,6 +72,12 @@ const LoginContainer = (props: Props) => {
 
       setError(error);
       return;
+    }
+
+    if ("companyid" in response) {
+      const company = await companyService.find(response.companyid);
+      console.log("company", company);
+      await AsyncStorage.setItem("company", JSON.stringify(company));
     }
 
     setEmail("");

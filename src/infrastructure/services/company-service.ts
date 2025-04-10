@@ -14,4 +14,18 @@ export class CompanyService implements CompanyRepository {
     const company = response.data as Company;
     return company;
   }
+
+  async validate(companyid: string, code: string): Promise<boolean> {
+    const response = (await makePostRequest("/companies/validate", {
+      companyid,
+      adminCode: code,
+    })) as any;
+
+    if (!response || response.status !== 200) {
+      console.log("Error", response);
+      return false;
+    }
+
+    return response.data.isValid as boolean;
+  }
 }

@@ -138,7 +138,7 @@ const CreateEditProduct = (props: Props) => {
         visible={showBarcodeScanner}
         onClose={() => setShowBarcodeScanner(false)}
       >
-        <View style={{ flex: 6 }}>
+        <View style={{ flex: 5 }}>
           <CameraView
             onBarcodeScanned={props.handleBarcodeScanned}
             style={StyleSheet.absoluteFill}
@@ -147,7 +147,7 @@ const CreateEditProduct = (props: Props) => {
 
         <View
           style={{
-            flex: 6,
+            flex: 2,
             marginTop: 40,
           }}
         >
