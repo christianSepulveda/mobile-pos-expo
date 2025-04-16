@@ -42,9 +42,9 @@ export class CashMovementService implements CashMovementRepository {
     return cashMovement;
   }
 
-  async findAll(companyid: string): Promise<CashMovement[] | DomainError> {
+  async findAll(cashRegisterId: string): Promise<CashMovement[] | DomainError> {
     const endpoint = "/cash-movements/find-all";
-    const response = (await makePostRequest(endpoint, { companyid })) as any;
+    const response = (await makePostRequest(endpoint, { cashRegisterId })) as any;
 
     if (!response || response.status !== 200) {
       return { code: response.code, message: response.message, error: true };

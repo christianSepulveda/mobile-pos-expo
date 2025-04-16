@@ -13,7 +13,7 @@ import { CashRegisterService } from "../../../infrastructure/services/cash-regis
 import { CashMovementService } from "../../../infrastructure/services/cash-movement-service";
 import { useFocusEffect } from "@react-navigation/native";
 import CashRegisterHistoryContainer from "./cash-register-history";
-import { ca } from "react-native-paper-dates";
+import CashRegisterDetailContainer from "./cash-register-history/cash-register-detail";
 
 type Props = {};
 
@@ -30,6 +30,10 @@ const CashRegisterContainer = (props: Props) => {
   const [cashRegister, setCashRegister] = useState<CashRegister>();
   const [showCashCount, setShowCashCount] = useState<boolean>(false);
   const [showCashHistory, setShowCashHistory] = useState<boolean>(false);
+
+  const [detailCashRegister, setDetailCashRegister] = useState<CashRegister>();
+  const [showCashRegisterDetail, setShowCashRegisterDetail] =
+    useState<boolean>(false);
 
   const clearStates = () => {
     setAmount("");
@@ -143,6 +147,12 @@ const CashRegisterContainer = (props: Props) => {
     alert("Caja cerrada correctamente");
   };
 
+  const handleShowCashRegisterDetail = (cashRegister: CashRegister) => {
+    setShowCashHistory(false);
+    setShowCashRegisterDetail(true);
+    setDetailCashRegister(cashRegister);
+  };
+
   useFocusEffect(
     useCallback(() => {
       handleCheckOpenCashRegister();
@@ -158,7 +168,24 @@ const CashRegisterContainer = (props: Props) => {
   }, [amount, type, note]);
 
   if (showCashHistory) {
-    return <CashRegisterHistoryContainer onBackPress={setShowCashHistory} />;
+    return (
+      <CashRegisterHistoryContainer
+        onBackPress={setShowCashHistory}
+        showCashRegisterDetail={handleShowCashRegisterDetail}
+      />
+    );
+  }
+
+  if (showCashRegisterDetail) {
+    return (
+      <CashRegisterDetailContainer
+        cashRegister={detailCashRegister as CashRegister}
+        onBackPress={() => {
+          setShowCashRegisterDetail(false);
+          setShowCashHistory(true);
+        }}
+      />
+    );
   }
 
   return (

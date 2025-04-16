@@ -13,6 +13,7 @@ type Props = {
   cashRegisters: CashRegister[];
   onBackPress: () => void;
   onChangeDate: (date: string) => void;
+  onSelectCashRegister: (cashRegister: CashRegister) => void;
 };
 
 const CashRegisterHistoryScreen = (props: Props) => {
@@ -57,7 +58,12 @@ const CashRegisterHistoryScreen = (props: Props) => {
 
       <FlatList
         data={props.cashRegisters}
-        renderItem={(item) => <CashRegisterHistoryRenderItem {...item} />}
+        renderItem={(item) => (
+          <CashRegisterHistoryRenderItem
+            {...item}
+            onPressItem={props.onSelectCashRegister}
+          />
+        )}
       />
     </View>
   );

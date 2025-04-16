@@ -8,9 +8,12 @@ import { styles } from "./styles";
 type CashRegisterHistoryRenderItemProps = {
   item: CashRegister;
   index: number;
+  onPressItem: (item: CashRegister) => void;
 };
 
-const CashRegisterHistoryRenderItem = (props: CashRegisterHistoryRenderItemProps) => {
+const CashRegisterHistoryRenderItem = (
+  props: CashRegisterHistoryRenderItemProps
+) => {
   const active = props.item.active;
   const openDate = moment(props.item.open_date, "YYYY/MM/DD");
   const openTime = moment(props.item.open_time, "hh:mm").format("hh:mm A");
@@ -22,7 +25,10 @@ const CashRegisterHistoryRenderItem = (props: CashRegisterHistoryRenderItemProps
   const text = active ? "ABIERTA" : "CERRADA";
 
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => props.onPressItem(props.item)}
+    >
       <View style={styles.detailsContainer}>
         <AppText
           children={moment(openDate).format("DD/MM/YYYY")}
@@ -40,11 +46,13 @@ const CashRegisterHistoryRenderItem = (props: CashRegisterHistoryRenderItemProps
 
         <View style={styles.spacingExtraSmall} />
 
-        <AppText
-          children={"Cierre: " + closingTime}
-          style={styles.timeText}
-          type="regular"
-        />
+        {!active && (
+          <AppText
+            children={`Cierre: ${closingTime}`}
+            style={styles.timeText}
+            type="regular"
+          />
+        )}
       </View>
 
       <View style={styles.statusContainer}>

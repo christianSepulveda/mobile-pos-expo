@@ -8,6 +8,7 @@ import { CashRegister } from "../../../../domain/entities/cash-register";
 
 type Props = {
   onBackPress: (show: boolean) => void;
+  showCashRegisterDetail: (cashRegister: CashRegister) => void;
 };
 
 const CashRegisterHistoryContainer = (props: Props) => {
@@ -56,6 +57,7 @@ const CashRegisterHistoryContainer = (props: Props) => {
       cashRegisters={filteredCashRegisters}
       onChangeDate={onChangeDate}
       onBackPress={() => props.onBackPress(false)}
+      onSelectCashRegister={props.showCashRegisterDetail}
     />
   );
 };
