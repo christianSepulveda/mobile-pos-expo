@@ -19,7 +19,7 @@ const AppRoutes = (props: Props) => {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName="Ventas"
+        initialRouteName="Vender"
         screenOptions={{
           headerShown: false,
           tabBarStyle: { backgroundColor: COLORS.whiteSmoke },

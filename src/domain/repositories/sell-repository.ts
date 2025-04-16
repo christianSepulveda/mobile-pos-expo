@@ -4,6 +4,7 @@ import { SellSummary } from "../entities/sell-summary";
 
 export type SellRepository = {
   saveSell: (sell: Sell) => Promise<Sell | DomainError>;
+  findSells: (cashRegisterId: string) => Promise<Sell[] | DomainError>;
   findSellDetails: (sellid: string) => Promise<SellSummary | DomainError>;
   findAllSellsByDate: (
     date: string,

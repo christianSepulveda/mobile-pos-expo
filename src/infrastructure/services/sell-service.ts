@@ -17,6 +17,18 @@ export class SellService implements SellRepository {
     return savedSell;
   }
 
+  async findSells(cashRegisterId: string): Promise<Sell[] | DomainError> {
+    const endpoint = "/sells/find-all";
+    const response = (await makePostRequest(endpoint, { cashRegisterId })) as any;
+
+    if (!response || response.status !== 200) {
+      return { code: response.code, message: response.message, error: true };
+    }
+
+    const sells = response.data as Sell[];
+    return sells;
+  }
+
   async findSellDetails(sellid: string): Promise<SellSummary | DomainError> {
     const endpoint = "/sell-summary/find-sell-summary";
     const response = (await makePostRequest(endpoint, { sellid })) as any;

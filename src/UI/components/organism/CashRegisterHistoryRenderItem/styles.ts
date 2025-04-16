@@ -26,9 +26,10 @@ export const styles = StyleSheet.create({
     marginVertical: 2.5,
   },
   statusContainer: {
-    flex: 3,
+    flex: 5,
   },
   statusText: {
     fontSize: 18,
+    textAlign: "right",
   },
 });

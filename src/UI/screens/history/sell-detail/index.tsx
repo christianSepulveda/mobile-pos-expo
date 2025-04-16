@@ -1,16 +1,17 @@
-import { View, FlatList, TouchableOpacity, StyleSheet } from "react-native";
-import { Sell } from "../../../../domain/entities/sell";
-import AppText from "../../../components/atoms/AppText";
-import { Products } from "../../../../domain/constants/data";
-import SellDetailRenderItem from "../../../components/organism/SellDetailRenderItem";
 import { styles } from "./styles";
-import { MaterialIcons } from "@expo/vector-icons";
 import { COLORS } from "../../../styles/colors";
+import AppText from "../../../components/atoms/AppText";
+import { View, FlatList, TouchableOpacity } from "react-native";
+
 import { StatusBar } from "expo-status-bar";
-import { SellDetail } from "../../../../domain/entities/sell-detail";
-import { SellSummary } from "../../../../domain/entities/sell-summary";
+import { MaterialIcons } from "@expo/vector-icons";
+
 import moment from "moment";
 import "moment/locale/es";
+
+import { SellSummary } from "../../../../domain/entities/sell-summary";
+import SellDetailFooterRow from "../../../components/organism/SellDetailFooterRow";
+import SellDetailRenderItem from "../../../components/organism/SellDetailRenderItem";
 
 type Props = {
   sell: SellSummary | undefined;
@@ -79,14 +80,19 @@ const SellDetailScreen = (props: Props) => {
       />
 
       <View style={styles.footer}>
-        <AppText
-          type="bold"
-          children={
-            props.sell
-              ? `Total: ${props.sell.total} (${props.sell.payment_method})`
-              : ""
-          }
-          style={styles.totalText}
+        <SellDetailFooterRow
+          label={`${props.sell?.payment_method}`}
+          value={props.sell ? props.sell.cash.toString() : ""}
+        />
+
+        <SellDetailFooterRow
+          label="Vuelto"
+          value={props.sell ? props.sell.change.toString() : ""}
+        />
+
+        <SellDetailFooterRow
+          label="Total"
+          value={props.sell ? props.sell.total.toString() : ""}
         />
       </View>
     </View>

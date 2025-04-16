@@ -90,7 +90,7 @@ const PaymentScreen = (props: Props) => {
           <AppText
             type="bold"
             style={styles.summaryText}
-            children={`Efectivo: $${props.payment}`}
+            children={`Monto: $${props.payment}`}
           />
 
           <AppText
