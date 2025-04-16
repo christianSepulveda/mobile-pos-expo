@@ -1,15 +1,21 @@
 export type CashRegister = {
   id?: string;
-  date: string;
-  time: string;
-  closing_time: string; // Hora exacta de cierre de caja.
-  userid: string;
-  initial_cash: number;
-  closing_cash: number; // Para registrar cuánto dinero se contó al cerrar la caja.
-  expected_cash: number; // Calculado por el sistema: initial_cash + ventas en efectivo - egresos.
-  cash_difference: number; // closing_cash - expected_cash.
-  notes: string; // Para observaciones si hay diferencias, egresos no registrados, problemas, etc.
-  total_sales: number; // Ventas totales (puede estar separado por método de pago).
-  companyid: string;
+
+  open_userid: string;
+  open_date: string;
+  open_time: string;
+  open_cash: number;
+
+  closing_userid: string;
+  closing_date: string;
+  closing_time: string;
+
+  closing_cash: number;
+  closing_debit: number;
+  closing_credit: number;
+  closing_transference: number;
+
+  notes: string;
   active: boolean;
+  companyid: string;
 };

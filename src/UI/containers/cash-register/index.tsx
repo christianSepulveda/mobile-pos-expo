@@ -12,6 +12,8 @@ import { CashRegister } from "../../../domain/entities/cash-register";
 import { CashRegisterService } from "../../../infrastructure/services/cash-register-service";
 import { CashMovementService } from "../../../infrastructure/services/cash-movement-service";
 import { useFocusEffect } from "@react-navigation/native";
+import CashRegisterHistoryContainer from "./cash-register-history";
+import { ca } from "react-native-paper-dates";
 
 type Props = {};
 
@@ -106,9 +108,33 @@ const CashRegisterContainer = (props: Props) => {
   };
 
   const handleCloseCashRegister = async () => {
-    if (!cashRegister) return;
+    const storageUser = await AsyncStorage.getItem("user");
+    const user = storageUser ? JSON.parse(storageUser) : null;
+    if (!user || !cashRegister) return;
 
-    await cashRegisterService.update({ ...cashRegister, active: false });
+    const closedCashRegister: CashRegister = {
+      id: cashRegister.id,
+
+      open_cash: cashRegister.open_cash,
+      open_date: cashRegister.open_date,
+      open_time: cashRegister.open_time,
+      open_userid: cashRegister.open_userid,
+
+      closing_time: moment().format("HH:mm"),
+      closing_date: moment().format("YYYY/MM/DD"),
+      closing_userid: user.id,
+
+      closing_cash: cashRegister.closing_cash,
+      closing_credit: cashRegister.closing_credit,
+      closing_debit: cashRegister.closing_debit,
+      closing_transference: cashRegister.closing_transference,
+
+      notes: cashRegister.notes,
+      companyid: cashRegister.companyid,
+      active: false,
+    };
+
+    await cashRegisterService.update(closedCashRegister);
     await AsyncStorage.removeItem("cashRegisterId");
 
     clearStates();
@@ -130,6 +156,10 @@ const CashRegisterContainer = (props: Props) => {
   useEffect(() => {
     handleChangeCashMovement();
   }, [amount, type, note]);
+
+  if (showCashHistory) {
+    return <CashRegisterHistoryContainer onBackPress={setShowCashHistory} />;
+  }
 
   return (
     <>

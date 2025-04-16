@@ -13,6 +13,7 @@ type Props = {
   total: number;
   products: Detail[];
   paymentMethod: string;
+  payment: number;
   clearContext: () => void;
 };
 
@@ -28,6 +29,9 @@ const TicketContainer = (props: Props) => {
     const user = await AsyncStorage.getItem("user");
     const parsedUser = user ? JSON.parse(user) : null;
 
+    const cashRegister = await AsyncStorage.getItem("cashRegisterId");
+    if (!cashRegister) return;
+
     if (!parsedUser) {
       Alert.alert("Error", "No se ha podido obtener los datos de usuario");
       props.clearContext();
@@ -36,12 +40,18 @@ const TicketContainer = (props: Props) => {
     }
 
     const sell: Sell = {
-      userid: parsedUser.id,
-      companyid: parsedUser.companyid,
       date: moment().format("YYYY/MM/DD"),
       time: moment().format("HH:mm"),
+
       total: props.total,
+      cash: props.payment,
+      change: props.payment - props.total,
+
       payment_method: props.paymentMethod,
+      cash_register_id: cashRegister,
+      companyid: parsedUser.companyid,
+
+      userid: parsedUser.id,
       active: true,
     };
 

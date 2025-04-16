@@ -126,9 +126,22 @@ const SellContainer = (props: Props) => {
     if (!user) return;
 
     const companyId = user.companyid;
-    const response = await productService.findAll(companyId);
+    const response = (await productService.findAll(companyId)) as Product[];
 
-    setProducts(response as Product[]);
+    setProducts(response);
+
+    const boilerplateSell: Detail = {
+      category: response[0].category_id,
+      code: response[0].code,
+      name: response[0].name,
+      unit_price: response[0].price,
+      quantity: 1,
+      total: response[0].price,
+      sellid: "",
+      productid: response[0].id,
+    };
+
+    setScannedProducts([boilerplateSell]);
   };
 
   const handleDeleteProductFromSell = (index: number) => {

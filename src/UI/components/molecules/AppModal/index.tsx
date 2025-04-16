@@ -3,6 +3,7 @@ import {
   View,
   StyleSheet,
   TouchableWithoutFeedback,
+  ViewStyle,
 } from "react-native";
 
 import * as Animatable from "react-native-animatable";
@@ -12,9 +13,15 @@ type AppModalProps = {
   visible: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  height?: ViewStyle["height"];
 };
 
-const AppModal: React.FC<AppModalProps> = ({ visible, onClose, children }) => {
+const AppModal: React.FC<AppModalProps> = ({
+  visible,
+  onClose,
+  children,
+  height,
+}) => {
   return (
     <Modal
       transparent
@@ -28,7 +35,7 @@ const AppModal: React.FC<AppModalProps> = ({ visible, onClose, children }) => {
             <Animatable.View
               duration={200}
               animation="slideInUp"
-              style={styles.modalContent}
+              style={[styles.modalContent, { height: height ?? "80%" }]}
             >
               {children}
             </Animatable.View>
@@ -49,7 +56,6 @@ const styles = StyleSheet.create({
 
   modalContent: {
     width: "100%",
-    height: "80%",
     marginBottom: "-100%",
     backgroundColor: COLORS.whiteSmoke,
     padding: 30,

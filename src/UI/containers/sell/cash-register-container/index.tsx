@@ -54,18 +54,24 @@ const CashRegisterContainer = (props: Props) => {
     if (!parsedUser) return;
 
     const cashRegister: CashRegister = {
-      date: moment().format("YYYY/MM/DD"),
-      time: moment().format("HH:mm"),
-      initial_cash: initialAmount,
+      open_date: moment().format("YYYY/MM/DD"),
+      open_time: moment().format("HH:mm"),
+      open_cash: initialAmount,
+      open_userid: parsedUser.id,
+
+      closing_cash: 0,
+      closing_debit: 0,
+      closing_credit: 0,
+      closing_transference: 0,
+
+      closing_userid: "",
+      closing_date: "",
+      closing_time: "",
+      
+      notes: "",
+      
       active: true,
       companyid: parsedUser.companyid,
-      userid: parsedUser.id,
-      cash_difference: 0,
-      closing_cash: 0,
-      closing_time: "",
-      expected_cash: 0,
-      notes: "",
-      total_sales: 0,
     };
 
     await cashRegisterService.save(cashRegister);

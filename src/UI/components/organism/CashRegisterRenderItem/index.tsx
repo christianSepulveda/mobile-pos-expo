@@ -31,7 +31,7 @@ const CashRegisterRenderItem = (props: Props) => (
       />
 
       <AppText
-        children={`${props.item.date} ${props.item.time}`}
+        children={`${props.item.open_date} ${props.item.open_time}`}
         type="medium"
         numberOfLines={1}
         style={{ fontSize: 16, marginBottom: 10 }}
@@ -40,7 +40,7 @@ const CashRegisterRenderItem = (props: Props) => (
 
     <View style={{ alignItems: "flex-end", flex: 4 }}>
       <AppText
-        children={`$${props.item.initial_cash}`}
+        children={`$${props.item.open_cash}`}
         type="bold"
         numberOfLines={1}
         style={{ fontSize: 20, marginBottom: 10, color: COLORS.blueIOS }}

@@ -20,6 +20,7 @@ export default function App() {
 
   const handleLogOut = async () => {
     await AsyncStorage.removeItem("user");
+    await AsyncStorage.removeItem("company");
     await AsyncStorage.removeItem("cashRegisterId");
     setAuth(false);
 

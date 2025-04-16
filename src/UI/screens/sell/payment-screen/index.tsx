@@ -1,171 +1,143 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import React from "react";
-import AppText from "../../../components/atoms/AppText";
-import { Ionicons } from "@expo/vector-icons";
+import { styles } from "./styles";
 import { COLORS } from "../../../styles/colors";
-import { FlatList } from "react-native-gesture-handler";
-import { PaymentMethod } from "../../../../domain/entities/payment-method";
+import { View, TouchableOpacity, FlatList } from "react-native";
+
 import { StatusBar } from "expo-status-bar";
+import { Ionicons } from "@expo/vector-icons";
+
+import AppText from "../../../components/atoms/AppText";
 import AppTextInput from "../../../components/molecules/AppTextInput";
+import { PaymentMethod } from "../../../../domain/entities/payment-method";
+import PaymentMethodButton from "../../../components/atoms/PaymentMethodButton";
 
 type Props = {
   total: number;
+  payment: string;
+  data: PaymentMethod[];
   selectedMethod: string;
-  onSelect: (text: string) => void;
+
   onBackPress: () => void;
   onConfirmPayment: () => void;
-  data: PaymentMethod[];
+  onSelect: (text: string) => void;
+  setPayment: (payment: string) => void;
 };
 
 const PaymentScreen = (props: Props) => {
   const total = props.total;
-
-  const PaymentMethodButton = (item: PaymentMethod, index: number) => (
-    <View
-      style={{
-        width: "50%",
-        padding: 10,
-      }}
-    >
-      <TouchableOpacity
-        activeOpacity={0.8}
-        style={{
-          backgroundColor: COLORS.white,
-          borderColor:
-            props.selectedMethod === item.id ? COLORS.blueIOS : COLORS.gray,
-          borderWidth: 1,
-          borderRadius: 5,
-          padding: 20,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-        onPress={() => props.onSelect(item.id)}
-      >
-        <AppText
-          type="bold"
-          style={{
-            fontSize: 18,
-            color:
-              props.selectedMethod === item.id
-                ? COLORS.blueIOS
-                : COLORS.blackIOS,
-          }}
-          children={item.name}
-          numberOfLines={1}
-        />
-      </TouchableOpacity>
-    </View>
-  );
+  const change = Number(props.payment) - Number(total);
+  const formattedChange = change < 0 ? 0 : change;
 
   return (
-    <View style={{ paddingTop: "20%", paddingHorizontal: 20, flex: 1 }}>
+    <View style={styles.container}>
       <StatusBar translucent style="dark" />
 
       <AppText
         type="bold"
-        style={{ fontSize: 25 }}
+        style={styles.title}
         children="Elija un medio de pago"
       />
 
-      <View
-        style={{
-          flexDirection: "row",
-          width: "90%",
-          marginTop: 10,
-          alignItems: "center",
-        }}
-      >
+      <View style={styles.infoContainer}>
         <Ionicons
           name="information-circle"
           color={COLORS.yellowAlert}
           size={25}
-          style={{ marginEnd: 5 }}
+          style={styles.infoIcon}
         />
         <AppText
           type="regular"
-          style={{ fontSize: 14 }}
+          style={styles.infoText}
           children={"Consulte por el método de pago antes de continuar."}
         />
       </View>
 
-      <View style={{ height: "30%" }}>
+      <View style={styles.paymentMethodsList}>
         <FlatList
           data={props.data}
-          renderItem={(item) => PaymentMethodButton(item.item, item.index)}
+          renderItem={(item) => (
+            <PaymentMethodButton
+              {...item}
+              onSelect={props.onSelect}
+              selectedMethod={props.selectedMethod}
+            />
+          )}
           keyExtractor={(item) => item.id}
           numColumns={2}
-          style={{ marginTop: "10%" }}
-          columnWrapperStyle={{
-            justifyContent: "space-between",
-          }}
+          style={styles.flatList}
+          columnWrapperStyle={styles.columnWrapper}
         />
       </View>
 
-      <AppText
-        type="semiBold"
-        style={{ fontSize: 14, marginTop: "5%", marginBottom: 10 }}
-        children={"Enviar comprobante por correo (opcional)"}
-      />
-
-      <AppTextInput
-        onChangeText={() => {}}
-        placeholder="Correo Electrónico"
-        value=""
-        keyboardType="email-address"
-        theme="light"
-      />
-
-      <View
-        style={{
-          width: "100%",
-          position: "absolute",
-          bottom: 20,
-          alignSelf: "center",
-        }}
-      >
-        <TouchableOpacity
-          style={{
-            width: "100%",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: COLORS.grayLight,
-            borderRadius: 10,
-            padding: 20,
-            marginBottom: 20,
-          }}
-          onPress={props.onBackPress}
-          activeOpacity={0.8}
-        >
+      {props.selectedMethod === "1" && (
+        <>
           <AppText
             type="bold"
-            style={{ fontSize: 20, color: COLORS.white }}
-            children={`Volver`}
+            style={styles.cashPaymentTitle}
+            children={"Pago en efectivo:"}
           />
-        </TouchableOpacity>
+          <AppTextInput
+            onChangeText={props.setPayment}
+            placeholder="Dinero en efectivo"
+            value={props.payment}
+            keyboardType="numeric"
+            theme="light"
+          />
+        </>
+      )}
 
-        <TouchableOpacity
-          style={{
-            width: "100%",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: COLORS.blueIOS,
-            borderRadius: 10,
-            padding: 20,
-          }}
-          onPress={props.onConfirmPayment}
-          activeOpacity={0.8}
-        >
+      <View style={styles.footer}>
+        <View style={styles.summaryContainer}>
           <AppText
             type="bold"
-            style={{ fontSize: 20, color: COLORS.white }}
-            children={`Pagar $${total}`}
+            style={styles.summaryText}
+            children={`Efectivo: $${props.payment}`}
           />
-        </TouchableOpacity>
+
+          <AppText
+            type="bold"
+            style={styles.summaryText}
+            children={`Total: $${total}`}
+          />
+
+          <View style={styles.divider} />
+
+          <AppText
+            type="bold"
+            style={styles.changeText}
+            children={`Vuelto: $${formattedChange}`}
+          />
+        </View>
+
+        <View style={styles.buttonsContainer}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={props.onBackPress}
+            activeOpacity={0.8}
+          >
+            <AppText
+              type="bold"
+              style={styles.backButtonText}
+              children={`Volver`}
+            />
+          </TouchableOpacity>
+
+          <View style={styles.buttonSpacer} />
+
+          <TouchableOpacity
+            style={styles.confirmButton}
+            onPress={props.onConfirmPayment}
+            activeOpacity={0.8}
+          >
+            <AppText
+              type="bold"
+              style={styles.confirmButtonText}
+              children={`Aceptar`}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default PaymentScreen;

@@ -54,7 +54,7 @@ const AppDropDown = (props: Props) => {
       maxHeight={300}
       labelField="name"
       valueField="id"
-      placeholder="Seleccione una categoría"
+      placeholder="Seleccione una opción"
       searchPlaceholder="Buscar..."
       value={props.selectedItem}
       onChange={(item) => props.onSelect(item)}

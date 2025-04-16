@@ -13,6 +13,7 @@ type Props = {};
 const SellIndex = (props: Props) => {
   const [step, setStep] = useState(0);
   const [total, setTotal] = useState(0);
+  const [payment, setPayment] = useState(0);
   const [products, setProducts] = useState<Detail[]>();
   const [paymentMethod, setPaymentMethod] = useState("");
 
@@ -30,7 +31,7 @@ const SellIndex = (props: Props) => {
     setTotal(0);
     setProducts([]);
     setPaymentMethod("");
-    setStep(0);
+    setStep(1);
   };
 
   const handleInitialStep = async () => {
@@ -65,8 +66,9 @@ const SellIndex = (props: Props) => {
         <PaymentContainer
           total={total}
           onBackPress={handleGoBack}
-          onConfirmPayment={(payment) => {
+          onConfirmPayment={(payment, cash) => {
             setPaymentMethod(payment);
+            setPayment(Number(cash));
             setStep(3);
           }}
         />
@@ -77,6 +79,7 @@ const SellIndex = (props: Props) => {
           total={total}
           products={products ?? []}
           paymentMethod={paymentMethod}
+          payment={payment}
           clearContext={clearContext}
         />
       )}
