@@ -43,7 +43,7 @@ const LoginScreen = (props: Props) => {
         placeholder="Contraseña"
         value={props.password}
         error={props.error?.passwordError}
-        secureTextEntry
+        secureTextEntry={true}
         theme="light"
       />
 

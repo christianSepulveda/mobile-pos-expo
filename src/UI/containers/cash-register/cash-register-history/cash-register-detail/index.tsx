@@ -28,6 +28,9 @@ const CashRegisterDetailContainer = (props: Props) => {
   const [userCalculation, setUserCalculation] =
     useState<CashRegisterCalculation>();
 
+  const [movements, setMovements] = useState<CashMovement[]>([]);
+  const [showMovementsModal, setShowMovementsModal] = useState(false);
+
   const cashMovementService = new CashMovementService();
   const sellService = new SellService();
 
@@ -40,6 +43,7 @@ const CashRegisterDetailContainer = (props: Props) => {
 
     if (!Array.isArray(movements) || !Array.isArray(sells)) return;
 
+    setMovements(movements);
     handleSystemCalculation(movements, sells);
 
     setUserCalculation({
@@ -115,11 +119,13 @@ const CashRegisterDetailContainer = (props: Props) => {
       cashRegister={props.cashRegister}
       systemCalculation={systemCalculation as CashRegisterCalculation}
       userCalculation={userCalculation as CashRegisterCalculation}
-      
+      movements={movements}
       cashDifference={cashDifference}
       debitDifference={debitDifference}
       creditDifference={creditDifference}
       transferenceDifference={transferenceDifference}
+      showModal={showMovementsModal}
+      setShowModal={setShowMovementsModal}
     />
   );
 };

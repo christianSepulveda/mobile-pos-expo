@@ -7,6 +7,7 @@ import AppTextInput from "../../../components/molecules/AppTextInput";
 import { COLORS } from "../../../styles/colors";
 import CashRegisterRenderItem from "../../../components/organism/CashRegisterRenderItem";
 import { Ionicons } from "@expo/vector-icons";
+import { StatusBar } from "expo-status-bar";
 
 type Props = {
   showModal: boolean;
@@ -24,6 +25,8 @@ type Props = {
 const CashRegisterScreen = (props: Props) => {
   return (
     <View style={{ flex: 1, paddingTop: 65, paddingHorizontal: 20 }}>
+      <StatusBar style="dark" backgroundColor="transparent" />
+
       <View
         style={{ flexDirection: "row", alignItems: "center", marginBottom: 20 }}
       >

@@ -1,13 +1,20 @@
-import { View, TouchableOpacity, ScrollView } from "react-native";
-import React from "react";
+import { View, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../../../../styles/colors";
 import AppText from "../../../../components/atoms/AppText";
 import { CashRegister } from "../../../../../domain/entities/cash-register";
 import moment from "moment";
 import { CashRegisterCalculation } from "../../../../containers/cash-register/cash-register-history/cash-register-detail";
+import { CashMovement } from "../../../../../domain/entities/cash-movement";
+import AppModal from "../../../../components/molecules/AppModal";
+import { FlatList } from "react-native-gesture-handler";
+import DifferenceRow from "../../../../components/organism/DifferenceRow";
+import DifferenceCashCountRow from "../../../../components/organism/DifferenceCashCount";
+import { styles } from "./styles";
+import CashRegisterMovementsModal from "../../../../components/organism/CashRegisterMovementsModal";
 
 type Props = {
+  movements: CashMovement[];
   cashRegister: CashRegister;
   systemCalculation: CashRegisterCalculation;
   userCalculation: CashRegisterCalculation;
@@ -17,12 +24,11 @@ type Props = {
   creditDifference: number;
   transferenceDifference: number;
 
+  showModal: boolean;
+
   onBackPress: () => void;
+  setShowModal: (show: boolean) => void;
 };
-
-type DifferenceRowProps = { label: string; value: string };
-
-type DifferenceCashCount = { label: string; system: string; user: string };
 
 const CashRegisterDetailScreen = (props: Props) => {
   const formattedDate = moment(
@@ -30,100 +36,34 @@ const CashRegisterDetailScreen = (props: Props) => {
     "YYYY/MM/DD"
   ).format("DD/MM/YYYY");
 
-  const DifferenceRow = ({ label, value }: DifferenceRowProps) => (
-    <View
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        borderBottomWidth: label === "Transferencia" ? 0 : 1,
-        borderBottomColor: COLORS.gray,
-        paddingVertical: 10,
-      }}
-    >
-      <AppText
-        type="bold"
-        style={{ fontSize: 16, flex: 10 }}
-        children={label}
-        numberOfLines={1}
-      />
-
-      <AppText
-        type="bold"
-        style={{
-          fontSize: 16,
-          flex: 5,
-          textAlign: "right",
-          color: Number(value) !== 0 ? COLORS.redApple : COLORS.blueIOS,
-        }}
-        children={Number(value) > 0 ? `+${value}` : `${value}`}
-        numberOfLines={1}
-      />
-    </View>
-  );
-
-  const DifferenceCashCountRow = ({
-    label,
-    system,
-    user,
-  }: DifferenceCashCount) => (
-    <View style={{ flexDirection: "row", alignItems: "center" }}>
-      <AppText
-        type="bold"
-        style={{ fontSize: 16, flex: 10 }}
-        children={label}
-        numberOfLines={1}
-      />
-
-      <AppText
-        type="medium"
-        style={{ fontSize: 16, flex: 5, textAlign: "right" }}
-        children={system}
-        numberOfLines={1}
-      />
-
-      <AppText
-        type="medium"
-        style={{ fontSize: 16, flex: 6, textAlign: "right" }}
-        children={user}
-        numberOfLines={1}
-      />
-    </View>
-  );
-
   return (
-    <View style={{ flex: 1, padding: 20, paddingTop: 70 }}>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+    <View style={styles.container}>
+      <View style={styles.header}>
         <TouchableOpacity activeOpacity={0.8} onPress={props.onBackPress}>
           <Ionicons name="chevron-back" color={COLORS.blueIOS} size={40} />
         </TouchableOpacity>
 
         <AppText
           type="bold"
-          style={{ fontSize: 26 }}
+          style={styles.headerTitle}
           children={`Detalle ${formattedDate}`}
           numberOfLines={1}
         />
       </View>
 
-      <View style={{ marginTop: 40 }} />
+      <View style={styles.spacingLarge} />
 
       <ScrollView>
         <AppText
           type="bold"
-          style={{ fontSize: 18 }}
+          style={styles.sectionTitle}
           children={`Diferencias:`}
           numberOfLines={1}
         />
 
-        <View style={{ marginTop: 10 }} />
+        <View style={styles.spacingSmall} />
 
-        <View
-          style={{
-            padding: 15,
-            backgroundColor: COLORS.white,
-            borderRadius: 10,
-          }}
-        >
+        <View style={styles.card}>
           <DifferenceRow label="Efectivo" value={`${props.cashDifference}`} />
           <DifferenceRow label="Débito" value={`${props.debitDifference}`} />
           <DifferenceRow label="Crédito" value={`${props.creditDifference}`} />
@@ -133,51 +73,45 @@ const CashRegisterDetailScreen = (props: Props) => {
           />
         </View>
 
-        <View style={{ marginTop: 25 }} />
+        <View style={styles.spacingLarge} />
 
         <AppText
           type="bold"
-          style={{ fontSize: 18 }}
+          style={styles.sectionTitle}
           children={`Arqueo:`}
           numberOfLines={1}
         />
 
-        <View style={{ marginTop: 10 }} />
+        <View style={styles.spacingSmall} />
 
-        <View
-          style={{
-            padding: 15,
-            backgroundColor: COLORS.white,
-            borderRadius: 10,
-          }}
-        >
+        <View style={styles.card}>
           <DifferenceCashCountRow
             label="Pago"
             system="Esperado"
             user="Ingresado"
           />
-          <View style={{ marginTop: 20 }} />
+          <View style={styles.spacingMedium} />
 
           <DifferenceCashCountRow
             label="Efectivo"
             system={`${props.systemCalculation?.cash ?? 0}`}
             user={`${props.userCalculation?.cash ?? 0}`}
           />
-          <View style={{ marginTop: 10 }} />
+          <View style={styles.spacingSmall} />
 
           <DifferenceCashCountRow
             label="Débito"
             system={`${props.systemCalculation?.debit ?? 0}`}
             user={`${props.userCalculation?.debit ?? 0}`}
           />
-          <View style={{ marginTop: 10 }} />
+          <View style={styles.spacingSmall} />
 
           <DifferenceCashCountRow
             label="Crédito"
             system={`${props.systemCalculation?.credit ?? 0}`}
             user={`${props.userCalculation?.credit ?? 0}`}
           />
-          <View style={{ marginTop: 10 }} />
+          <View style={styles.spacingSmall} />
 
           <DifferenceCashCountRow
             label="Transferencia"
@@ -186,27 +120,38 @@ const CashRegisterDetailScreen = (props: Props) => {
           />
         </View>
 
-        <View style={{ marginTop: 25 }} />
+        <View style={styles.spacingLarge} />
+
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => props.setShowModal(true)}
+          style={styles.cardRow}
+        >
+          <AppText
+            type="bold"
+            style={styles.cardRowText}
+            children={`Ingresos y Retiros`}
+            numberOfLines={1}
+          />
+
+          <Ionicons name="chevron-forward" color={COLORS.blueIOS} size={20} />
+        </TouchableOpacity>
+
+        <View style={styles.spacingLarge} />
 
         <AppText
           type="bold"
-          style={{ fontSize: 18 }}
+          style={styles.sectionTitle}
           children={`Observaciones:`}
           numberOfLines={1}
         />
 
-        <View style={{ marginTop: 10 }} />
+        <View style={styles.spacingSmall} />
 
-        <View
-          style={{
-            padding: 15,
-            backgroundColor: COLORS.white,
-            borderRadius: 10,
-          }}
-        >
+        <View style={styles.card}>
           <AppText
             type="medium"
-            style={{ fontSize: 16 }}
+            style={styles.notesText}
             children={
               props.cashRegister.notes.length > 0
                 ? props.cashRegister.notes
@@ -214,6 +159,12 @@ const CashRegisterDetailScreen = (props: Props) => {
             }
           />
         </View>
+
+        <CashRegisterMovementsModal
+          movements={props.movements}
+          showModal={props.showModal}
+          setShowModal={props.setShowModal}
+        />
       </ScrollView>
     </View>
   );
