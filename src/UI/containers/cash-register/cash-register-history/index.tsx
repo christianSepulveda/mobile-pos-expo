@@ -22,9 +22,6 @@ const CashRegisterHistoryContainer = (props: Props) => {
     CashRegister[]
   >([]);
 
-  const [selectedCashRegister, setSelectedCashRegister] =
-    useState<CashRegister>();
-
   const getAllCashRegister = async () => {
     const storageCompany = await AsyncStorage.getItem("company");
     if (!storageCompany) return;
@@ -47,9 +44,27 @@ const CashRegisterHistoryContainer = (props: Props) => {
     setDate(date);
   };
 
+  const handleTodayCashRegister = () => {
+    if (filteredCashRegisters.length === 0) {
+      const formattedToday = moment().format("YYYY/MM/DD");
+      const hasTodayCashRegisters = cashRegisters.some(
+        (cashRegister) => cashRegister.open_date === formattedToday
+      );
+
+      if (hasTodayCashRegisters) {
+        onChangeDate(today);
+      }
+    }
+  };
+
   useEffect(() => {
     getAllCashRegister();
   }, []);
+
+  useEffect(
+    () => handleTodayCashRegister(),
+    [filteredCashRegisters, cashRegisters]
+  );
 
   return (
     <CashRegisterHistoryScreen
