@@ -16,6 +16,7 @@ import { COLORS } from "../../../styles/colors";
 type Props = {
   date: string;
   data: Sell[] | undefined;
+  totalSells: number;
 
   onItemPress: (item: Sell) => void;
   onChangeDate: (date: string) => void;
@@ -67,6 +68,14 @@ const HistoryScreen = (props: Props) => {
           <HistoryRenderItem {...itemProps} onPress={props.onItemPress} />
         )}
       />
+
+      <View style={styles.totalContainer}>
+        <AppText
+          type="bold"
+          style={{ fontSize: 20, color: COLORS.blackIOS, marginVertical: 10 }}
+          children={`Total: ${props.totalSells}`}
+        />
+      </View>
     </View>
   );
 };

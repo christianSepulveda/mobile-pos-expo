@@ -1,4 +1,4 @@
-import { View, KeyboardAvoidingView } from "react-native";
+import { View, KeyboardAvoidingView, Alert } from "react-native";
 import { styles } from "./styles";
 import { StatusBar } from "expo-status-bar";
 import AppText from "../../components/atoms/AppText";
@@ -57,7 +57,13 @@ const CashRegisterScreen: React.FC<Props> = ({
           <IconButton
             iconName="book"
             label="Arqueo"
-            onPress={() => (disabled ? null : setShowCashCount(true))}
+            onPress={() => {
+              if (disabled) Alert.alert("No ha abierto una caja aún");
+
+              if (!disabled) {
+                setShowCashCount(true);
+              }
+            }}
           />
         </View>
 

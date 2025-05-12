@@ -5,8 +5,11 @@ import LoginContainer from "./src/UI/containers/auth";
 import AppRoutes from "./src/UI/routes";
 import { User } from "./src/domain/entities/user";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { PaperProvider } from "react-native-paper";
+import { PaperProvider, DefaultTheme } from "react-native-paper";
 import { Alert } from "react-native";
+import { registerTranslation } from "react-native-paper-dates";
+import { es } from "react-native-paper-dates";
+import { COLORS } from "./src/UI/styles/colors";
 
 export default function App() {
   const [auth, setAuth] = useState(false);
@@ -39,13 +42,23 @@ export default function App() {
     setAuth(true);
   };
 
+  const customTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: COLORS.blueIOS,
+    },
+  };
+
+  registerTranslation("es", es);
+
   useEffect(() => {
     getAuth();
   }, []);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <PaperProvider>
+      <PaperProvider theme={customTheme}>
         {auth ? (
           <AppRoutes handleLogOut={handleLogOut} />
         ) : (

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Alert } from "react-native";
+import { Alert, Linking, Platform } from "react-native";
 import { Camera, BarcodeScanningResult } from "expo-camera";
 import { Audio } from "expo-av";
 
@@ -37,7 +37,18 @@ const SellContainer = (props: Props) => {
 
   const getCameraPermissions = async () => {
     const { status } = await Camera.requestCameraPermissionsAsync();
+    console.log("Camera permission status:", status);
+
     setHasPermissions(status === "granted");
+  };
+
+  const sendUserToSettings = () => {
+    if (Platform.OS === "ios") {
+      Linking.openURL("app-settings:");
+      return;
+    }
+
+    Linking.openSettings();
   };
 
   const playSound = async () => {
@@ -196,12 +207,12 @@ const SellContainer = (props: Props) => {
   };
 
   const initComponent = async () => {
+    handleGetAllProducts();
+    getCameraPermissions();
+    loadSound();
+
     const contextProducts = props.context.products;
     if (contextProducts) setScannedProducts(contextProducts);
-
-    await loadSound();
-    await handleGetAllProducts();
-    await getCameraPermissions();
 
     return async () => {
       await unloadSound();
@@ -235,6 +246,7 @@ const SellContainer = (props: Props) => {
         removeProductFromList={handleDeleteProductFromSell}
         scan={addProductToList}
         products={scannedProducts}
+        requestCameraPermission={sendUserToSettings}
         cancelSell={() => {
           if (scannedProducts.length > 0) handleCancelSell();
         }}

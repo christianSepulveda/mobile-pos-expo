@@ -106,7 +106,6 @@ const CashRegisterContainer = (props: Props) => {
       return;
     }
 
-    Alert.alert("Atención", "No ha seleccionado o abierto una caja");
     clearStates();
     setDisabled(true);
   };

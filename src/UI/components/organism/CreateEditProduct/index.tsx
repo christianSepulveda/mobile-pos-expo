@@ -142,6 +142,7 @@ const CreateEditProduct = (props: Props) => {
           <CameraView
             onBarcodeScanned={props.handleBarcodeScanned}
             style={StyleSheet.absoluteFill}
+            zoom={0.2}
           />
         </View>
 

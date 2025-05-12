@@ -14,4 +14,14 @@ export const styles = StyleSheet.create({
     paddingTop: "16%",
     paddingHorizontal: "5%",
   },
+  totalContainer: {
+    backgroundColor: COLORS.white,
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 10,
+    alignItems: "flex-end",
+    justifyContent: "center",
+  },
 });

@@ -14,9 +14,9 @@ import AppText from "../../../components/atoms/AppText";
 import SellDetailRenderItem from "../../../components/organism/SellDetailRenderItem";
 
 import { BarcodeScanningResult, CameraView } from "expo-camera";
-import { SellProduct } from "../../../containers/sell/sell-container";
 import { StatusBar } from "expo-status-bar";
 import { Detail } from "../../../../domain/entities/sell-summary";
+import CameraAccessError from "./camera-access-error";
 
 type Props = {
   scan: () => void;
@@ -25,6 +25,7 @@ type Props = {
   editProductInList: (index: number) => void;
   removeProductFromList: (index: number) => void;
   handleBarcodeScanned: (data: BarcodeScanningResult) => void;
+  requestCameraPermission: () => void;
 
   total: number;
   products: Detail[];
@@ -51,7 +52,11 @@ const SellScreen = (props: Props) => {
     return <View style={styles.cameraBackground} />;
   }
   if (props.hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return (
+      <CameraAccessError
+        requestCameraPermission={props.requestCameraPermission}
+      />
+    );
   }
 
   return (
@@ -62,6 +67,11 @@ const SellScreen = (props: Props) => {
         <CameraView
           onBarcodeScanned={props.handleBarcodeScanned}
           style={StyleSheet.absoluteFill}
+          mode="picture"
+          autofocus="on"
+          facing="back"
+          ratio="1:1"
+          zoom={0.1}
         />
 
         <TouchableOpacity

@@ -21,6 +21,7 @@ const HistoryContainer = (props: Props) => {
 
   const [sells, setSells] = useState<Sell[] | undefined>();
   const [detail, setDetail] = useState<SellSummary>();
+  const [totalSells, setTotalSells] = useState(0);
 
   const onItemPress = async (item: Sell) => {
     if (!item.id) return;
@@ -43,6 +44,14 @@ const HistoryContainer = (props: Props) => {
       requestDate,
       companyId
     );
+
+    if (Array.isArray(response)) {
+      const total = response.reduce((acc, curr) => {
+        return acc + (curr.total || 0);
+      }, 0);
+
+      setTotalSells(total);
+    }
 
     setLastSearch(date);
     setSells(response as Sell[]);
@@ -87,6 +96,7 @@ const HistoryContainer = (props: Props) => {
           date={date}
           onItemPress={onItemPress}
           onChangeDate={handleChangeDate}
+          totalSells={totalSells}
         />
       )}
 
