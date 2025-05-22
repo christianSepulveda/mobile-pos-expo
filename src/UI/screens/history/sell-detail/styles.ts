@@ -5,7 +5,6 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.whiteSmoke,
-    padding: 20,
   },
   marginVertical10: {
     marginVertical: "10%",
@@ -14,12 +13,19 @@ export const styles = StyleSheet.create({
     marginVertical: "2%",
   },
   titleText: {
-    fontSize: 25,
+    fontSize: 18,
+    flex: 10,
+    textAlign: "center",
+    paddingEnd: "14%",
   },
   dateText: {
     fontSize: 14,
   },
   footer: {
+    backgroundColor: COLORS.white,
+    borderRadius: 10,
+    padding: 20,
+    margin: 20,
     marginTop: "5%",
     alignItems: "flex-end",
   },

@@ -7,6 +7,7 @@ import { Detail } from "../../../domain/entities/sell-summary";
 import CashRegisterContainer from "./cash-register-container";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
+import { COLORS } from "../../styles/colors";
 
 type Props = {};
 
@@ -52,7 +53,7 @@ const SellIndex = (props: Props) => {
   );
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: COLORS.whiteSmoke }}>
       {step === 0 && <CashRegisterContainer changeStep={() => setStep(1)} />}
 
       {step === 1 && (

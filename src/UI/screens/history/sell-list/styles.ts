@@ -15,13 +15,22 @@ export const styles = StyleSheet.create({
     paddingHorizontal: "5%",
   },
   totalContainer: {
-    backgroundColor: COLORS.white,
     position: "absolute",
-    bottom: 0,
+    bottom: 20,
     left: 0,
     right: 0,
-    padding: 10,
-    alignItems: "flex-end",
+    alignItems: "center",
     justifyContent: "center",
+  },
+
+  totalCard: {
+    width: "90%",
+    height: 60,
+    backgroundColor: COLORS.white,
+    borderRadius: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 20,
   },
 });

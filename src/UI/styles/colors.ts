@@ -6,6 +6,7 @@ export const COLORS = {
   pinkLight: "#FFD3E0",
   purpleIndigo: "#5856D6",
   blueIOS: "#007AFF",
+  blueIosOpacity: "rgba(0, 122, 255, 0.2)",
   darkBlue: "#263952",
   blueSky: "#34AADC",
   blueLight: "#5AC8FA",

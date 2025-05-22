@@ -20,11 +20,19 @@ export const makePostRequest = async (url: string, data: any) => {
     console.info("Request End");
     console.info(" ");
 
-    return response;
-  } catch (error) {
-    console.info(" ");
-    console.info("Request Response with an error");
-    console.info("Error :", error);
-    console.info(" ");
+    return response.data;
+  } catch (e) {
+    const error = e as any;
+
+    if (error.response) {
+      console.info(" ");
+      console.info("Request Response with an error");
+      console.info("Error :", error.response.data.message);
+      console.info(" ");
+
+      return error.response.data;
+    }
+
+    console.log(e);
   }
 };

@@ -7,7 +7,6 @@ export class CompanyService implements CompanyRepository {
     const response = (await makePostRequest("/companies/find", { id })) as any;
 
     if (!response || response.status !== 200) {
-      console.log("Error", response);
       return {} as Company;
     }
 

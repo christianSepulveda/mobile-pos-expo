@@ -6,6 +6,7 @@ import { styles } from "./styles";
 import { COLORS } from "../../../styles/colors";
 import { SellProduct } from "../../../containers/sell/sell-container";
 import { Detail } from "../../../../domain/entities/sell-summary";
+import { Ionicons } from "@expo/vector-icons";
 
 type RenderItemProps = {
   item: Detail;
@@ -37,38 +38,35 @@ const SellDetailRenderItem = ({
       onPress={onPress}
       style={styles.itemContainer}
     >
-      <AppText
-        children={`X${item.quantity}`}
-        type="bold"
-        style={{
-          color: COLORS.grayDark,
-          fontSize: 25,
-          marginEnd: 20,
-        }}
+      <Ionicons
+        name="bag-check-outline"
+        color={COLORS.blueIOS}
+        size={30}
+        style={{ marginStart: 5, marginEnd: 12 }}
       />
 
       <View style={{ flex: 8 }}>
         <AppText
-          children={`${item.code}`}
-          type="regular"
-          style={styles.shortText}
+          children={`${item.name} (${item.quantity})`}
+          type="medium"
+          numberOfLines={2}
+          style={styles.largeText}
         />
 
         <View style={styles.spacing} />
 
         <AppText
-          children={`${item.name}`}
-          type="bold"
-          numberOfLines={2}
-          style={styles.largeText}
+          children={`${item.code}`}
+          type="light"
+          style={styles.shortText}
         />
       </View>
 
       <View style={{ alignItems: "flex-end", flex: 4 }}>
         <AppText
-          children={`$${item.unit_price}`}
+          children={`$${item.unit_price * item.quantity}`}
           numberOfLines={1}
-          type="bold"
+          type="medium"
           style={{ ...styles.largeText, color: COLORS.blueIOS }}
         />
       </View>

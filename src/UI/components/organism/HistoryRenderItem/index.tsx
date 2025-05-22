@@ -3,6 +3,7 @@ import AppText from "../../atoms/AppText";
 import { styles } from "./styles";
 import { Sell } from "../../../../domain/entities/sell";
 import { COLORS } from "../../../styles/colors";
+import { Ionicons } from "@expo/vector-icons";
 
 type RenderItemProps = {
   item: Sell;
@@ -20,23 +21,30 @@ const HistoryRenderItem = (props: RenderItemProps) => {
       style={styles.touchable}
     >
       <View style={styles.itemContainer}>
+        <Ionicons
+          name="time-outline"
+          size={25}
+          color={COLORS.blueIOS}
+          style={{ marginEnd: 10 }}
+        />
+
         <View style={{ flex: 8 }}>
-          <AppText
-            children={`${date}`}
-            type="medium"
-            style={styles.shortText}
-          />
+          <AppText children={`${time}`} type="medium" style={styles.largeText} />
 
           <View style={styles.spacing} />
 
-          <AppText children={`${time}`} type="bold" style={styles.largeText} />
+          <AppText
+            children={`${date}`}
+            type="light"
+            style={styles.shortText}
+          />
         </View>
 
         <View style={{ alignItems: "flex-end", flex: 4 }}>
           <AppText
             children={`$${props.item.total}`}
             numberOfLines={1}
-            type="bold"
+            type="medium"
             style={{ ...styles.largeText, color: COLORS.blueIOS }}
           />
         </View>

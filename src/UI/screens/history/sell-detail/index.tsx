@@ -1,6 +1,5 @@
 import { styles } from "./styles";
 import { COLORS } from "../../../styles/colors";
-import AppText from "../../../components/atoms/AppText";
 import { View, FlatList, TouchableOpacity } from "react-native";
 
 import { StatusBar } from "expo-status-bar";
@@ -13,7 +12,11 @@ import { SellSummary } from "../../../../domain/entities/sell-summary";
 import SellDetailFooterRow from "../../../components/organism/SellDetailFooterRow";
 import SellDetailRenderItem from "../../../components/organism/SellDetailRenderItem";
 
+import AppText from "../../../components/atoms/AppText";
+import * as Animatable from "react-native-animatable";
+
 type Props = {
+  loading: boolean;
   sell: SellSummary | undefined;
   onBackPress: () => void;
 };
@@ -26,23 +29,42 @@ const SellDetailScreen = (props: Props) => {
     : "";
 
   return (
-    <View style={styles.container}>
+    <Animatable.View
+      animation={"fadeInRight"}
+      duration={100}
+      style={styles.container}
+    >
       <StatusBar translucent style="dark" />
 
       <View
-        style={{ flexDirection: "row", alignItems: "center", marginTop: 50 }}
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          paddingTop: "14%",
+          width: "100%",
+          padding: 20,
+        }}
       >
-        <TouchableOpacity onPress={props.onBackPress}>
+        <TouchableOpacity
+          onPress={props.onBackPress}
+          style={{ flexDirection: "row", alignItems: "center", flex: 2 }}
+        >
           <MaterialIcons
             name="arrow-back-ios"
             color={COLORS.blueIOS}
-            size={30}
+            size={18}
+          />
+
+          <AppText
+            type="medium"
+            children="Atrás"
+            style={{ fontSize: 18, color: COLORS.blueIOS }}
           />
         </TouchableOpacity>
 
         <AppText
-          type="bold"
-          children="Detalle de la Venta"
+          type="medium"
+          children="Información"
           style={styles.titleText}
         />
       </View>
@@ -51,7 +73,7 @@ const SellDetailScreen = (props: Props) => {
         style={{
           flexDirection: "row",
           alignItems: "center",
-          marginTop: 5,
+          marginTop: 15,
           marginStart: 30,
         }}
       >
@@ -74,6 +96,7 @@ const SellDetailScreen = (props: Props) => {
 
       <FlatList
         data={props.sell?.details ?? []}
+        style={{ marginHorizontal: 20 }}
         renderItem={(item) => (
           <SellDetailRenderItem item={{ ...item.item }} index={item.index} />
         )}
@@ -95,7 +118,7 @@ const SellDetailScreen = (props: Props) => {
           value={props.sell ? props.sell.total.toString() : ""}
         />
       </View>
-    </View>
+    </Animatable.View>
   );
 };
 

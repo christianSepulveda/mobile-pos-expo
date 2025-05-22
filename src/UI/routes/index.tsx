@@ -8,6 +8,8 @@ import SellIndex from "../containers/sell";
 import OptionContainer from "../containers/options";
 import CashRegisterContainer from "../containers/cash-register";
 import ProductsContainer from "../containers/products";
+import { View } from "react-native";
+import AppText from "../components/atoms/AppText";
 
 type Props = {
   handleLogOut: () => void;
@@ -22,7 +24,12 @@ const AppRoutes = (props: Props) => {
         initialRouteName="Vender"
         screenOptions={{
           headerShown: false,
-          tabBarStyle: { backgroundColor: COLORS.whiteSmoke },
+          tabBarStyle: {
+            backgroundColor: COLORS.whiteSmoke,
+            borderTopWidth: 0,
+            elevation: 0,
+            shadowOpacity: 0,
+          },
           tabBarActiveTintColor: COLORS.blueIOS,
           tabBarInactiveTintColor: COLORS.grayDark,
           tabBarLabelStyle: { fontSize: 10, fontFamily: "500" },
@@ -32,12 +39,36 @@ const AppRoutes = (props: Props) => {
           name="Ventas"
           component={HistoryContainer}
           options={{
+            tabBarShowLabel: false,
             tabBarIcon: (props) => (
-              <Ionicons
-                name="cart"
-                color={props.focused ? COLORS.blueIOS : COLORS.grayDark}
-                size={25}
-              />
+              <View
+                style={{
+                  padding: 5,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 55,
+                  height: 55,
+                  ...(props.focused && {
+                    backgroundColor: COLORS.blueIosOpacity,
+                    borderRadius: 10,
+                  }),
+                }}
+              >
+                <Ionicons
+                  name="cart-outline"
+                  color={props.focused ? COLORS.blueIOS : COLORS.grayDark}
+                  size={25}
+                />
+
+                <AppText
+                  type="medium"
+                  style={{
+                    color: props.focused ? COLORS.blueIOS : COLORS.grayDark,
+                    fontSize: 10,
+                  }}
+                  children="Ventas"
+                />
+              </View>
             ),
           }}
         />
@@ -45,12 +76,36 @@ const AppRoutes = (props: Props) => {
           name="Caja"
           component={CashRegisterContainer}
           options={{
+            tabBarShowLabel: false,
             tabBarIcon: (props) => (
-              <Ionicons
-                name="cash"
-                color={props.focused ? COLORS.blueIOS : COLORS.grayDark}
-                size={25}
-              />
+              <View
+                style={{
+                  padding: 5,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 55,
+                  height: 55,
+                  ...(props.focused && {
+                    backgroundColor: COLORS.blueIosOpacity,
+                    borderRadius: 10,
+                  }),
+                }}
+              >
+                <Ionicons
+                  name="cash-outline"
+                  color={props.focused ? COLORS.blueIOS : COLORS.grayDark}
+                  size={25}
+                />
+
+                <AppText
+                  type="medium"
+                  style={{
+                    color: props.focused ? COLORS.blueIOS : COLORS.grayDark,
+                    fontSize: 10,
+                  }}
+                  children="Caja"
+                />
+              </View>
             ),
           }}
         />
@@ -58,12 +113,36 @@ const AppRoutes = (props: Props) => {
           name="Vender"
           component={SellIndex}
           options={{
+            tabBarShowLabel: false,
             tabBarIcon: (props) => (
-              <FontAwesome
-                name="dollar"
-                color={props.focused ? COLORS.blueIOS : COLORS.grayDark}
-                size={25}
-              />
+              <View
+                style={{
+                  padding: 5,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 55,
+                  height: 55,
+                  ...(props.focused && {
+                    backgroundColor: COLORS.blueIosOpacity,
+                    borderRadius: 10,
+                  }),
+                }}
+              >
+                <FontAwesome
+                  name="dollar"
+                  color={props.focused ? COLORS.blueIOS : COLORS.grayDark}
+                  size={25}
+                />
+
+                <AppText
+                  type="medium"
+                  style={{
+                    color: props.focused ? COLORS.blueIOS : COLORS.grayDark,
+                    fontSize: 10,
+                  }}
+                  children="Vender"
+                />
+              </View>
             ),
           }}
         />
@@ -71,24 +150,72 @@ const AppRoutes = (props: Props) => {
           name="Productos"
           component={ProductsContainer}
           options={{
+            tabBarShowLabel: false,
             tabBarIcon: (props) => (
-              <Ionicons
-                name="bag"
-                color={props.focused ? COLORS.blueIOS : COLORS.grayDark}
-                size={25}
-              />
+              <View
+                style={{
+                  padding: 5,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 58,
+                  height: 58,
+                  ...(props.focused && {
+                    backgroundColor: COLORS.blueIosOpacity,
+                    borderRadius: 10,
+                  }),
+                }}
+              >
+                <Ionicons
+                  name="bag-outline"
+                  color={props.focused ? COLORS.blueIOS : COLORS.grayDark}
+                  size={25}
+                />
+
+                <AppText
+                  type="medium"
+                  style={{
+                    color: props.focused ? COLORS.blueIOS : COLORS.grayDark,
+                    fontSize: 10,
+                  }}
+                  children="Productos"
+                />
+              </View>
             ),
           }}
         />
         <Tab.Screen
           name="Opciones"
           options={{
+            tabBarShowLabel: false,
             tabBarIcon: (props) => (
-              <Ionicons
-                name="options"
-                color={props.focused ? COLORS.blueIOS : COLORS.grayDark}
-                size={25}
-              />
+              <View
+                style={{
+                  padding: 5,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 55,
+                  height: 55,
+                  ...(props.focused && {
+                    backgroundColor: COLORS.blueIosOpacity,
+                    borderRadius: 10,
+                  }),
+                }}
+              >
+                <Ionicons
+                  name="options-outline"
+                  color={props.focused ? COLORS.blueIOS : COLORS.grayDark}
+                  size={25}
+                />
+
+                <AppText
+                  type="medium"
+                  style={{
+                    color: props.focused ? COLORS.blueIOS : COLORS.grayDark,
+                    fontSize: 10,
+                  }}
+                  children="Opciones"
+                />
+              </View>
             ),
           }}
         >

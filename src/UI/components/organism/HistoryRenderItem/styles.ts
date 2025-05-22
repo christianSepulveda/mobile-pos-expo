@@ -9,8 +9,6 @@ export const styles = StyleSheet.create({
     padding: 15,
     paddingVertical: 20,
     backgroundColor: COLORS.white,
-    borderColor: COLORS.gray,
-    borderWidth: 1,
     borderRadius: 10,
     flexDirection: "row",
     alignItems: "center",

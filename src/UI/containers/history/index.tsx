@@ -8,6 +8,8 @@ import moment from "moment";
 import { SellSummary } from "../../../domain/entities/sell-summary";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
+import { View } from "react-native";
+import { COLORS } from "../../styles/colors";
 
 type Props = {};
 
@@ -23,6 +25,8 @@ const HistoryContainer = (props: Props) => {
   const [detail, setDetail] = useState<SellSummary>();
   const [totalSells, setTotalSells] = useState(0);
 
+  const [loading, setLoading] = useState(false);
+
   const onItemPress = async (item: Sell) => {
     if (!item.id) return;
     await handleGetSellDetail(item.id);
@@ -34,6 +38,9 @@ const HistoryContainer = (props: Props) => {
   };
 
   const handleGetSells = async () => {
+    setLoading(true);
+    setSells(undefined);
+
     const data = await AsyncStorage.getItem("user");
     const user = JSON.parse(data ?? "{}");
 
@@ -53,13 +60,17 @@ const HistoryContainer = (props: Props) => {
       setTotalSells(total);
     }
 
+    setLoading(false);
     setLastSearch(date);
     setSells(response as Sell[]);
   };
 
   const handleGetSellDetail = async (id: string) => {
+    setLoading(true);
     const response = (await sellService.findSellDetails(id)) as SellSummary;
+
     setDetail(response);
+    setLoading(false);
   };
 
   const handleChangeDate = (date: string) => {
@@ -89,7 +100,9 @@ const HistoryContainer = (props: Props) => {
   }, [date, lastSeacrh]);
 
   return (
-    <>
+    <View
+      style={{ flex: 1, paddingBottom: 10, backgroundColor: COLORS.whiteSmoke }}
+    >
       {step === 0 && (
         <HistoryScreen
           data={sells}
@@ -97,13 +110,18 @@ const HistoryContainer = (props: Props) => {
           onItemPress={onItemPress}
           onChangeDate={handleChangeDate}
           totalSells={totalSells}
+          loading={loading}
         />
       )}
 
       {step === 1 && (
-        <SellDetailScreen sell={detail} onBackPress={onBackPress} />
+        <SellDetailScreen
+          sell={detail}
+          onBackPress={onBackPress}
+          loading={loading}
+        />
       )}
-    </>
+    </View>
   );
 };
 

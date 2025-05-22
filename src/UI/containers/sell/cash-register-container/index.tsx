@@ -42,7 +42,7 @@ const CashRegisterContainer = (props: Props) => {
 
   const handleGetCompany = async (companyid: string) => {
     const response = (await companyService.find(companyid)) as Company;
-    if (!response) return;
+    if (!response.id) return;
 
     setNumberOfCashRegisters(response.numberOfRegisters);
   };
@@ -67,9 +67,9 @@ const CashRegisterContainer = (props: Props) => {
       closing_userid: "",
       closing_date: "",
       closing_time: "",
-      
+
       notes: "",
-      
+
       active: true,
       companyid: parsedUser.companyid,
     };

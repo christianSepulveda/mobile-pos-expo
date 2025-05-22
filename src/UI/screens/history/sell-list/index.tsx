@@ -1,20 +1,21 @@
-import { View, FlatList, TouchableOpacity } from "react-native";
 import { styles } from "./styles";
-
-import HistoryRenderItem from "../../../components/organism/HistoryRenderItem";
-import { StatusBar } from "expo-status-bar";
-import IconButton from "../../../components/atoms/IconButton";
-import { Sell } from "../../../../domain/entities/sell";
-import AppText from "../../../components/atoms/AppText";
-import moment from "moment";
-import AppModal from "../../../components/molecules/AppModal";
-import AppTextInput from "../../../components/molecules/AppTextInput";
-import AppButton from "../../../components/molecules/AppButton";
-import { DatePickerInput } from "react-native-paper-dates";
 import { COLORS } from "../../../styles/colors";
+import { Sell } from "../../../../domain/entities/sell";
+
+import { StatusBar } from "expo-status-bar";
+import { Ionicons } from "@expo/vector-icons";
+import { View, FlatList, ActivityIndicator } from "react-native";
+import { DatePickerInput } from "react-native-paper-dates";
+
+import AppText from "../../../components/atoms/AppText";
+import HistoryRenderItem from "../../../components/organism/HistoryRenderItem";
+
+import moment from "moment";
+import * as Animatable from "react-native-animatable";
 
 type Props = {
   date: string;
+  loading: boolean;
   data: Sell[] | undefined;
   totalSells: number;
 
@@ -24,11 +25,15 @@ type Props = {
 
 const HistoryScreen = (props: Props) => {
   return (
-    <View style={styles.container}>
+    <Animatable.View
+      animation={"fadeInRight"}
+      duration={100}
+      style={styles.container}
+    >
       <StatusBar translucent style="dark" />
 
       <AppText
-        type="bold"
+        type="medium"
         style={{ marginBottom: 40, fontSize: 35 }}
         children="Ventas"
       />
@@ -53,13 +58,35 @@ const HistoryScreen = (props: Props) => {
         />
       </View>
 
+      {props.loading && (
+        <ActivityIndicator
+          size={50}
+          color={COLORS.blueIOS}
+          style={{ marginTop: 5 }}
+        />
+      )}
+
       {props.data === undefined ||
-        (props.data.length === 0 && (
-          <AppText
-            type="bold"
-            style={{ marginTop: 10, fontSize: 18 }}
-            children={`Sin ventas el día ${props.date}`}
-          />
+        (props.data.length === 0 && !props.loading && (
+          <View
+            style={{
+              marginStart: 5,
+              marginTop: 5,
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Ionicons
+              name="warning-outline"
+              size={20}
+              color={COLORS.yellowAlert}
+            />
+            <AppText
+              type="regular"
+              style={{ marginLeft: 5, fontSize: 16 }}
+              children={`No hay ventas el día ${props.date}`}
+            />
+          </View>
         ))}
 
       <FlatList
@@ -70,13 +97,45 @@ const HistoryScreen = (props: Props) => {
       />
 
       <View style={styles.totalContainer}>
-        <AppText
-          type="bold"
-          style={{ fontSize: 20, color: COLORS.blackIOS, marginVertical: 10 }}
-          children={`Total: ${props.totalSells}`}
-        />
+        <View style={styles.totalCard}>
+          <View
+            style={{ flexDirection: "row", alignItems: "center", flex: 10 }}
+          >
+            <Ionicons
+              name="trending-up-outline"
+              color={COLORS.greenSuccess}
+              size={20}
+            />
+
+            <View style={{ marginHorizontal: 5 }} />
+
+            <AppText
+              type="medium"
+              style={{ fontSize: 18, color: COLORS.blackIOS }}
+              children={`Total:`}
+            />
+          </View>
+
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              flex: 2,
+            }}
+          >
+            <AppText
+              type="medium"
+              style={{
+                fontSize: 18,
+                color: COLORS.blackIOS,
+              }}
+              children={`$${props.totalSells}`}
+            />
+          </View>
+        </View>
       </View>
-    </View>
+    </Animatable.View>
   );
 };
 

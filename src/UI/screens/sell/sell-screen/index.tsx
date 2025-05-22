@@ -67,11 +67,8 @@ const SellScreen = (props: Props) => {
         <CameraView
           onBarcodeScanned={props.handleBarcodeScanned}
           style={StyleSheet.absoluteFill}
-          mode="picture"
-          autofocus="on"
-          facing="back"
-          ratio="1:1"
-          zoom={0.1}
+          selectedLens="builtInTelephotoCamera"
+          zoom={0.2}
         />
 
         <TouchableOpacity
