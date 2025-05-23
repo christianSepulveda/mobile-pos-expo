@@ -4,6 +4,7 @@ import { CashRegister } from "../../../../domain/entities/cash-register";
 import { COLORS } from "../../../styles/colors";
 import AppText from "../../atoms/AppText";
 import { styles } from "./styles";
+import { Ionicons } from "@expo/vector-icons";
 
 type CashRegisterHistoryRenderItemProps = {
   item: CashRegister;
@@ -15,31 +16,45 @@ const CashRegisterHistoryRenderItem = (
   props: CashRegisterHistoryRenderItemProps
 ) => {
   const active = props.item.active;
-  const openDate = moment(props.item.open_date, "YYYY/MM/DD");
+
+  const openDate = moment(props.item.open_date, "YYYY/MM/DD").format(
+    "DD/MM/YYYY"
+  );
+  const closingDate = moment(props.item.closing_date, "YYYY/MM/DD").format(
+    "DD/MM/YYYY"
+  );
+
   const openTime = moment(props.item.open_time, "hh:mm").format("hh:mm A");
   const closingTime = moment(props.item.closing_time, "hh:mm").format(
     "hh:mm A"
   );
 
   const color = active ? COLORS.blueIOS : COLORS.redApple;
-  const text = active ? "ABIERTA" : "CERRADA";
 
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => props.onPressItem(props.item)}
+      activeOpacity={0.6}
+      onPress={() => !active && props.onPressItem(props.item)}
     >
+      <Ionicons
+        name={!active ? "lock-closed-outline" : "lock-open-outline"}
+        size={40}
+        style={styles.statusIcon}
+        color={color}
+      />
+
       <View style={styles.detailsContainer}>
         <AppText
-          children={moment(openDate).format("DD/MM/YYYY")}
+          children={`Caja ${active ? "Abierta" : "Cerrada"}`}
           style={styles.dateText}
-          type="bold"
+          type="semiBold"
         />
 
         <View style={styles.spacingSmall} />
 
         <AppText
-          children={"Apertura: " + openTime}
+          children={`Apertura: ${openDate} - ${openTime}`}
           style={styles.timeText}
           type="regular"
         />
@@ -48,19 +63,11 @@ const CashRegisterHistoryRenderItem = (
 
         {!active && (
           <AppText
-            children={`Cierre: ${closingTime}`}
+            children={`Cierre: ${closingDate} - ${closingTime}`}
             style={styles.timeText}
             type="regular"
           />
         )}
-      </View>
-
-      <View style={styles.statusContainer}>
-        <AppText
-          style={{ ...styles.statusText, color }}
-          children={text}
-          type="bold"
-        />
       </View>
     </TouchableOpacity>
   );

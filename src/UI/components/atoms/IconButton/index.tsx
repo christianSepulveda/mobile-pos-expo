@@ -29,12 +29,12 @@ const IconButton = (props: Props) => {
       <MaterialCommunityIcons
         name={props.iconName}
         size={20}
-        color="black"
+        color={COLORS.blueIOS}
         style={{ flex: 2 }}
       />
 
       <AppText
-        type="semiBold"
+        type="medium"
         children={props.label}
         style={{ fontSize: 18, flex: 10, marginLeft: 10 }}
       />

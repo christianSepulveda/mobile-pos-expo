@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -21,7 +20,7 @@ const AppDropDown = (props: Props) => {
     return (
       <View style={styles.item}>
         <AppText
-          type={item === props.selectedItem ? "bold" : "medium"}
+          type={item === props.selectedItem ? "bold" : "regular"}
           style={{
             ...styles.textItem,
             color:
@@ -91,7 +90,7 @@ const styles = StyleSheet.create({
   selectedTextStyle: {
     fontSize: 14,
     color: COLORS.blackIOS,
-    fontFamily: "Quicksand_500Medium",
+    fontFamily: "Quicksand_400Regular",
   },
   iconStyle: {
     width: 20,

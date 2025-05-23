@@ -6,7 +6,8 @@ export interface Company {
   email: string;
   expirationDate: string;
   monthlyPayment: number;
-  numberOfRegisters: string;
+  numberOfRegisters: number;
   adminCode: string;
+  activeBarCodeScanner: boolean;
   active: boolean;
 }

@@ -20,7 +20,7 @@ const AppButton = (props: Props) => {
       onPress={props.onPress}
       disabled={props.disabled}
     >
-      <AppText type="bold" style={styles.text}>
+      <AppText type="medium" style={styles.text}>
         {props.label}
       </AppText>
     </TouchableOpacity>

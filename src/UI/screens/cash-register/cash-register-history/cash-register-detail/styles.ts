@@ -6,13 +6,17 @@ export const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     paddingTop: 70,
+    backgroundColor: COLORS.whiteSmoke,
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
   },
   headerTitle: {
-    fontSize: 26,
+    fontSize: 18,
+    flex: 10,
+    textAlign: "center",
+    paddingEnd: "14%",
   },
   spacingLarge: {
     marginTop: 40,

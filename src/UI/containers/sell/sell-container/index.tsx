@@ -141,7 +141,7 @@ const SellContainer = (props: Props) => {
 
     setProducts(response);
 
-    const boilerplateSell: Detail = {
+    /* const boilerplateSell: Detail = {
       category: response[0].category_id,
       code: response[0].code,
       name: response[0].name,
@@ -152,7 +152,7 @@ const SellContainer = (props: Props) => {
       productid: response[0].id,
     };
 
-    setScannedProducts([boilerplateSell]);
+    setScannedProducts([boilerplateSell]); */
   };
 
   const handleDeleteProductFromSell = (index: number) => {

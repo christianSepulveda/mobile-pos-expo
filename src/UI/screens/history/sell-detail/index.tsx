@@ -63,7 +63,7 @@ const SellDetailScreen = (props: Props) => {
         </TouchableOpacity>
 
         <AppText
-          type="medium"
+          type="semiBold"
           children="Información"
           style={styles.titleText}
         />

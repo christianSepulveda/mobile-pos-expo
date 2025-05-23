@@ -84,6 +84,16 @@ const CashRegisterContainer = (props: Props) => {
     await handleCheckOpenCashRegister();
     if (!cashMovement) return;
 
+    if (cashMovement.type.length === 0) {
+      Alert.alert("Atención", "Debe seleccionar un tipo de movimiento.");
+      return;
+    }
+
+    if (cashMovement.amount <= 0) {
+      Alert.alert("Atención", "Debe indicar un monto.");
+      return;
+    }
+
     const response = (await cashMovementService.save(
       cashMovement
     )) as CashMovement;

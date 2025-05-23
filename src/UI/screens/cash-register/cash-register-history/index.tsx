@@ -18,17 +18,31 @@ type Props = {
 
 const CashRegisterHistoryScreen = (props: Props) => {
   return (
-    <View style={{ flex: 1, padding: 20, paddingTop: 70 }}>
+    <View style={{ flex: 1, padding: 20, paddingTop: 60, backgroundColor: COLORS.whiteSmoke }}>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <TouchableOpacity activeOpacity={0.8} onPress={props.onBackPress}>
-          <Ionicons name="chevron-back" color={COLORS.blueIOS} size={40} />
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={props.onBackPress}
+          style={{ flexDirection: "row", alignItems: "center", flex: 2 }}
+        >
+          <Ionicons name="chevron-back" color={COLORS.blueIOS} size={18} />
+
+          <AppText
+            type="medium"
+            children="Atrás"
+            style={{ fontSize: 18, color: COLORS.blueIOS }}
+          />
         </TouchableOpacity>
 
         <AppText
-          type="bold"
-          style={{ fontSize: 26 }}
+          type="semiBold"
+          style={{
+            fontSize: 18,
+            flex: 10,
+            textAlign: "center",
+            paddingEnd: "14%",
+          }}
           children="Historial de Caja"
-          numberOfLines={1}
         />
       </View>
 

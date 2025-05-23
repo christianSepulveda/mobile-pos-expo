@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   detailsContainer: {
-    flex: 9,
+    flex: 10,
   },
   dateText: {
     fontSize: 18,
@@ -28,8 +28,7 @@ export const styles = StyleSheet.create({
   statusContainer: {
     flex: 5,
   },
-  statusText: {
-    fontSize: 18,
-    textAlign: "right",
+  statusIcon: {
+    flex: 2,
   },
 });

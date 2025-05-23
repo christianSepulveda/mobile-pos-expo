@@ -42,12 +42,15 @@ const CashRegisterScreen: React.FC<Props> = ({
     <KeyboardAvoidingView style={styles.container}>
       <StatusBar translucent style="dark" />
 
-      <AppText type="bold" style={{ fontSize: 35 }} children="Caja" />
+      <AppText
+        type="medium"
+        style={{ marginBottom: 30, fontSize: 35 }}
+        children="Caja"
+      />
 
       <View
         style={{
           flexDirection: "row",
-          marginTop: 15,
           marginBottom: 20,
           width: "100%",
           height: 60,
@@ -55,7 +58,7 @@ const CashRegisterScreen: React.FC<Props> = ({
       >
         <View style={{ flex: 12 }}>
           <IconButton
-            iconName="book"
+            iconName="book-outline"
             label="Arqueo"
             onPress={() => {
               if (disabled) Alert.alert("No ha abierto una caja aún");
@@ -72,7 +75,7 @@ const CashRegisterScreen: React.FC<Props> = ({
         <View style={{ flex: 12 }}>
           <IconButton
             iconName="book-search"
-            label="Historico"
+            label="Histórico"
             onPress={() => setShowCashHistory(true)}
           />
         </View>
@@ -80,7 +83,7 @@ const CashRegisterScreen: React.FC<Props> = ({
 
       <AppText
         children="Tipo de movimiento"
-        type="medium"
+        type="regular"
         style={{ fontSize: 14, marginBottom: 5 }}
       />
       <AppDropDown
@@ -95,7 +98,7 @@ const CashRegisterScreen: React.FC<Props> = ({
 
       <AppText
         children="Monto"
-        type="medium"
+        type="regular"
         style={{ fontSize: 14, marginBottom: 5 }}
       />
       <AppTextInput
@@ -110,7 +113,7 @@ const CashRegisterScreen: React.FC<Props> = ({
 
       <AppText
         children="Descripción (opcional)"
-        type="medium"
+        type="regular"
         style={{ fontSize: 14, marginBottom: 5 }}
       />
       <AppTextInput
@@ -123,7 +126,11 @@ const CashRegisterScreen: React.FC<Props> = ({
 
       <View style={{ marginVertical: 20 }} />
 
-      <AppButton label="Guardar" onPress={onCashMovement} disabled={disabled} />
+      <AppButton
+        label="Guardar Movimiento"
+        onPress={onCashMovement}
+        disabled={disabled}
+      />
     </KeyboardAvoidingView>
   );
 };
