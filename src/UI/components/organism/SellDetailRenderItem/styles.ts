@@ -14,7 +14,6 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20,
   },
   largeText: {
     color: COLORS.blackIOS,

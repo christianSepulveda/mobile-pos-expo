@@ -36,39 +36,41 @@ const SellDetailRenderItem = ({
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={onPress}
-      style={styles.itemContainer}
+      style={{ marginBottom: 20 }}
     >
-      <Ionicons
-        name="bag-check-outline"
-        color={COLORS.blueIOS}
-        size={30}
-        style={{ marginStart: 5, marginEnd: 12 }}
-      />
-
-      <View style={{ flex: 8 }}>
-        <AppText
-          children={`${item.name} (${item.quantity})`}
-          type="medium"
-          numberOfLines={2}
-          style={styles.largeText}
+      <View style={styles.itemContainer}>
+        <Ionicons
+          name="bag-handle-outline"
+          color={COLORS.blueIOS}
+          size={30}
+          style={{ marginStart: 5, marginEnd: 12 }}
         />
 
-        <View style={styles.spacing} />
+        <View style={{ flex: 8 }}>
+          <AppText
+            children={`${item.quantity} - ${item.name}`}
+            type="medium"
+            numberOfLines={2}
+            style={styles.largeText}
+          />
 
-        <AppText
-          children={`${item.code}`}
-          type="light"
-          style={styles.shortText}
-        />
-      </View>
+          <View style={styles.spacing} />
 
-      <View style={{ alignItems: "flex-end", flex: 4 }}>
-        <AppText
-          children={`$${item.unit_price * item.quantity}`}
-          numberOfLines={1}
-          type="medium"
-          style={{ ...styles.largeText, color: COLORS.blueIOS }}
-        />
+          <AppText
+            children={`${item.code}`}
+            type="light"
+            style={styles.shortText}
+          />
+        </View>
+
+        <View style={{ alignItems: "flex-end", flex: 4 }}>
+          <AppText
+            children={`$${item.unit_price * item.quantity}`}
+            numberOfLines={1}
+            type="medium"
+            style={{ ...styles.largeText, color: COLORS.blueIOS }}
+          />
+        </View>
       </View>
     </TouchableOpacity>
   );

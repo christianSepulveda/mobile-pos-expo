@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
   },
   title: {
     fontSize: 25,
+    marginBottom: 10,
   },
   infoContainer: {
     flexDirection: "row",
@@ -26,7 +27,7 @@ export const styles = StyleSheet.create({
     height: "30%",
   },
   flatList: {
-    marginTop: "10%",
+    marginTop: "5%",
   },
   columnWrapper: {
     justifyContent: "space-between",
@@ -34,7 +35,7 @@ export const styles = StyleSheet.create({
   cashPaymentTitle: {
     fontSize: 16,
     marginTop: "5%",
-    marginBottom: 10,
+    marginBottom: 5,
   },
   footer: {
     width: "100%",
@@ -43,8 +44,12 @@ export const styles = StyleSheet.create({
     alignSelf: "center",
   },
   summaryContainer: {
+    backgroundColor: COLORS.white,
+    borderRadius: 10,
+    padding: 20,
+    marginBottom: 20,
+    marginTop: "5%",
     alignItems: "flex-end",
-    marginBottom: 10,
   },
   summaryText: {
     fontSize: 20,
@@ -70,13 +75,14 @@ export const styles = StyleSheet.create({
     flex: 5.5,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: COLORS.grayLight,
-    borderRadius: 10,
-    padding: 20,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: COLORS.blueIOS,
+    padding: 16,
   },
   backButtonText: {
     fontSize: 20,
-    color: COLORS.white,
+    color: COLORS.blueIOS,
   },
   buttonSpacer: {
     flex: 0.5,
@@ -86,8 +92,8 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: COLORS.blueIOS,
-    borderRadius: 10,
-    padding: 20,
+    borderRadius: 6,
+    padding: 16,
   },
   confirmButtonText: {
     fontSize: 20,

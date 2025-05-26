@@ -1,13 +1,6 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
-
 import { styles } from "./styles";
 import { Ionicons } from "@expo/vector-icons";
+import { View, StyleSheet, TouchableOpacity, FlatList } from "react-native";
 
 import { COLORS } from "../../../styles/colors";
 import AppText from "../../../components/atoms/AppText";
@@ -42,9 +35,9 @@ const SellScreen = (props: Props) => {
       <AppText
         children="Escanea un producto para comenzar."
         style={styles.noProductsText}
-        type="bold"
+        type="medium"
       />
-      <Ionicons name="barcode-outline" size={100} color={COLORS.blueIOS} />
+      <Ionicons name="barcode-sharp" size={70} color={COLORS.blueIOS} />
     </View>
   );
 
@@ -106,14 +99,14 @@ const SellScreen = (props: Props) => {
         <View style={styles.actionRow}>
           <TouchableOpacity
             style={[styles.payButton, { backgroundColor: payButtonColor }]}
-            onPress={props.changeStep}
+            onPress={productLength > 0 ? props.changeStep : undefined}
             activeOpacity={productLength === 0 ? 1 : 0.8}
           >
             <AppText
               children={`Pagar $${props.total}`}
               numberOfLines={1}
               style={styles.payButtonText}
-              type="bold"
+              type="medium"
             />
           </TouchableOpacity>
 
@@ -124,7 +117,7 @@ const SellScreen = (props: Props) => {
             activeOpacity={0.8}
             onPress={() => props.scan()}
           >
-            <Ionicons name="barcode-outline" size={60} color={COLORS.white} />
+            <Ionicons name="barcode-sharp" size={60} color={COLORS.white} />
           </TouchableOpacity>
         </View>
       </View>

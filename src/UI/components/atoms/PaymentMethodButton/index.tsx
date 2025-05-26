@@ -25,7 +25,7 @@ const PaymentMethodButton = ({ item, selectedMethod, onSelect }: Props) => (
       onPress={() => onSelect(item.id)}
     >
       <AppText
-        type="bold"
+        type="semiBold"
         style={{
           ...styles.paymentMethodText,
           color: selectedMethod === item.id ? COLORS.blueIOS : COLORS.blackIOS,

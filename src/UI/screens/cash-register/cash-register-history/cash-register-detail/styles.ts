@@ -49,4 +49,26 @@ export const styles = StyleSheet.create({
   notesText: {
     fontSize: 16,
   },
+  backButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 2,
+  },
+  backText: {
+    fontSize: 18,
+    color: COLORS.blueIOS,
+  },
+  divider: {
+    borderBottomColor: COLORS.gray,
+    borderBottomWidth: 1,
+    paddingBottom: 3,
+    marginBottom: 15,
+  },
+  sectionTitleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  clipboardIcon: {
+    marginEnd: 5,
+  },
 });

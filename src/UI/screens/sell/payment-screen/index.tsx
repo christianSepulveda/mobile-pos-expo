@@ -9,6 +9,7 @@ import AppText from "../../../components/atoms/AppText";
 import AppTextInput from "../../../components/molecules/AppTextInput";
 import { PaymentMethod } from "../../../../domain/entities/payment-method";
 import PaymentMethodButton from "../../../components/atoms/PaymentMethodButton";
+import SellDetailFooterRow from "../../../components/organism/SellDetailFooterRow";
 
 type Props = {
   total: number;
@@ -27,12 +28,15 @@ const PaymentScreen = (props: Props) => {
   const change = Number(props.payment) - Number(total);
   const formattedChange = change < 0 ? 0 : change;
 
+  const selectedMethodName =
+    props.data.find((method) => method.id === props.selectedMethod)?.name || "";
+
   return (
     <View style={styles.container}>
       <StatusBar translucent style="dark" />
 
       <AppText
-        type="bold"
+        type="medium"
         style={styles.title}
         children="Elija un medio de pago"
       />
@@ -45,7 +49,7 @@ const PaymentScreen = (props: Props) => {
           style={styles.infoIcon}
         />
         <AppText
-          type="regular"
+          type="light"
           style={styles.infoText}
           children={"Consulte por el método de pago antes de continuar."}
         />
@@ -71,7 +75,7 @@ const PaymentScreen = (props: Props) => {
       {props.selectedMethod === "1" && (
         <>
           <AppText
-            type="bold"
+            type="regular"
             style={styles.cashPaymentTitle}
             children={"Pago en efectivo:"}
           />
@@ -87,25 +91,16 @@ const PaymentScreen = (props: Props) => {
 
       <View style={styles.footer}>
         <View style={styles.summaryContainer}>
-          <AppText
-            type="bold"
-            style={styles.summaryText}
-            children={`Monto: $${props.payment}`}
-          />
+          <SellDetailFooterRow label="Total" value={total + ""} />
 
-          <AppText
-            type="bold"
-            style={styles.summaryText}
-            children={`Total: $${total}`}
-          />
+          {selectedMethodName !== "" && (
+            <SellDetailFooterRow
+              label={selectedMethodName}
+              value={props.payment}
+            />
+          )}
 
-          <View style={styles.divider} />
-
-          <AppText
-            type="bold"
-            style={styles.changeText}
-            children={`Vuelto: $${formattedChange}`}
-          />
+          <SellDetailFooterRow label="Vuelto" value={formattedChange + ""} />
         </View>
 
         <View style={styles.buttonsContainer}>
@@ -115,7 +110,7 @@ const PaymentScreen = (props: Props) => {
             activeOpacity={0.8}
           >
             <AppText
-              type="bold"
+              type="medium"
               style={styles.backButtonText}
               children={`Volver`}
             />
@@ -129,7 +124,7 @@ const PaymentScreen = (props: Props) => {
             activeOpacity={0.8}
           >
             <AppText
-              type="bold"
+              type="semiBold"
               style={styles.confirmButtonText}
               children={`Aceptar`}
             />

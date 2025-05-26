@@ -1,10 +1,16 @@
-import { View, ActivityIndicator, TouchableOpacity } from "react-native";
+import {
+  View,
+  ActivityIndicator,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import { COLORS } from "../../../styles/colors";
 import AppText from "../../../components/atoms/AppText";
 import { Ionicons } from "@expo/vector-icons";
 import { Detail } from "../../../../domain/entities/sell-summary";
-import { ScrollView } from "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
+import * as Animatable from "react-native-animatable";
+import SellDetailRenderItem from "../../../components/organism/SellDetailRenderItem";
 
 type Props = {
   loading: boolean;
@@ -15,14 +21,14 @@ type Props = {
 
 const TicketScreen = (props: Props) => {
   const LoadingIndicator = () => (
-    <View>
+    <Animatable.View animation={"fadeInUp"} duration={800}>
       <AppText
         style={{ fontSize: 30, marginBottom: 20 }}
         type="bold"
         children="Enviando transacción..."
       />
       <ActivityIndicator size={50} color={COLORS.blueIOS} />
-    </View>
+    </Animatable.View>
   );
 
   const ProductDetailRender = ({ product }: { product: Detail }) => (
@@ -55,65 +61,86 @@ const TicketScreen = (props: Props) => {
   }
 
   return (
-    <View style={{ flex: 1, alignItems: "center", paddingTop: "30%" }}>
+    <View style={{ flex: 1, alignItems: "center", paddingTop: "20%" }}>
       {!props.loading && (
         <>
-          <StatusBar translucent style="dark" />
-
-          <Ionicons
-            name="checkmark-circle"
-            color={COLORS.greenSuccess}
-            size={100}
-          />
-          <AppText
-            style={{ fontSize: 30, marginBottom: 20 }}
-            type="bold"
-            children="Transacción exitosa!"
-          />
-
-          <View
-            style={{
-              width: "90%",
-              height: "50%",
-              alignItems: "center",
-            }}
+          <Animatable.View
+            animation={"fadeInUp"}
+            duration={800}
+            style={{ alignItems: "center" }}
           >
-            <ScrollView style={{ width: "100%" }}>
-              {props.products.map((product) => (
-                <ProductDetailRender
-                  key={product.productid}
-                  product={product}
-                />
-              ))}
-            </ScrollView>
-          </View>
+            <StatusBar translucent style="dark" />
 
-          <AppText
-            style={{ fontSize: 20, position: "absolute", bottom: "18%" }}
-            type="regular"
-            children={`EL total de la venta fue $${props.total}`}
-          />
+            <Ionicons
+              name="checkmark-circle-outline"
+              color={COLORS.greenSuccess}
+              size={80}
+            />
+            <AppText
+              style={{ fontSize: 30, marginBottom: "10%" }}
+              type="medium"
+              children="¡Listo!"
+            />
 
-          <TouchableOpacity
-            style={{
-              backgroundColor: COLORS.blueIOS,
-              padding: 20,
-              borderRadius: 5,
-              marginTop: 20,
-              width: "80%",
-              alignItems: "center",
-              justifyContent: "center",
-              position: "absolute",
-              bottom: 40,
-            }}
-            onPress={props.onPress}
+            <View
+              style={{
+                width: 350,
+                height: "50%",
+                alignItems: "center",
+              }}
+            >
+              <FlatList
+                data={props.products}
+                renderItem={({ item, index }) => (
+                  <SellDetailRenderItem
+                    item={item}
+                    index={index}
+                    key={item.productid}
+                  />
+                )}
+                keyExtractor={(item) => item.productid.toString()}
+                style={{ width: "100%" }}
+                showsVerticalScrollIndicator={false}
+              />
+            </View>
+          </Animatable.View>
+
+          <Animatable.View
+            animation={"fadeIn"}
+            duration={800}
+            style={{ position: "absolute", bottom: "18%" }}
           >
             <AppText
-              style={{ color: COLORS.white, fontSize: 20 }}
-              type="bold"
-              children="Volver a vender"
+              style={{ fontSize: 18 }}
+              type="regular"
+              children={`EL total de la venta fue $${props.total}`}
             />
-          </TouchableOpacity>
+          </Animatable.View>
+
+          <Animatable.View
+            animation={"fadeIn"}
+            duration={800}
+            style={{ position: "absolute", bottom: 40, width: "80%" }}
+          >
+            <TouchableOpacity
+              style={{
+                backgroundColor: COLORS.blueIOS,
+                padding: 20,
+                borderRadius: 5,
+                marginTop: 20,
+
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onPress={props.onPress}
+            >
+              <AppText
+                style={{ color: COLORS.white, fontSize: 20 }}
+                type="medium"
+                children="Volver a vender"
+              />
+            </TouchableOpacity>
+          </Animatable.View>
         </>
       )}
     </View>

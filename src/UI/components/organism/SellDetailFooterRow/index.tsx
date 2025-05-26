@@ -4,26 +4,27 @@ import AppText from "../../atoms/AppText";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../../../styles/colors";
 
-type SellDetailFooterRow = {
+type SellDetailFooterRowProps = {
   label: string;
   value: string;
 };
 
-const SellDetailFooterRow = (props: SellDetailFooterRow) => {
+const SellDetailFooterRow = (props: SellDetailFooterRowProps) => {
   const label = props.label;
-  const iconName =
-    label === "Total"
-      ? "trending-up-outline"
-      : label === "Efectivo"
-      ? "return-up-forward-outline"
-      : "return-down-back";
+  let color = COLORS.orangeWarning;
+  let iconName: React.ComponentProps<typeof Ionicons>["name"] =
+    "return-down-back";
 
-  const color =
-    label === "Total"
-      ? COLORS.greenSuccess
-      : label === "Efectivo"
-      ? COLORS.blueIOS
-      : COLORS.orangeWarning;
+  if (label === "Total") iconName = "trending-up-outline";
+  if (label === "Efectivo") iconName = "return-up-forward-outline";
+  if (label === "Débito" || label === "Crédito")
+    iconName = "return-up-forward-outline";
+  if (label === "Transferencia") iconName = "repeat-outline";
+
+  if (label === "Total") color = COLORS.greenSuccess;
+  if (label === "Efectivo") color = COLORS.blueIOS;
+  if (label === "Débito" || label === "Crédito") color = COLORS.blueIOS;
+  if (label === "Transferencia") color = COLORS.blueIOS;
 
   return (
     <View style={styles.container}>

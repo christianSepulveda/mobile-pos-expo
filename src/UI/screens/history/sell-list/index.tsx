@@ -65,12 +65,14 @@ const HistoryScreen = (props: Props) => {
         message={`No hay ventas el día ${props.date}`}
       />
 
-      <FlatList
-        data={props.data}
-        renderItem={(itemProps) => (
-          <HistoryRenderItem {...itemProps} onPress={props.onItemPress} />
-        )}
-      />
+      <View style={{height: "68%"}}>
+        <FlatList
+          data={props.data}
+          renderItem={(itemProps) => (
+            <HistoryRenderItem {...itemProps} onPress={props.onItemPress} />
+          )}
+        />
+      </View>
 
       <View style={styles.totalContainer}>
         <View style={styles.totalCard}>
@@ -96,8 +98,8 @@ const HistoryScreen = (props: Props) => {
             style={{
               flexDirection: "row",
               alignItems: "center",
-              justifyContent: "center",
-              flex: 2,
+              justifyContent: "flex-end",
+              flex: 5,
             }}
           >
             <AppText
@@ -106,6 +108,7 @@ const HistoryScreen = (props: Props) => {
                 fontSize: 18,
                 color: COLORS.blackIOS,
               }}
+              numberOfLines={1}
               children={`$${props.totalSells}`}
             />
           </View>

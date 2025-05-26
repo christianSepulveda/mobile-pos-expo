@@ -46,15 +46,11 @@ const CashRegisterDetailScreen = (props: Props) => {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={props.onBackPress}
-          style={{ flexDirection: "row", alignItems: "center", flex: 2 }}
+          style={styles.backButton}
         >
           <Ionicons name="chevron-back" color={COLORS.blueIOS} size={18} />
 
-          <AppText
-            type="medium"
-            children="Atrás"
-            style={{ fontSize: 18, color: COLORS.blueIOS }}
-          />
+          <AppText type="medium" children="Atrás" style={styles.backText} />
         </TouchableOpacity>
 
         <AppText
@@ -96,14 +92,7 @@ const CashRegisterDetailScreen = (props: Props) => {
             user="Ingresado"
           />
 
-          <View
-            style={{
-              borderBottomColor: COLORS.gray,
-              borderBottomWidth: 1,
-              paddingBottom: 3,
-              marginBottom: 15,
-            }}
-          />
+          <View style={styles.divider} />
 
           <DifferenceCashCountRow
             label="Efectivo"
@@ -153,11 +142,11 @@ const CashRegisterDetailScreen = (props: Props) => {
         <View style={styles.spacingLarge} />
 
         <View style={styles.card}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View style={styles.sectionTitleRow}>
             <Ionicons
               name="clipboard-outline"
               color={COLORS.blueIOS}
-              style={{ marginEnd: 5 }}
+              style={styles.clipboardIcon}
               size={18}
             />
 
