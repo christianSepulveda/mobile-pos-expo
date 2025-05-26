@@ -3,6 +3,7 @@ import React from "react";
 import { CashRegister } from "../../../../domain/entities/cash-register";
 import AppText from "../../atoms/AppText";
 import { COLORS } from "../../../styles/colors";
+import { Ionicons } from "@expo/vector-icons";
 
 type Props = {
   item: CashRegister;
@@ -23,27 +24,34 @@ const CashRegisterRenderItem = (props: Props) => (
       alignItems: "center",
     }}
   >
+    <Ionicons
+      name="pricetag-outline"
+      color={COLORS.blueIOS}
+      size={26}
+      style={{ marginEnd: 20 }}
+    />
+
     <View style={{ flex: 8 }}>
       <AppText
-        children={`CAJA ${props.index + 1}`}
-        type="bold"
-        style={{ fontSize: 20, marginBottom: 10 }}
+        children={`${props.item.open_time}`}
+        type="medium"
+        style={{ fontSize: 20, marginBottom: 5 }}
       />
 
       <AppText
-        children={`${props.item.open_date} ${props.item.open_time}`}
-        type="medium"
+        children={`${props.item.open_date} `}
+        type="light"
         numberOfLines={1}
-        style={{ fontSize: 16, marginBottom: 10 }}
+        style={{ fontSize: 16, marginBottom: 5 }}
       />
     </View>
 
     <View style={{ alignItems: "flex-end", flex: 4 }}>
       <AppText
         children={`$${props.item.open_cash}`}
-        type="bold"
+        type="regular"
         numberOfLines={1}
-        style={{ fontSize: 20, marginBottom: 10, color: COLORS.blueIOS }}
+        style={{ fontSize: 20, marginBottom: 5, color: COLORS.blueIOS }}
       />
     </View>
   </TouchableOpacity>

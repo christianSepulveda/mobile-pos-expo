@@ -1,3 +1,4 @@
+import * as Animatable from "react-native-animatable";
 import { View, KeyboardAvoidingView, Alert } from "react-native";
 import { styles } from "./styles";
 import { StatusBar } from "expo-status-bar";
@@ -40,97 +41,99 @@ const CashRegisterScreen: React.FC<Props> = ({
 }) => {
   return (
     <KeyboardAvoidingView style={styles.container}>
-      <StatusBar translucent style="dark" />
+      <Animatable.View animation={"fadeInRight"} duration={100}>
+        <StatusBar translucent style="dark" />
 
-      <AppText
-        type="medium"
-        style={{ marginBottom: 30, fontSize: 35 }}
-        children="Caja"
-      />
+        <AppText
+          type="medium"
+          style={{ marginBottom: 30, fontSize: 35 }}
+          children="Caja"
+        />
 
-      <View
-        style={{
-          flexDirection: "row",
-          marginBottom: 20,
-          width: "100%",
-          height: 60,
-        }}
-      >
-        <View style={{ flex: 12 }}>
-          <IconButton
-            iconName="book-outline"
-            label="Arqueo"
-            onPress={() => {
-              if (disabled) Alert.alert("No ha abierto una caja aún");
+        <View
+          style={{
+            flexDirection: "row",
+            marginBottom: 20,
+            width: "100%",
+            height: 60,
+          }}
+        >
+          <View style={{ flex: 12 }}>
+            <IconButton
+              iconName="book-outline"
+              label="Arqueo"
+              onPress={() => {
+                if (disabled) Alert.alert("No ha abierto una caja aún");
 
-              if (!disabled) {
-                setShowCashCount(true);
-              }
-            }}
-          />
+                if (!disabled) {
+                  setShowCashCount(true);
+                }
+              }}
+            />
+          </View>
+
+          <View style={{ flex: 1 }} />
+
+          <View style={{ flex: 12 }}>
+            <IconButton
+              iconName="book-search"
+              label="Histórico"
+              onPress={() => setShowCashHistory(true)}
+            />
+          </View>
         </View>
 
-        <View style={{ flex: 1 }} />
+        <AppText
+          children="Tipo de movimiento"
+          type="regular"
+          style={{ fontSize: 14, marginBottom: 5 }}
+        />
+        <AppDropDown
+          data={DropdownTypes}
+          selectedItem={
+            DropdownTypes.filter((typeItem) => typeItem.id === type)[0]
+          }
+          onSelect={(selected) => setType(selected.id)}
+        />
 
-        <View style={{ flex: 12 }}>
-          <IconButton
-            iconName="book-search"
-            label="Histórico"
-            onPress={() => setShowCashHistory(true)}
-          />
-        </View>
-      </View>
+        <View style={{ marginVertical: 10 }} />
 
-      <AppText
-        children="Tipo de movimiento"
-        type="regular"
-        style={{ fontSize: 14, marginBottom: 5 }}
-      />
-      <AppDropDown
-        data={DropdownTypes}
-        selectedItem={
-          DropdownTypes.filter((typeItem) => typeItem.id === type)[0]
-        }
-        onSelect={(selected) => setType(selected.id)}
-      />
+        <AppText
+          children="Monto"
+          type="regular"
+          style={{ fontSize: 14, marginBottom: 5 }}
+        />
+        <AppTextInput
+          value={amount}
+          onChangeText={setAmount}
+          placeholder="Monto movimiento"
+          theme="light"
+          keyboardType="number-pad"
+        />
 
-      <View style={{ marginVertical: 10 }} />
+        <View style={{ marginVertical: 10 }} />
 
-      <AppText
-        children="Monto"
-        type="regular"
-        style={{ fontSize: 14, marginBottom: 5 }}
-      />
-      <AppTextInput
-        value={amount}
-        onChangeText={setAmount}
-        placeholder="Monto movimiento"
-        theme="light"
-        keyboardType="number-pad"
-      />
+        <AppText
+          children="Descripción (opcional)"
+          type="regular"
+          style={{ fontSize: 14, marginBottom: 5 }}
+        />
+        <AppTextInput
+          value={note}
+          onChangeText={setNote}
+          placeholder="Nota movimiento"
+          theme="light"
+          keyboardType="default"
+        />
 
-      <View style={{ marginVertical: 10 }} />
+        <View style={{ marginVertical: 20 }} />
 
-      <AppText
-        children="Descripción (opcional)"
-        type="regular"
-        style={{ fontSize: 14, marginBottom: 5 }}
-      />
-      <AppTextInput
-        value={note}
-        onChangeText={setNote}
-        placeholder="Nota movimiento"
-        theme="light"
-        keyboardType="default"
-      />
-
-      <View style={{ marginVertical: 20 }} />
-
-      <AppButton
-        label="Guardar Movimiento"
-        onPress={onCashMovement}
-        disabled={disabled}
-      />
+        <AppButton
+          label="Guardar Movimiento"
+          onPress={onCashMovement}
+          disabled={disabled}
+        />
+      </Animatable.View>
     </KeyboardAvoidingView>
   );
 };

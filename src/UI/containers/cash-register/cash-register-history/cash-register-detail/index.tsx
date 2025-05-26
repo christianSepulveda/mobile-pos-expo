@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { SellService } from "../../../../../infrastructure/services/sell-service";
 import { CashMovement } from "../../../../../domain/entities/cash-movement";
 import { Sell } from "../../../../../domain/entities/sell";
-import { ActivityIndicator } from "react-native";
 
 type Props = {
   onBackPress: () => void;

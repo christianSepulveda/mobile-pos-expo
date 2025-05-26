@@ -19,11 +19,13 @@ const CashRegisterContainer = (props: Props) => {
 
   const [cashRegisters, setCashRegisters] = useState<CashRegister[]>();
   const [numberOfCashRegisters, setNumberOfCashRegisters] = useState("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [showModal, setShowModal] = useState(false);
   const [initialAmount, setInitialAmount] = useState(0);
 
   const handleGetCashRegisters = async () => {
+    setLoading(true);
     const user = await AsyncStorage.getItem("user");
     const parsedUser = user ? (JSON.parse(user) as User) : null;
 
@@ -38,16 +40,20 @@ const CashRegisterContainer = (props: Props) => {
     );
 
     setCashRegisters(activeCashRegisters);
+    setLoading(false);
   };
 
   const handleGetCompany = async (companyid: string) => {
+    setLoading(true);
     const response = (await companyService.find(companyid)) as Company;
     if (!response.id) return;
 
-    setNumberOfCashRegisters(response.numberOfRegisters);
+    setNumberOfCashRegisters(response.numberOfRegisters + "");
+    setLoading(false);
   };
 
   const handleOpenCashRegister = async () => {
+    setLoading(true);
     const user = await AsyncStorage.getItem("user");
     const parsedUser = user ? (JSON.parse(user) as User) : null;
 
@@ -78,6 +84,7 @@ const CashRegisterContainer = (props: Props) => {
     await handleGetCashRegisters();
     setInitialAmount(0);
     setShowModal(false);
+    setLoading(false);
   };
 
   const handlePressCashRegister = async (item: CashRegister) => {
@@ -101,6 +108,7 @@ const CashRegisterContainer = (props: Props) => {
       handleOpenCashRegister={handleOpenCashRegister}
       onPressCashRegister={handlePressCashRegister}
       onBackPress={props.onBackPress}
+      loading={loading}
     />
   );
 };

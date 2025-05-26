@@ -1,4 +1,5 @@
-import { View, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
+import { View, TouchableOpacity, ScrollView } from "react-native";
+import * as Animatable from "react-native-animatable";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../../../../styles/colors";
 import AppText from "../../../../components/atoms/AppText";
@@ -6,8 +7,7 @@ import { CashRegister } from "../../../../../domain/entities/cash-register";
 import moment from "moment";
 import { CashRegisterCalculation } from "../../../../containers/cash-register/cash-register-history/cash-register-detail";
 import { CashMovement } from "../../../../../domain/entities/cash-movement";
-import AppModal from "../../../../components/molecules/AppModal";
-import { FlatList } from "react-native-gesture-handler";
+
 import DifferenceRow from "../../../../components/organism/DifferenceRow";
 import DifferenceCashCountRow from "../../../../components/organism/DifferenceCashCount";
 import { styles } from "./styles";
@@ -37,7 +37,11 @@ const CashRegisterDetailScreen = (props: Props) => {
   ).format("DD/MM/YYYY");
 
   return (
-    <View style={styles.container}>
+    <Animatable.View
+      animation={"fadeInRight"}
+      duration={100}
+      style={styles.container}
+    >
       <View style={styles.header}>
         <TouchableOpacity
           activeOpacity={0.8}
@@ -86,15 +90,6 @@ const CashRegisterDetailScreen = (props: Props) => {
         <View style={styles.spacingLarge} />
 
         <View style={styles.card}>
-          <AppText
-            type="medium"
-            style={styles.sectionTitle}
-            children={`Arqueo:`}
-            numberOfLines={1}
-          />
-
-          <View style={styles.spacingMedium} />
-
           <DifferenceCashCountRow
             label="Pago"
             system="Esperado"
@@ -201,7 +196,7 @@ const CashRegisterDetailScreen = (props: Props) => {
 
         <View style={styles.spacingMedium} />
       </ScrollView>
-    </View>
+    </Animatable.View>
   );
 };
 

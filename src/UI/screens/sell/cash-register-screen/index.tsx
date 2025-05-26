@@ -8,12 +8,14 @@ import { COLORS } from "../../../styles/colors";
 import CashRegisterRenderItem from "../../../components/organism/CashRegisterRenderItem";
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
+import AppIndicator from "../../../components/molecules/AppIndicator";
 
 type Props = {
   showModal: boolean;
   initialAmount: number;
   cashRegisters: CashRegister[];
   numberOfCashRegisters: string;
+  loading: boolean;
 
   handleOpenCashRegister: () => void;
   setShowModal: (show: boolean) => void;
@@ -31,21 +33,39 @@ const CashRegisterScreen = (props: Props) => {
         style={{ flexDirection: "row", alignItems: "center", marginBottom: 20 }}
       >
         {props.onBackPress && (
-          <TouchableOpacity activeOpacity={0.8} onPress={props.onBackPress}>
-            <Ionicons name="chevron-back" size={40} color={COLORS.blueIOS} />
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={props.onBackPress}
+            style={{ flexDirection: "row", alignItems: "center", flex: 2 }}
+          >
+            <Ionicons name="chevron-back" color={COLORS.blueIOS} size={18} />
+
+            <AppText
+              type="medium"
+              children="Atrás"
+              style={{ fontSize: 18, color: COLORS.blueIOS }}
+            />
           </TouchableOpacity>
         )}
 
-        <AppText children="Cajas" type="bold" style={{ fontSize: 34 }} />
+        <AppText
+          type="semiBold"
+          style={{
+            fontSize: 18,
+            flex: 10,
+            textAlign: "center",
+            paddingEnd: "0%",
+          }}
+          children={`Seleccione una caja`}
+          numberOfLines={1}
+        />
       </View>
 
-      {props.cashRegisters.length === 0 && (
-        <AppText
-          children="No se registran cajas abiertas."
-          type="medium"
-          style={{ fontSize: 18 }}
-        />
-      )}
+      <AppIndicator
+        data={props.cashRegisters}
+        loading={props.loading}
+        message={`No se registran cajas abiertas.`}
+      />
 
       <View>
         <FlatList
@@ -63,7 +83,7 @@ const CashRegisterScreen = (props: Props) => {
         <View
           style={{
             position: "absolute",
-            bottom: 0,
+            bottom: 10,
             left: 0,
             right: 0,
             padding: 20,
@@ -80,12 +100,31 @@ const CashRegisterScreen = (props: Props) => {
         visible={props.showModal}
         onClose={() => props.setShowModal(false)}
       >
-        <AppText
-          children="Abrir una Caja"
-          type="bold"
-          style={{ fontSize: 25, marginBottom: 20 }}
-        />
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 25,
+          }}
+        >
+          <Ionicons
+            name="add-outline"
+            color={COLORS.blueIOS}
+            size={20}
+            style={{ marginEnd: 5 }}
+          />
+          <AppText
+            children="Abrir una Caja"
+            type="medium"
+            style={{ fontSize: 20 }}
+          />
+        </View>
 
+        <AppText
+          type="regular"
+          style={{ fontSize: 16, marginBottom: 5 }}
+          children={`Monto inicial:`}
+        />
         <AppTextInput
           placeholder="Monto incial"
           value={props.initialAmount.toString()}
@@ -95,6 +134,31 @@ const CashRegisterScreen = (props: Props) => {
         />
 
         <View style={{ marginBottom: 30 }} />
+
+        {props.cashRegisters.length > 0 && (
+          <>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Ionicons
+                name="warning-outline"
+                color={COLORS.orangeWarning}
+                size={16}
+                style={{ marginEnd: 5 }}
+              />
+              <AppText
+                type="regular"
+                style={{ fontSize: 16, color: COLORS.grayDark }}
+                children={`Actualmente hay ${props.cashRegisters.length} cajas abiertas.`}
+              />
+            </View>
+
+            <View style={{ marginBottom: 10 }} />
+          </>
+        )}
 
         <AppButton
           label="Abrir una caja"

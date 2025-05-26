@@ -1,15 +1,20 @@
-import { View, Text, TouchableOpacity, FlatList } from "react-native";
-import React from "react";
-import { Ionicons } from "@expo/vector-icons";
-import AppText from "../../../components/atoms/AppText";
-import { COLORS } from "../../../styles/colors";
-import { DatePickerInput } from "react-native-paper-dates";
 import moment from "moment";
+import * as Animatable from "react-native-animatable";
+
+import { DatePickerInput } from "react-native-paper-dates";
+import { View, TouchableOpacity, FlatList } from "react-native";
+
+import { Ionicons } from "@expo/vector-icons";
+import { COLORS } from "../../../styles/colors";
 import { CashRegister } from "../../../../domain/entities/cash-register";
+
+import AppText from "../../../components/atoms/AppText";
+import AppIndicator from "../../../components/molecules/AppIndicator";
 import CashRegisterHistoryRenderItem from "../../../components/organism/CashRegisterHistoryRenderItem";
 
 type Props = {
   date: string;
+  loading: boolean;
   cashRegisters: CashRegister[];
   onBackPress: () => void;
   onChangeDate: (date: string) => void;
@@ -18,7 +23,16 @@ type Props = {
 
 const CashRegisterHistoryScreen = (props: Props) => {
   return (
-    <View style={{ flex: 1, padding: 20, paddingTop: 60, backgroundColor: COLORS.whiteSmoke }}>
+    <Animatable.View
+      animation={"fadeInRight"}
+      duration={100}
+      style={{
+        flex: 1,
+        padding: 20,
+        paddingTop: 60,
+        backgroundColor: COLORS.whiteSmoke,
+      }}
+    >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <TouchableOpacity
           activeOpacity={0.8}
@@ -68,7 +82,13 @@ const CashRegisterHistoryScreen = (props: Props) => {
         />
       </View>
 
-      <View style={{ marginTop: 20 }} />
+      <View style={{ marginTop: 8 }} />
+
+      <AppIndicator
+        data={props.cashRegisters}
+        loading={props.loading}
+        message={`No se registran cajas el día ${props.date}`}
+      />
 
       <FlatList
         data={props.cashRegisters}
@@ -79,7 +99,7 @@ const CashRegisterHistoryScreen = (props: Props) => {
           />
         )}
       />
-    </View>
+    </Animatable.View>
   );
 };
 

@@ -13,16 +13,17 @@ type Props = {
 
 const CashRegisterHistoryContainer = (props: Props) => {
   const cashRegisterService = new CashRegisterService();
-
   const today = moment().format("DD/MM/YYYY");
-  const [date, setDate] = useState<string>(today);
 
+  const [date, setDate] = useState<string>(today);
+  const [loading, setLoading] = useState<boolean>(false);
   const [cashRegisters, setCashRegisters] = useState<CashRegister[]>([]);
   const [filteredCashRegisters, setFilteredCashRegisters] = useState<
     CashRegister[]
   >([]);
 
   const getAllCashRegister = async () => {
+    setLoading(true);
     const storageCompany = await AsyncStorage.getItem("company");
     if (!storageCompany) return;
 
@@ -31,6 +32,7 @@ const CashRegisterHistoryContainer = (props: Props) => {
 
     setCashRegisters(response as CashRegister[]);
     onChangeDate(today);
+    setLoading(false);
   };
 
   const onChangeDate = (date: string) => {
@@ -69,6 +71,7 @@ const CashRegisterHistoryContainer = (props: Props) => {
   return (
     <CashRegisterHistoryScreen
       date={date}
+      loading={loading}
       cashRegisters={filteredCashRegisters}
       onChangeDate={onChangeDate}
       onBackPress={() => props.onBackPress(false)}
