@@ -86,8 +86,24 @@ const ProductsContainer = (props: Props) => {
 
   const onCreateOrEditProduct = async (product: Product) => {
     if (!validateProduct(product)) return;
-
     const isNewProduct = product.id.length === 0;
+
+    const productExists = products.some(
+      (p) => p.code === product.code && p.companyid === companyId
+    );
+
+    if (isNewProduct && productExists) {
+      Alert.alert(
+        "¡Atención!",
+        "Ya existe un producto con el mismo código tu lista de productos."
+      );
+
+      setSelectedProduct(undefined);
+      setShowProductEditOrCreate(false);
+
+      return;
+    }
+
     if (isNewProduct) await productService.save(product, companyId);
     if (!isNewProduct) await productService.update(product, companyId);
 

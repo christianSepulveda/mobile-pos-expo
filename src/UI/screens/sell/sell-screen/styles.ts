@@ -6,6 +6,12 @@ export const styles = StyleSheet.create({
   cameraBackground: { backgroundColor: COLORS.blackIOS },
   cameraContainer: { flex: 5, backgroundColor: COLORS.blackIOS },
   productsContainer: { flex: 7, padding: 20 },
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: COLORS.whiteSmoke,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   noProductsContainer: {
     flex: 1,
     justifyContent: "center",
@@ -41,6 +47,23 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.blueIOS,
     borderRadius: 10,
     marginTop: 20,
+  },
+  barcodeButton: {
+    width: 50,
+    height: 50,
+    position: "absolute",
+    top: -14,
+    left: -10,
+    zIndex: 10,
+  },
+  searchButton: {
+    width: 50,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    top: "10%",
+    left: 0,
   },
   cancelButton: {
     width: 50,

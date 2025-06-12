@@ -7,12 +7,15 @@ import AppText from "../../atoms/AppText";
 export type DropdownItem = {
   id: string;
   name: string;
+  code?: string;
 };
 
 type Props = {
   data: DropdownItem[];
   selectedItem: DropdownItem;
   onSelect: (selected: DropdownItem) => void;
+  placeholder?: string;
+  searchByCode: boolean;
 };
 
 const AppDropDown = (props: Props) => {
@@ -51,12 +54,14 @@ const AppDropDown = (props: Props) => {
       data={props.data}
       search
       maxHeight={300}
-      labelField="name"
+      labelField={props.searchByCode ? "code" : "name"}
       valueField="id"
-      placeholder="Seleccione una opción"
+      placeholder={props.placeholder ?? "Seleccione una opción"}
       searchPlaceholder="Buscar..."
       value={props.selectedItem}
-      onChange={(item) => props.onSelect(item)}
+      onChange={(item) => {
+        props.onSelect(item);
+      }}
       renderItem={renderItem}
     />
   );

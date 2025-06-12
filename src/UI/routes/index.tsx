@@ -10,6 +10,8 @@ import CashRegisterContainer from "../containers/cash-register";
 import ProductsContainer from "../containers/products";
 import { View } from "react-native";
 import AppText from "../components/atoms/AppText";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 type Props = {
   handleLogOut: () => void;
@@ -18,6 +20,14 @@ type Props = {
 const Tab = createBottomTabNavigator();
 
 const AppRoutes = (props: Props) => {
+  const isAuthorized = useSelector(
+    (state: any) => state.authReducer.isAuthorized
+  );
+
+  useEffect(() => {
+    if (!isAuthorized) props.handleLogOut();
+  }, [isAuthorized]);
+
   return (
     <NavigationContainer>
       <Tab.Navigator

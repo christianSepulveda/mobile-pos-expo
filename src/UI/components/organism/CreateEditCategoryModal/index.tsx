@@ -34,7 +34,7 @@ const CreateEditCategoryModal = (props: Props) => {
     >
       <AppText
         children={props.category ? "Editar categoría" : "Crear categoría"}
-        type="bold"
+        type="medium"
         style={{ fontSize: 20, marginBottom: 20 }}
       />
 
@@ -49,6 +49,7 @@ const CreateEditCategoryModal = (props: Props) => {
 
       <AppButton
         label="Aceptar"
+        alignCenter={true}
         onPress={() => {
           setCategoryName("");
           const createdOrUpdatedCategory: Category = {

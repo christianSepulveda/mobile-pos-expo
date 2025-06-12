@@ -8,6 +8,7 @@ type Props = {
   onPress: () => void;
   label: string;
   disabled?: boolean;
+  alignCenter?: boolean;
 };
 
 const AppButton = (props: Props) => {
@@ -15,7 +16,10 @@ const AppButton = (props: Props) => {
     <TouchableOpacity
       style={[
         styles.button,
-        { backgroundColor: props.disabled ? COLORS.grayLight : COLORS.blueIOS },
+        {
+          backgroundColor: props.disabled ? COLORS.grayLight : COLORS.blueIOS,
+          alignSelf: props.alignCenter ? "center" : undefined,
+        },
       ]}
       onPress={props.onPress}
       disabled={props.disabled}

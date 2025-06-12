@@ -78,6 +78,7 @@ const CashRegisterScreen = (props: Props) => {
           <AppButton
             label="Abrir una caja"
             onPress={() => props.setShowModal(true)}
+            alignCenter={true}
           />
         </View>
       )}
@@ -138,6 +139,7 @@ const CashRegisterScreen = (props: Props) => {
         <AppButton
           label="Abrir una caja"
           onPress={props.handleOpenCashRegister}
+          alignCenter={true}
         />
       </AppModal>
     </View>

@@ -1,15 +1,14 @@
-import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 import AppText from "../../atoms/AppText";
 import { styles } from "./styles";
 import { COLORS } from "../../../styles/colors";
-import { SellProduct } from "../../../containers/sell/sell-container";
 import { Detail } from "../../../../domain/entities/sell-summary";
 import { Ionicons } from "@expo/vector-icons";
+import { Product } from "../../../../domain/entities/product";
 
 type RenderItemProps = {
-  item: Detail;
+  item: Detail | Product;
   index: number;
   swipeable?: any;
   onPress?: () => void;
@@ -48,7 +47,11 @@ const SellDetailRenderItem = ({
 
         <View style={{ flex: 8 }}>
           <AppText
-            children={`${item.quantity} - ${item.name}`}
+            children={
+              "quantity" in item
+                ? `${item.quantity} - ${item.name}`
+                : `${item.name}`
+            }
             type="medium"
             numberOfLines={2}
             style={styles.largeText}
@@ -65,7 +68,11 @@ const SellDetailRenderItem = ({
 
         <View style={{ alignItems: "flex-end", flex: 4 }}>
           <AppText
-            children={`$${item.unit_price * item.quantity}`}
+            children={
+              "unit_price" in item
+                ? `$${item.unit_price * item.quantity}`
+                : `$${item.price}`
+            }
             numberOfLines={1}
             type="medium"
             style={{ ...styles.largeText, color: COLORS.blueIOS }}

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import OptionUpdatePasswordScreen from "../../../screens/options/option-update-password-screen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Company } from "../../../../domain/entities/company";
 import { Alert } from "react-native";
 import { UserService } from "../../../../infrastructure/services/user-service";
 import { CompanyService } from "../../../../infrastructure/services/company-service";
@@ -17,15 +16,23 @@ const OptionPasswordContainer = (props: Props) => {
 
   const [adminCode, setAdminCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onPasswordChange = async () => {
+    setLoading(true);
+
+    const user = await AsyncStorage.getItem("user");
+
     if (adminCode.length === 0 || newPassword.length === 0) {
       Alert.alert("Atención", "Todos los campos son requeridos");
+      setLoading(false);
       return;
     }
 
-    const user = await AsyncStorage.getItem("user");
-    if (!user) return;
+    if (!user) {
+      setLoading(false);
+      return;
+    }
 
     const userData = JSON.parse(user) as User;
 
@@ -36,12 +43,16 @@ const OptionPasswordContainer = (props: Props) => {
 
     if (!adminCodeChallengePass) {
       Alert.alert("Atención", "No autorizado");
+      setLoading(false);
       return;
     }
 
     await userService.update({ ...userData, password: newPassword });
+
     setAdminCode("");
     setNewPassword("");
+    setLoading(false);
+
     Alert.alert("Lito", "Contraseña actualizada correctamente");
   };
 
@@ -53,6 +64,7 @@ const OptionPasswordContainer = (props: Props) => {
       setNewPassword={setNewPassword}
       onPasswordChange={onPasswordChange}
       onBackPress={props.onBackPress}
+      loading={loading} 
     />
   );
 };

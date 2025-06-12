@@ -10,6 +10,8 @@ import { Alert } from "react-native";
 import { registerTranslation } from "react-native-paper-dates";
 import { es } from "react-native-paper-dates";
 import { COLORS } from "./src/UI/styles/colors";
+import { Provider } from "react-redux";
+import { store } from "./src/application/reducer/root";
 
 export default function App() {
   const [auth, setAuth] = useState(false);
@@ -57,14 +59,16 @@ export default function App() {
   }, []);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <PaperProvider theme={customTheme}>
-        {auth ? (
-          <AppRoutes handleLogOut={handleLogOut} />
-        ) : (
-          <LoginContainer handleAuth={handleAuth} />
-        )}
-      </PaperProvider>
-    </GestureHandlerRootView>
+    <Provider store={store}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <PaperProvider theme={customTheme}>
+          {auth ? (
+            <AppRoutes handleLogOut={handleLogOut} />
+          ) : (
+            <LoginContainer handleAuth={handleAuth} />
+          )}
+        </PaperProvider>
+      </GestureHandlerRootView>
+    </Provider>
   );
 }

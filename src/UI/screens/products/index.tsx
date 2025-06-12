@@ -3,7 +3,10 @@ import { Product } from "../../../domain/entities/product";
 import AppText from "../../components/atoms/AppText";
 import IconButton from "../../components/atoms/IconButton";
 import AppTextInput from "../../components/molecules/AppTextInput";
-import OptionProductRenderItem from "../../components/organism/OptionProductRenderItem";
+import * as Animatable from "react-native-animatable";
+import { Ionicons } from "@expo/vector-icons";
+import { COLORS } from "../../styles/colors";
+import SellDetailRenderItem from "../../components/organism/SellDetailRenderItem";
 
 type Props = {
   products: Product[];
@@ -16,25 +19,32 @@ type Props = {
 
 const ProductsScreen = (props: Props) => {
   return (
-    <View style={{ flex: 1, padding: 20, paddingTop: 70 }}>
+    <Animatable.View
+      animation={"fadeInRight"}
+      duration={100}
+      style={{
+        flex: 1,
+        padding: 20,
+        paddingTop: 65,
+        backgroundColor: COLORS.whiteSmoke,
+      }}
+    >
       <AppText
-        type="bold"
-        style={{ fontSize: 30 }}
+        type="medium"
+        style={{ marginBottom: 25, fontSize: 35 }}
         children="Productos"
-        numberOfLines={1}
       />
 
       <View
         style={{
           flexDirection: "row",
-          marginTop: 15,
           width: "100%",
           height: 60,
         }}
       >
         <View style={{ flex: 12 }}>
           <IconButton
-            iconName="book-search"
+            iconName="book-search-outline"
             label="Buscar"
             onPress={() => props.setShowSearchBar(!props.showSearchBar)}
           />
@@ -44,7 +54,7 @@ const ProductsScreen = (props: Props) => {
 
         <View style={{ flex: 12 }}>
           <IconButton
-            iconName="plus-circle"
+            iconName="plus-circle-outline"
             label="Crear"
             onPress={() => props.onPress(undefined)}
           />
@@ -52,36 +62,50 @@ const ProductsScreen = (props: Props) => {
       </View>
 
       {props.showSearchBar && (
-        <AppTextInput
-          onChangeText={props.setSearch}
-          placeholder="Buscar codigo - nombre"
-          value={props.search}
-          theme="light"
-        />
+        <Animatable.View animation={"fadeInDown"} duration={100}>
+          <AppTextInput
+            onChangeText={props.setSearch}
+            placeholder="Buscar codigo - nombre"
+            value={props.search}
+            theme="light"
+          />
+        </Animatable.View>
       )}
 
       <View style={{ marginVertical: "1.5%" }} />
 
       {props.products.length === 0 && (
-        <AppText
-          type="bold"
-          style={{ fontSize: 16 }}
-          children="Crea un producto para continuar"
-          numberOfLines={1}
-        />
+        <View
+          style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}
+        >
+          <Ionicons
+            name="warning-outline"
+            size={16}
+            color={COLORS.orangeWarning}
+          />
+
+          <View style={{ width: 5 }} />
+
+          <AppText
+            type="medium"
+            style={{ fontSize: 16 }}
+            children="No hay productos para mostrar"
+            numberOfLines={1}
+          />
+        </View>
       )}
 
       <FlatList
         data={props.products}
-        renderItem={(item) => (
-          <OptionProductRenderItem
-            index={item.index}
-            item={item.item}
-            onPress={props.onPress}
+        renderItem={({ item, index }) => (
+          <SellDetailRenderItem
+            item={item}
+            index={index}
+            onPress={() => props.onPress(item)}
           />
         )}
       />
-    </View>
+    </Animatable.View>
   );
 };
 

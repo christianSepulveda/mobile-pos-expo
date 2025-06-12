@@ -34,7 +34,11 @@ const CameraAccessError = (props: Props) => {
 
       <View style={{ marginVertical: 20 }} />
 
-      <AppButton label="Ir a Ajustes" onPress={props.requestCameraPermission} />
+      <AppButton
+        label="Ir a Ajustes"
+        onPress={props.requestCameraPermission}
+        alignCenter={true}
+      />
     </View>
   );
 };

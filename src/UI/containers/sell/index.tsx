@@ -8,6 +8,7 @@ import CashRegisterContainer from "./cash-register-container";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
 import { COLORS } from "../../styles/colors";
+import { Company } from "../../../domain/entities/company";
 
 type Props = {};
 
@@ -17,6 +18,7 @@ const SellIndex = (props: Props) => {
   const [payment, setPayment] = useState(0);
   const [products, setProducts] = useState<Detail[]>();
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [activeBarCodeScanner, setActiveBarCodeScanner] = useState(false);
 
   const handleRenderPayment = (amount: number, contextProducts: Detail[]) => {
     setTotal(amount);
@@ -37,6 +39,12 @@ const SellIndex = (props: Props) => {
 
   const handleInitialStep = async () => {
     const cashRegister = await AsyncStorage.getItem("cashRegisterId");
+    const storeCompany = await AsyncStorage.getItem("company");
+
+    if (storeCompany && storeCompany.length > 0) {
+      const company = JSON.parse(storeCompany) as Company;
+      setActiveBarCodeScanner(company.activeBarCodeScanner);
+    }
 
     if (cashRegister && cashRegister.length > 0) setStep(1);
     if (!cashRegister) setStep(0);
@@ -58,6 +66,7 @@ const SellIndex = (props: Props) => {
 
       {step === 1 && (
         <SellContainer
+          activeBarCodeScanner={activeBarCodeScanner}
           changeStep={handleRenderPayment}
           context={{ products }}
         />

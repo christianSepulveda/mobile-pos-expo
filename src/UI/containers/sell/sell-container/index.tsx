@@ -14,6 +14,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 type Props = {
   changeStep: (total: number, products: Detail[]) => void;
+  activeBarCodeScanner: boolean;
   context: {
     products: Detail[] | undefined;
   };
@@ -29,8 +30,10 @@ const SellContainer = (props: Props) => {
   const [selectedProduct, setSelectedProduct] = useState<Detail | null>(null);
   const [total, setTotal] = useState(0);
   const [scanned, setScanned] = useState("");
+  const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState<Product[]>();
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showScanner, setShowScanner] = useState(true);
 
   const sound = useRef<Audio.Sound | null>(null);
   const lastScannedCodeRef = useRef<string | null>(null);
@@ -56,6 +59,11 @@ const SellContainer = (props: Props) => {
   };
 
   const handleBarCodeScanned = async ({ data }: BarcodeScanningResult) => {
+    if (!showScanner) {
+      setScanned(data);
+      return;
+    }
+
     if (!scanned && lastScannedCodeRef.current !== data) {
       setScanned(data);
     }
@@ -99,9 +107,17 @@ const SellContainer = (props: Props) => {
 
   const addProductToList = async () => {
     if (!scanned || !products) return;
+    await playSound();
 
     const scannedProduct = products.find((p) => p.code === scanned);
-    if (!scannedProduct) return;
+    if (!scannedProduct) {
+      Alert.alert(
+        "Producto no encontrado",
+        "El producto escaneado no se encuentra en la lista."
+      );
+
+      return;
+    }
 
     const productInList = scannedProducts.find(
       (p) => p.code === scannedProduct.code
@@ -112,8 +128,6 @@ const SellContainer = (props: Props) => {
     } else {
       handleUpdateProductInList(productInList);
     }
-
-    await playSound();
   };
 
   const editProductInList = (index: number) => {
@@ -141,7 +155,7 @@ const SellContainer = (props: Props) => {
 
     setProducts(response);
 
-    const boilerplateSell: Detail = {
+    /* const boilerplateSell: Detail = {
       category: response[0].category_id,
       code: response[0].code,
       name: response[0].name,
@@ -152,7 +166,7 @@ const SellContainer = (props: Props) => {
       productid: response[0].id,
     };
 
-    setScannedProducts([boilerplateSell]);
+    setScannedProducts([boilerplateSell]); */
   };
 
   const handleDeleteProductFromSell = (index: number) => {
@@ -207,12 +221,16 @@ const SellContainer = (props: Props) => {
   };
 
   const initComponent = async () => {
-    handleGetAllProducts();
-    getCameraPermissions();
-    loadSound();
+    setLoading(true);
+    await handleGetAllProducts();
+    await getCameraPermissions();
+    await loadSound();
 
     const contextProducts = props.context.products;
     if (contextProducts) setScannedProducts(contextProducts);
+    if (!props.activeBarCodeScanner) setShowScanner(false);
+
+    setLoading(false);
 
     return async () => {
       await unloadSound();
@@ -220,8 +238,15 @@ const SellContainer = (props: Props) => {
   };
 
   useEffect(() => {
-    setTimeout(cleanScannerProcess, 1000);
-  }, [lastScannedCodeRef.current]);
+    if (showScanner) {
+      setTimeout(cleanScannerProcess, 1000);
+    }
+
+    if (scanned) {
+      addProductToList();
+      setScanned("");
+    }
+  }, [lastScannedCodeRef.current, showScanner, scanned]);
 
   useEffect(() => {
     handleCalculateTotal();
@@ -240,18 +265,24 @@ const SellContainer = (props: Props) => {
   return (
     <>
       <SellScreen
+        showScanner={showScanner}
+        onShowScanner={() => setShowScanner(!showScanner)}
+        activeBarCodeScanner={props.activeBarCodeScanner}
         handleBarcodeScanned={handleBarCodeScanned}
         hasPermission={hasPersmissions}
         editProductInList={editProductInList}
         removeProductFromList={handleDeleteProductFromSell}
         scan={addProductToList}
+        setScanned={setScanned}
         products={scannedProducts}
+        searchList={products ?? []}
         requestCameraPermission={sendUserToSettings}
         cancelSell={() => {
           if (scannedProducts.length > 0) handleCancelSell();
         }}
         total={total}
         changeStep={changeStep}
+        loading={loading}
       />
 
       <EditAmountModal

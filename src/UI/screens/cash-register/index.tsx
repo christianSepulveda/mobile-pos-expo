@@ -76,7 +76,7 @@ const CashRegisterScreen: React.FC<Props> = ({
 
           <View style={{ flex: 12 }}>
             <IconButton
-              iconName="book-search"
+              iconName="book-search-outline"
               label="Histórico"
               onPress={() => setShowCashHistory(true)}
             />
@@ -128,11 +128,20 @@ const CashRegisterScreen: React.FC<Props> = ({
 
         <View style={{ marginVertical: 20 }} />
 
-        <AppButton
-          label="Guardar Movimiento"
-          onPress={onCashMovement}
-          disabled={disabled}
-        />
+        <View
+          style={{
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <AppButton
+            label="Guardar Movimiento"
+            onPress={onCashMovement}
+            disabled={disabled}
+            alignCenter={true}
+          />
+        </View>
       </Animatable.View>
     </KeyboardAvoidingView>
   );

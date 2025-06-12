@@ -55,7 +55,11 @@ const LoginScreen = (props: Props) => {
       )}
       <View style={styles.spacing} />
 
-      <AppButton onPress={props.handleAuth} label="Iniciar sesión" />
+      <AppButton
+        onPress={props.handleAuth}
+        label="Iniciar sesión"
+        alignCenter={true}
+      />
     </KeyboardAvoidingView>
   );
 };

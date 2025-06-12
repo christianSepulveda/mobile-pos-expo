@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
     padding: "5%",
     backgroundColor: COLORS.blueIOS,
     borderRadius: 5,
+    width: "100%",
   },
   text: {
     color: COLORS.whiteSmoke,

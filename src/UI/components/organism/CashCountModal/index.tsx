@@ -153,7 +153,11 @@ const CashCountModal = (props: Props) => {
 
       <View style={{ marginVertical: 20 }} />
 
-      <AppButton label="Cerrar Caja" onPress={props.onConfirm} />
+      <AppButton
+        label="Cerrar Caja"
+        onPress={props.onConfirm}
+        alignCenter={true}
+      />
     </AppModal>
   );
 };

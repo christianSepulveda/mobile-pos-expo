@@ -1,11 +1,9 @@
-import { View, Text, Alert } from "react-native";
-import React, { useEffect, useState } from "react";
+import { Alert } from "react-native";
+import { useEffect, useState } from "react";
 import OptionCategoriesScreen from "../../../screens/options/option-categories-screen";
 import { Category } from "../../../../domain/entities/category";
-import AppModal from "../../../components/molecules/AppModal";
 import CreateEditCategoryModal from "../../../components/organism/CreateEditCategoryModal";
 import { CategoryService } from "../../../../infrastructure/services/category-service";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type Props = {
@@ -20,6 +18,7 @@ const OptionCategoriesContainer = (props: Props) => {
   const [selectedCategory, setSelectedCategory] = useState<
     Category | undefined
   >();
+  const [loading, setLoading] = useState(false);
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [filteredCategories, setFilteredCategories] = useState<Category[]>();
@@ -33,8 +32,11 @@ const OptionCategoriesContainer = (props: Props) => {
   };
 
   const onCreateOrEditCategory = async (category: Category) => {
+    setLoading(true);
+
     if (category.name.length === 0) {
       Alert.alert("Error", "El nombre de la categoría no puede estar vacío");
+      setLoading(false);
       return;
     }
 
@@ -63,13 +65,20 @@ const OptionCategoriesContainer = (props: Props) => {
     await getCategories();
     setSelectedCategory(undefined);
     setShowCreateOrEditCategory(false);
+    setLoading(false);
   };
 
   const getCategories = async () => {
+    setLoading(true);
+
     const user = await AsyncStorage.getItem("user");
     const parsedUser = user ? JSON.parse(user) : null;
 
-    if (!parsedUser) return;
+    if (!parsedUser) {
+      setLoading(false);
+      setCategories([]);
+      return;
+    }
 
     const companyId = parsedUser.companyid;
     const response = await categoryService.findAll(companyId);
@@ -77,6 +86,7 @@ const OptionCategoriesContainer = (props: Props) => {
     setCategories(response as Category[]);
     setFilteredCategories(response as Category[]);
     setCompanyId(companyId);
+    setLoading(false);
   };
 
   const filterCategories = () => {
@@ -99,6 +109,7 @@ const OptionCategoriesContainer = (props: Props) => {
     <>
       <OptionCategoriesScreen
         search={search}
+        loading={loading}
         categories={filteredCategories ?? []}
         showSearchBar={showSearchBar}
         onPress={onPress}

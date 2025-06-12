@@ -1,17 +1,23 @@
-import { View, Text, TouchableOpacity, FlatList } from "react-native";
-import React from "react";
-import { Ionicons } from "@expo/vector-icons";
+import {
+  View,
+  TouchableOpacity,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { COLORS } from "../../../styles/colors";
 import AppText from "../../../components/atoms/AppText";
 import IconButton from "../../../components/atoms/IconButton";
 import AppTextInput from "../../../components/molecules/AppTextInput";
-import { Categories } from "../../../../domain/constants/data";
 import { Category } from "../../../../domain/entities/category";
+import AppIndicator from "../../../components/molecules/AppIndicator";
+import * as Animatable from "react-native-animatable";
 
 type Props = {
   search: string;
   categories: Category[];
   showSearchBar: boolean;
+  loading: boolean;
 
   onBackPress: () => void;
   setSearch: (search: string) => void;
@@ -35,13 +41,19 @@ const OptionCategoriesScreen = (props: Props) => {
         borderWidth: 1,
         borderRadius: 10,
         marginBottom: 20,
+        flexDirection: "row",
+        alignItems: "center",
       }}
       onPress={() => props.onPress(itemProps.item)}
       activeOpacity={0.8}
     >
+      <Ionicons name="book-outline" size={18} color={COLORS.blueIOS} />
+
+      <View style={{ marginEnd: 10 }} />
+
       <AppText
-        type="bold"
-        style={{ fontSize: 20 }}
+        type="medium"
+        style={{ fontSize: 18 }}
         children={itemProps.item.name}
         numberOfLines={1}
       />
@@ -49,17 +61,49 @@ const OptionCategoriesScreen = (props: Props) => {
   );
 
   return (
-    <View style={{ flex: 1, padding: 20, paddingTop: 70 }}>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <TouchableOpacity activeOpacity={0.8} onPress={props.onBackPress}>
-          <Ionicons name="chevron-back" color={COLORS.blueIOS} size={40} />
+    <Animatable.View
+      animation={"fadeInRight"}
+      duration={100}
+      style={{
+        flex: 1,
+        padding: 20,
+        paddingTop: 60,
+        backgroundColor: COLORS.whiteSmoke,
+      }}
+    >
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
+        <TouchableOpacity
+          onPress={props.onBackPress}
+          style={{ flexDirection: "row", alignItems: "center", flex: 2 }}
+        >
+          <MaterialIcons
+            name="arrow-back-ios"
+            color={COLORS.blueIOS}
+            size={18}
+          />
+
+          <AppText
+            type="medium"
+            children="Atrás"
+            style={{ fontSize: 18, color: COLORS.blueIOS }}
+          />
         </TouchableOpacity>
 
         <AppText
-          type="bold"
-          style={{ fontSize: 30 }}
+          type="semiBold"
           children="Categorías"
-          numberOfLines={1}
+          style={{
+            fontSize: 18,
+            flex: 10,
+            textAlign: "center",
+            paddingEnd: "14%",
+          }}
         />
       </View>
 
@@ -73,19 +117,19 @@ const OptionCategoriesScreen = (props: Props) => {
           justifyContent: "center",
         }}
       >
-        <View style={{ width: "45%" }}>
+        <View style={{ width: "48%" }}>
           <IconButton
-            iconName="book-search"
+            iconName="book-search-outline"
             label="Buscar"
             onPress={() => props.setShowSearchBar(!props.showSearchBar)}
           />
         </View>
 
-        <View style={{ width: "5%" }} />
+        <View style={{ width: "3%" }} />
 
-        <View style={{ width: "45%" }}>
+        <View style={{ width: "48%" }}>
           <IconButton
-            iconName="plus-circle"
+            iconName="plus-circle-outline"
             label="Crear"
             onPress={() => props.onPress(undefined)}
           />
@@ -103,21 +147,30 @@ const OptionCategoriesScreen = (props: Props) => {
 
       <View style={{ marginVertical: "1.5%" }} />
 
-      {props.categories.length === 0 && (
-        <AppText
-          type="bold"
-          style={{ fontSize: 16 }}
-          children="Crea una categoría para continuar"
-          numberOfLines={1}
-        />
+      <AppIndicator
+        data={props.categories}
+        loading={false}
+        message="No hay categorías para mostrar"
+      />
+
+      {props.loading && (
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <ActivityIndicator
+            size={20}
+            color={COLORS.blueIOS}
+            style={{ marginTop: 20 }}
+          />
+        </View>
       )}
 
-      <FlatList
-        data={props.categories}
-        renderItem={(item) => <OptionCategoriesRenderItem {...item} />}
-        keyExtractor={(item, index) => index.toString()}
-      />
-    </View>
+      {!props.loading && (
+        <FlatList
+          data={props.categories}
+          renderItem={(item) => <OptionCategoriesRenderItem {...item} />}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      )}
+    </Animatable.View>
   );
 };
 
